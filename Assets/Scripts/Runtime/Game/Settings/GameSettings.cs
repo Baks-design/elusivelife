@@ -1,9 +1,8 @@
-using EngineRoom.Examples.Interfaces;
 using UnityEngine;
 
-namespace EngineRoom.Examples.Settings
+namespace ElusiveLife.Game.Settings
 {
-    [CreateAssetMenu(fileName = "Game Settings", menuName = "Engine Room/Game Settings")]
+    [CreateAssetMenu(fileName = "Game Settings", menuName = "Config/Game Settings")]
     public class GameSettings : ScriptableObject, IGameSettings
     {
         [field: SerializeField] public int PointsPerHit { get; set; } = 10;

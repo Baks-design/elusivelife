@@ -13,31 +13,25 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
-  - displayName: PC_RPAsset
+  - displayName: Player
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: InputSystem_Actions
     scenePath: 
-  - displayName: PC_Renderer
+  - displayName: Lifetime Scope
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: InputSystem_Actions
     scenePath: 
-  - displayName: Renderer
-    scenePath: 
-  - displayName: Directional Light
-    scenePath: Assets/Scenes/Level - Prototype.unity
-  - displayName: Controls Settings
+  - displayName: Input
     scenePath: 
   - displayName: Player
-    scenePath: Assets/Scenes/Game Initiator.unity
-  - displayName: Controls Settings
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: Player
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: VContainerSettings
     scenePath: 
   - displayName: Game Settings
     scenePath: 
-  - displayName: Lighting
-    scenePath: Assets/Scenes/Level - Prototype.unity
-  - displayName: Environment
-    scenePath: Assets/Scenes/Level - Prototype.unity
-  - displayName: Lifetime Scope
-    scenePath: Assets/Scenes/Game Initiator.unity
-  - displayName: Initiator
-    scenePath: Assets/Scenes/Game Initiator.unity
-  - displayName: CinemachineBrain
-    scenePath: Assets/Scenes/Game Initiator.unity
-  - displayName: UI View
+  - displayName: Controls Settings
+    scenePath: 
+  - displayName: Game Initiator
     scenePath: Assets/Scenes/Game Initiator.unity

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7694467323043822516}
   - component: {fileID: 4698669843798462683}
   - component: {fileID: 8097541710687708546}
+  - component: {fileID: 2006615014124538886}
   m_Layer: 0
   m_Name: CinemachineBrain
   m_TagString: MainCamera
@@ -51,7 +52,7 @@ MonoBehaviour:
   IgnoreTimeScale: 0
   WorldUpOverride: {fileID: 0}
   ChannelMask: -1
-  UpdateMethod: 1
+  UpdateMethod: 2
   BlendUpdateMethod: 1
   LensModeOverride:
     Enabled: 0
@@ -161,3 +162,11 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!81 &2006615014124538886
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796619434363694226}
+  m_Enabled: 1

@@ -7,7 +7,7 @@
             "id": "df70fa95-8a34-4494-b137-73ab6b9c7d37",
             "actions": [
                 {
-                    "name": "OpenPauseScreen",
+                    "name": "OpenPause",
                     "type": "Button",
                     "id": "a054638c-e05b-4276-8a26-405fe7433460",
                     "expectedControlType": "",
@@ -34,6 +34,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "cef562c6-b455-4df0-bb6b-825c4fdac8e0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "5d742760-9048-4bdd-8a95-8cea353147ef",
@@ -41,6 +50,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "719ab70b-3a32-40f7-a4b2-827a1e507c05",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Crouch",
@@ -59,15 +77,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Sprint",
-                    "type": "Button",
-                    "id": "719ab70b-3a32-40f7-a4b2-827a1e507c05",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -78,7 +87,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "OpenPauseScreen",
+                    "action": "OpenPause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -89,7 +98,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "OpenPauseScreen",
+                    "action": "OpenPause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -268,6 +277,28 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8969e52c-2e7b-433c-a41b-b5f2980cdfb9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea459b9a-73df-4600-b8a2-c4d4424b2141",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -275,6 +306,15 @@
             "name": "UI",
             "id": "272f6d14-89ba-496f-b7ff-215263d3219f",
             "actions": [
+                {
+                    "name": "ClosePause",
+                    "type": "Button",
+                    "id": "2a9cc6c7-ac0d-47be-b7a9-e0b1e740b393",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
                 {
                     "name": "Navigate",
                     "type": "PassThrough",
@@ -361,15 +401,6 @@
                     "type": "PassThrough",
                     "id": "9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be",
                     "expectedControlType": "Quaternion",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ClosePauseScreen",
-                    "type": "Button",
-                    "id": "2a9cc6c7-ac0d-47be-b7a9-e0b1e740b393",
-                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -801,7 +832,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "ClosePauseScreen",
+                    "action": "ClosePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -812,7 +843,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "ClosePauseScreen",
+                    "action": "ClosePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
