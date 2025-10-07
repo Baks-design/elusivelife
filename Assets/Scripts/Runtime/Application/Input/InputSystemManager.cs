@@ -8,8 +8,7 @@ namespace ElusiveLife.Application.Input
         readonly IUIInputService uiInputService;
 
         public InputSystemManager(
-            IPlayerInputService playerInputService,
-            IUIInputService uiInputService)
+            IPlayerInputService playerInputService, IUIInputService uiInputService)
         {
             this.playerInputService = playerInputService;
             this.uiInputService = uiInputService;

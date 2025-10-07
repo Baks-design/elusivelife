@@ -2,10 +2,13 @@
     "name": "ElusiveLife.Game",
     "rootNamespace": "ElusiveLife.Game",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:1e22f6c6befa6fc4fa24b764c510cc4d"
+        "VContainer",
+        "UniTask",
+        "Alchemy",
+        "Unity.Cinemachine",
+        "Unity.InputSystem",
+        "ElusiveLife.Application",
+        "ElusiveLife.Utils"
     ],
     "includePlatforms": [
         "Editor",

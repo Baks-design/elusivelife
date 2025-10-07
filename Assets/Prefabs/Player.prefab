@@ -150,12 +150,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.8
-  m_Radius: 0.28
+  m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.25
-  m_SkinWidth: 0.02
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.93, z: 0}
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.01
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.91, z: 0}
 --- !u!114 &5745211487102372651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,7 +168,257 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e75fc845f27b4a739563cc85c35d2036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EngineRoom.Examples.Views.PlayerView
-  cannon: {fileID: 2342357470970418678}
+  <Controller>k__BackingField: {fileID: 1944076155125730687}
+  <Cam>k__BackingField: {fileID: 3679166326856653774}
+  <Yaw>k__BackingField: {fileID: 8027382221767260803}
+  <Pitch>k__BackingField: {fileID: 8863318270127146432}
+  <Animator>k__BackingField: {fileID: 7239327862366896109}
+  <MovementConfig>k__BackingField:
+    GravityMultiplier: 2.5
+    StickToGroundForce: 1
+    WalkSpeed: 3
+    MoveBackwardsSpeedPercent: 0.5
+    MoveSideSpeedPercent: 0.7
+    CanRunThreshold: 0.6
+    RunSpeed: 6
+    RunTransitionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    JumpHeight: 6
+    CoyoteTime: 0.1
+    JumpBufferTime: 0.1
+    CrouchSpeed: 1
+    CrouchPercent: 0.6
+    CrouchTransitionDuration: 0.5
+    CrouchTransitionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    LowLandAmount: 0.1
+    HighLandAmount: 0.4
+    LandTimer: 0.5
+    LandDuration: 0.5
+    LandCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: -6.524011
+        outSlope: -6.524011
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.02928031
+      - serializedVersion: 3
+        time: 0.2
+        value: -1
+        inSlope: -0.42737108
+        outSlope: -0.42737108
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    SmoothInputSpeed: 10
+    SmoothRotateSpeed: 10
+    SmoothVelocitySpeed: 3
+    SmoothFinalDirectionSpeed: 10
+    SmoothHeadBobSpeed: 5
+  <CollisionConfig>k__BackingField:
+    GroundLayer:
+      serializedVersion: 2
+      m_Bits: 1
+    RayLength: 0.1
+    RaySphereRadius: 0.2
+    ObstacleLayers:
+      serializedVersion: 2
+      m_Bits: 1
+    RayObstacleLength: 0.4
+    RayObstacleSphereRadius: 0.2
+    IsPushEnabled: 1
+    PushPower: 2
+    MaxPushForce: 10
+    UseForceInsteadOfVelocity: 1
+    forceMode: 1
+    RoofRadius: 0.2
+  <CameraConfig>k__BackingField:
+    Sensitivity: {x: 40, y: 40}
+    SmoothAmount: {x: 5, y: 5}
+    LookAngleMinMax: {x: -45, y: 45}
+    X: 1
+    Y: 0
+    Z: 0
+    SwayAmount: 1
+    SwaySpeed: 1
+    ReturnSpeed: 3
+    ChangeDirectionMultiplier: 4
+    SwayCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2.6845634
+        outSlope: 2.6845634
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.055934515
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 0
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ZoomFOV: 40
+    ZoomTransitionDuration: 0.25
+    ZoomCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    RunFOV: 70
+    RunTransitionDuration: 0.75
+    RunReturnTransitionDuration: 0.5
+    RunCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  <HeadBobConfig>k__BackingField: {fileID: 11400000, guid: 894c1592ed99e1842a949d3b141f3489, type: 2}
+  <PerlinNoiseConfig>k__BackingField: {fileID: 11400000, guid: e6e8b1de6cbc95e4ea6e807efa7c2567, type: 2}
+  <MovementData>k__BackingField:
+    FinalMoveVelocity: {x: 0, y: 0, z: 0}
+    FinalMoveDirection: {x: 0, y: 0, z: 0}
+    FinalOffset: {x: 0, y: 0, z: 0}
+    CurrentVelocity: {x: 0, y: 0, z: 0}
+    SmoothFinalMoveDir: {x: 0, y: 0, z: 0}
+    SmoothInputVector: {x: 0, y: 0}
+    IsMoving: 0
+    IsWalking: 0
+    IsRunning: 0
+    IsCrouching: 0
+    IsJumping: 0
+    Resetted: 0
+    IsDuringRunAnimation: 0
+    IsDuringCrouchAnimation: 0
+    InAirTimer: 0
+    CurrentStateHeight: 0
+    CurrentSpeed: 0
+    VerticalVelocity: 0
+    InitCamHeight: 0
+  <CollisionData>k__BackingField:
+    InitCenter: {x: 0, y: 0, z: 0}
+    GroundedNormal: {x: 0, y: 0, z: 0}
+    ObstructedNormal: {x: 0, y: 0, z: 0}
+    OnGrounded: 0
+    PreviouslyGrounded: 0
+    HasObstructed: 0
+    HasRoofed: 0
+    OnAirborne: 0
+    InitHeight: 0
+    FinalRayLength: 0
+    HasObjectColliding: 0
+  <CameraData>k__BackingField:
+    IsZooming: 0
+    Noise: {x: 0, y: 0, z: 0}
 --- !u!1 &3419006765683401652
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +563,7 @@ MonoBehaviour:
     Enabled: 0
     m_Value: 0
   OutputChannel: 1
-  StandbyUpdate: 0
+  StandbyUpdate: 2
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
@@ -321,12 +571,12 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 100
     Dutch: 0
-    ModeOverride: 0
+    ModeOverride: 2
     PhysicalProperties:
       GateFit: 2
       SensorSize: {x: 21.946, y: 16.002}
@@ -420,5 +670,10 @@ PrefabInstance:
 --- !u!4 &3645503925144692119 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
+  m_PrefabInstance: {fileID: 3827452736391594620}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7239327862366896109 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
   m_PrefabInstance: {fileID: 3827452736391594620}
   m_PrefabAsset: {fileID: 0}

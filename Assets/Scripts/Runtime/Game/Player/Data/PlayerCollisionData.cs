@@ -1,0 +1,22 @@
+using System;
+using UnityEngine;
+
+namespace GameToolkit.Runtime.Game.Behaviours.Player
+{
+    [Serializable]
+    public class PlayerCollisionData
+    {
+        public RaycastHit CastHit;
+        public Vector3 InitCenter;
+        public Vector3 GroundedNormal;
+        public Vector3 ObstructedNormal;
+        public bool OnGrounded;
+        public bool PreviouslyGrounded;
+        public bool HasObstructed;
+        public bool HasRoofed;
+        public bool OnAirborne;
+        public float InitHeight;
+        public float FinalRayLength;
+        public bool HasObjectColliding;
+    }
+}

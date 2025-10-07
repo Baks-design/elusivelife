@@ -15,23 +15,23 @@ MonoBehaviour:
   items:
   - displayName: Player
     scenePath: Assets/Scenes/Initiator.unity
-  - displayName: InputSystem_Actions
-    scenePath: 
-  - displayName: Lifetime Scope
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: InputSystem_Actions
-    scenePath: 
-  - displayName: Input
-    scenePath: 
+  - displayName: Box_100x100x100_Prefab (16)
+    scenePath: Assets/Scenes/Level - Prototype.unity
+  - displayName: Box_100x100x100_Prefab (17)
+    scenePath: Assets/Scenes/Level - Prototype.unity
+  - displayName: Environment
+    scenePath: Assets/Scenes/Level - Prototype.unity
   - displayName: Player
     scenePath: Assets/Scenes/Initiator.unity
   - displayName: Player
     scenePath: Assets/Scenes/Initiator.unity
-  - displayName: VContainerSettings
+  - displayName: Player
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: Cube
+    scenePath: Assets/Scenes/Level - Prototype.unity
+  - displayName: Player
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: Data
     scenePath: 
-  - displayName: Game Settings
-    scenePath: 
-  - displayName: Controls Settings
-    scenePath: 
-  - displayName: Game Initiator
-    scenePath: Assets/Scenes/Game Initiator.unity
+  - displayName: Player
+    scenePath: Assets/Scenes/Initiator.unity
