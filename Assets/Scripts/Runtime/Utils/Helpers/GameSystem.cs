@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Utils.Helpers
+namespace ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers
 {
     public static class GameSystem
     {

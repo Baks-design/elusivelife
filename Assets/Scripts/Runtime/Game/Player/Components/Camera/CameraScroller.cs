@@ -1,39 +1,45 @@
-using ElusiveLife.Game.Player;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 {
     public class CameraScroller
     {
-        readonly IPlayerView playerView;
-        Vector3 noiseOffset;
+        private readonly IPlayerView _playerView;
+        private Vector3 _noiseOffset;
 
         public CameraScroller(IPlayerView playerView)
         {
-            this.playerView = playerView;
-
-            var rand = 32f;
-            noiseOffset = new Vector3(
-                Random.Range(0f, rand),
-                Random.Range(0f, rand),
-                Random.Range(0f, rand)
-            );
+            _playerView = playerView;
+            InitializeNoise();
         }
+
+        private void InitializeNoise() =>
+            _noiseOffset = new Vector3(
+                Random.Range(0f,
+                    1000f),
+                Random.Range(0f,
+                    1000f),
+                Random.Range(0f,
+                    1000f)
+            );
 
         public void UpdateNoise()
         {
-            var scrollOffset = Time.deltaTime * playerView.PerlinNoiseConfig.Frequency;
-            noiseOffset.x += scrollOffset;
+            var deltaTime = Time.deltaTime;
+            if (Time.timeScale < 0.01f) return;
 
-            var noise = new Vector3(
-                Mathf.PerlinNoise(noiseOffset.x, 0f),
-                Mathf.PerlinNoise(noiseOffset.x, 1f),
-                Mathf.PerlinNoise(noiseOffset.x, 2f)
-            );
-            noise = (noise - Vector3.one * 0.5f) * playerView.PerlinNoiseConfig.Amplitude;
-            
-            playerView.CameraData.Noise = noise;
+            var scrollOffset = deltaTime * _playerView.PerlinNoiseConfig.Frequency;
+            _noiseOffset.x += scrollOffset;
+
+            var baseNoise = Mathf.PerlinNoise(_noiseOffset.x, 0f);
+            var quarterPhase = Mathf.PerlinNoise(_noiseOffset.x + 0.25f, 0f);
+            var halfPhase = Mathf.PerlinNoise(_noiseOffset.x + 0.5f, 0f);
+
+            var noise = new Vector3(baseNoise, quarterPhase, halfPhase);
+            noise = 2f * _playerView.PerlinNoiseConfig.Amplitude * (noise - Vector3.one * 0.5f);
+            _playerView.CameraData.Noise = noise;
         }
     }
 }

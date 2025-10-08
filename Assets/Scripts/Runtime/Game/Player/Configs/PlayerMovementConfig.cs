@@ -1,14 +1,15 @@
 using System;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs
 {
     [Serializable]
     public class PlayerMovementConfig
     {
         [Header("Gravity Settings")]
-        public float GravityMultiplier = 2.5f;
         public float StickToGroundForce = 1f;
+        public float GravityMultiplier = 2.5f;
+        public float MaxFallSpeed = -50f;
 
         [Header("Walk Settings")]
         public float WalkSpeed = 3f;
@@ -22,8 +23,6 @@ namespace GameToolkit.Runtime.Game.Behaviours.Player
 
         [Header("Jump Settings")]
         public float JumpHeight = 6f;
-        public float CoyoteTime = 0.1f;
-        public float JumpBufferTime = 0.1f;
 
         [Header("Crouch Settings")]
         public float CrouchSpeed = 1f;

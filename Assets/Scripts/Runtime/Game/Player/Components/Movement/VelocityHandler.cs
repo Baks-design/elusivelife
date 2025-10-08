@@ -1,127 +1,116 @@
-using ElusiveLife.Application.Input;
-using ElusiveLife.Game.Player;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
 {
     public class VelocityHandler
     {
-        readonly RunnningHandler runningHandler;
-        readonly IPlayerInputService inputService;
-        readonly IPlayerView playerView;
-        float smoothCurrentSpeed;
-        float finalSmoothCurrentSpeed;
+        private readonly RunningHandler _runningHandler;
+        private readonly IPlayerInputService _inputService;
+        private readonly IPlayerView _playerView;
 
-        public VelocityHandler(
-            RunnningHandler runningHandler,
+        public VelocityHandler(RunningHandler runningHandler,
             IPlayerInputService inputService,
             IPlayerView playerView)
         {
-            this.runningHandler = runningHandler;
-            this.inputService = inputService;
-            this.playerView = playerView;
-
-            playerView.MovementData.InAirTimer = 0f;
+            _runningHandler = runningHandler;
+            _inputService = inputService;
+            _playerView = playerView;
         }
 
         public void CalculateSpeed()
         {
-            playerView.MovementData.CurrentSpeed = ApplyDirectionModifiers(CalculateBaseSpeed());
+            var moveInput = _inputService.Move();
+            if (moveInput == Vector2.zero)
+            {
+                _playerView.MovementData.CurrentSpeed = 0f;
+                return;
+            }
 
-            if (inputService.Move() == Vector2.zero)
-                playerView.MovementData.CurrentSpeed = 0f;
+            var baseSpeed = CalculateBaseSpeed();
+            _playerView.MovementData.CurrentSpeed = ApplyDirectionModifiers(baseSpeed);
         }
 
-        float CalculateBaseSpeed()
+        private float CalculateBaseSpeed()
         {
-            if (playerView.MovementData.IsCrouching)
-                return playerView.MovementConfig.CrouchSpeed;
+            if (_playerView.MovementData.IsCrouching)
+                return _playerView.MovementConfig.CrouchSpeed;
 
-            if (playerView.MovementData.IsRunning && runningHandler.CanRun())
-                return playerView.MovementConfig.RunSpeed;
+            if (_playerView.MovementData.IsRunning && _runningHandler.CanRun())
+                return _playerView.MovementConfig.RunSpeed;
 
-            return playerView.MovementConfig.WalkSpeed;
+            return _playerView.MovementConfig.WalkSpeed;
         }
 
-        float ApplyDirectionModifiers(float baseSpeed)
+        private float ApplyDirectionModifiers(float baseSpeed)
         {
-            var input = inputService.Move();
+            var input = _inputService.Move();
 
             if (input.y < -0.1f)
-                return baseSpeed * playerView.MovementConfig.MoveBackwardsSpeedPercent;
+                return baseSpeed * _playerView.MovementConfig.MoveBackwardsSpeedPercent;
 
             if (Mathf.Abs(input.x) > 0.1f && Mathf.Abs(input.y) < 0.1f)
-                return baseSpeed * playerView.MovementConfig.MoveSideSpeedPercent;
+                return baseSpeed * _playerView.MovementConfig.MoveSideSpeedPercent;
 
             return baseSpeed;
         }
 
-        public void SmoothSpeed()
-        {
-            smoothCurrentSpeed = Mathf.Lerp(
-                smoothCurrentSpeed,
-                playerView.MovementData.CurrentSpeed,
-                Time.deltaTime * playerView.MovementConfig.SmoothVelocitySpeed);
-
-            finalSmoothCurrentSpeed =
-                playerView.MovementData.IsRunning && runningHandler.CanRun()
-                    ? CalculateRunTransitionSpeed()
-                    : smoothCurrentSpeed;
-        }
-
-        float CalculateRunTransitionSpeed()
-        {
-            var walkRunPercent = Mathf.InverseLerp(
-                playerView.MovementConfig.WalkSpeed,
-                playerView.MovementConfig.RunSpeed,
-                smoothCurrentSpeed);
-
-            return playerView.MovementConfig.RunTransitionCurve.Evaluate(walkRunPercent)
-                    * (playerView.MovementConfig.RunSpeed - playerView.MovementConfig.WalkSpeed)
-                    + playerView.MovementConfig.WalkSpeed;
-        }
+        public void SmoothSpeed() => _playerView.MovementData.SmoothCurrentSpeed = Mathf.Lerp(
+            _playerView.MovementData.SmoothCurrentSpeed,
+            _playerView.MovementData.CurrentSpeed,
+            Time.deltaTime * (_playerView.MovementConfig?.SmoothVelocitySpeed ?? 8f)
+        );
 
         public void ApplyGravity()
         {
-            if (playerView.Controller.isGrounded)
+            var isGrounded = _playerView.Controller.isGrounded;
+
+            _playerView.CollisionData.PreviouslyGrounded = isGrounded;
+            _playerView.CollisionData.OnGrounded = isGrounded;
+
+            if (isGrounded)
             {
-                playerView.MovementData.InAirTimer = 0f;
-                playerView.MovementData.FinalMoveVelocity.y = -playerView.MovementConfig.StickToGroundForce;
+                _playerView.MovementData.InAirTimer = 0f;
+
+                if (_playerView.MovementData.FinalMoveVelocity.y < 0f)
+                    _playerView.MovementData.FinalMoveVelocity.y = -_playerView.MovementConfig.StickToGroundForce;
             }
             else
             {
-                playerView.MovementData.InAirTimer += Time.deltaTime;
-                playerView.MovementData.FinalMoveVelocity +=
-                    Time.deltaTime * playerView.MovementConfig.GravityMultiplier * Physics.gravity;
+                _playerView.MovementData.InAirTimer += Time.deltaTime;
+
+                var gravity = Physics.gravity.y * _playerView.MovementConfig.GravityMultiplier;
+                _playerView.MovementData.FinalMoveVelocity.y += gravity * Time.deltaTime;
+
+                _playerView.MovementData.FinalMoveVelocity.y = Mathf.Max(
+                    _playerView.MovementData.FinalMoveVelocity.y,
+                    _playerView.MovementConfig.MaxFallSpeed
+                );
             }
         }
 
-        public void CalculateFinalAcceleration()
+        public void CalculateFinalVelocity()
         {
-            var targetVelocity = finalSmoothCurrentSpeed * playerView.MovementData.SmoothFinalMoveDir;
-
-            playerView.MovementData.FinalMoveVelocity.x = targetVelocity.x;
-            playerView.MovementData.FinalMoveVelocity.z = targetVelocity.z;
-            if (playerView.Controller.isGrounded)
-                playerView.MovementData.FinalMoveVelocity.y += targetVelocity.y;
+            var targetVelocity =
+                _playerView.MovementData.SmoothCurrentSpeed * _playerView.MovementData.SmoothFinalMoveDir;
+            _playerView.MovementData.FinalMoveVelocity.x = targetVelocity.x;
+            _playerView.MovementData.FinalMoveVelocity.z = targetVelocity.z;
         }
 
         public void ApplyMove()
         {
-            playerView.Controller.Move(playerView.MovementData.FinalMoveVelocity * Time.deltaTime);
+            _playerView.Controller.Move(_playerView.MovementData.FinalMoveVelocity * Time.deltaTime);
 
-            UpdateMovementState();
-        }
-
-        void UpdateMovementState()
-        {
-            var velocity = playerView.Controller.velocity;
-            playerView.MovementData.CurrentVelocity = velocity;
-            playerView.MovementData.VerticalVelocity = velocity.y;
+            var velocity = _playerView.Controller.velocity;
+            _playerView.MovementData.CurrentVelocity = velocity;
+            _playerView.MovementData.VerticalVelocity = velocity.y;
 
             var horizontalSpeed = new Vector3(velocity.x, 0f, velocity.z).magnitude;
-            playerView.MovementData.IsMoving = horizontalSpeed > 0.1f;
-            playerView.MovementData.IsWalking = playerView.MovementData.IsMoving && !playerView.MovementData.IsRunning;
+            _playerView.MovementData.IsMoving = horizontalSpeed > 0.1f;
+            _playerView.MovementData.IsWalking = _playerView.MovementData.IsMoving &&
+                                                !_playerView.MovementData.IsRunning &&
+                                                !_playerView.MovementData.IsCrouching;
         }
     }
 }

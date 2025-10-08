@@ -1,62 +1,110 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using ElusiveLife.Game.Player;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
 {
-    public class LandingHandler
+    public class LandingHandler : IDisposable
     {
-        readonly IPlayerView playerView;
-        CancellationTokenSource landingCancellationTokenSource;
+        private readonly IPlayerView _playerView;
+        private CancellationTokenSource _landingCancellationTokenSource;
+        private bool _wasGrounded;
+        private bool _isDisposed;
 
-        public LandingHandler(IPlayerView playerView) => this.playerView = playerView;
+        public LandingHandler(IPlayerView playerView)
+        {
+            _playerView = playerView;
+            Initalize(playerView);
+        }
+
+        private void Initalize(IPlayerView playerView) =>
+            _wasGrounded = playerView.CollisionData.WasGrounded;
 
         public void HandleLanding()
         {
-            if (playerView.CollisionData.PreviouslyGrounded)
+            if (_isDisposed)
                 return;
 
-            landingCancellationTokenSource?.Cancel();
-            landingCancellationTokenSource = new CancellationTokenSource();
+            var wasInAir = !_wasGrounded;
+            var isNowGrounded = _playerView.Controller.isGrounded;
 
-            _ = StartLanding(landingCancellationTokenSource.Token);
-        }
-
-        async UniTaskVoid StartLanding(CancellationToken cancellationToken = default)
-        {
-            try
+            var justLanded = wasInAir && isNowGrounded;
+            if (justLanded)
             {
-                await LandingAsync(cancellationToken);
+                _landingCancellationTokenSource?.Cancel();
+                _landingCancellationTokenSource = new CancellationTokenSource();
+                _ = StartLanding(_landingCancellationTokenSource.Token);
             }
-            catch (OperationCanceledException) { }
+
+            _wasGrounded = isNowGrounded;
         }
 
-        async UniTask LandingAsync(CancellationToken cancellationToken = default)
+        private async UniTaskVoid StartLanding(CancellationToken cancellationToken = default) =>
+            await LandingAsync(cancellationToken);
+
+        private async UniTask LandingAsync(CancellationToken cancellationToken = default)
         {
             var percent = 0f;
-            var speed = 1f / playerView.MovementConfig.LandDuration;
-            var localPos = playerView.Yaw.localPosition;
-            var initialHeight = localPos.y;
+            var speed = 1f / _playerView.MovementConfig.LandDuration;
+            var initialLocalPos = _playerView.Yaw.localPosition;
+            var initialHeight = initialLocalPos.y;
+            var landAmount = CalculateLandAmount();
+            var originalPosition = _playerView.Yaw.localPosition;
 
-            while (percent < 1f)
+            try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                while (percent < 1f)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
 
-                percent += Time.deltaTime * speed;
-                var curveValue = playerView.MovementConfig.LandCurve.Evaluate(percent);
-                var desiredOffset = curveValue * CalculateLandAmount();
-                localPos.y = initialHeight + desiredOffset;
-                playerView.Yaw.localPosition = localPos;
+                    percent += Time.deltaTime * speed;
+                    var curveValue = _playerView.MovementConfig.LandCurve.Evaluate(percent);
+                    var desiredOffset = curveValue * landAmount;
 
-                await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
+                    var currentPos = originalPosition;
+                    currentPos.y = initialHeight + desiredOffset;
+                    _playerView.Yaw.localPosition = currentPos;
+
+                    await UniTask.NextFrame(PlayerLoopTiming.Update,
+                        cancellationToken);
+                }
+
+                _playerView.Yaw.localPosition = originalPosition;
+
+                if (_playerView.MovementData != null)
+                    _playerView.MovementData.InAirTimer = 0f;
+            }
+            catch (OperationCanceledException)
+            {
+                _playerView.Yaw.localPosition = originalPosition;
+                throw;
             }
         }
 
-        float CalculateLandAmount() =>
-            playerView.MovementData.InAirTimer > playerView.MovementConfig.LandTimer
-                ? playerView.MovementConfig.HighLandAmount
-                : playerView.MovementConfig.LowLandAmount;
+        private float CalculateLandAmount()
+        {
+            var isHighLand = _playerView.MovementData.InAirTimer > _playerView.MovementConfig.LandTimer;
+            return isHighLand
+                ? _playerView.MovementConfig.HighLandAmount
+                : _playerView.MovementConfig.LowLandAmount;
+        }
+
+        public void UpdateAirTimer()
+        {
+            if (!_playerView.Controller.isGrounded && !_playerView.CollisionData.OnGrounded)
+                _playerView.MovementData.InAirTimer += Time.deltaTime;
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed)
+                return;
+            _isDisposed = true;
+
+            _landingCancellationTokenSource?.Cancel();
+            _landingCancellationTokenSource?.Dispose();
+        }
     }
 }

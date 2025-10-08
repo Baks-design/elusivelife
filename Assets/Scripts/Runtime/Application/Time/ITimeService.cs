@@ -1,6 +1,6 @@
 using System;
 
-namespace ElusiveLife.Application.Time
+namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Time
 {
     public interface ITimeService
     {

@@ -1,6 +1,6 @@
-namespace ElusiveLife.Application.Input
+namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces
 {
-    public interface IUIInputService : IInputService
+    public interface IUiInputService : IInputService
     {
         bool ClosePause();
     }

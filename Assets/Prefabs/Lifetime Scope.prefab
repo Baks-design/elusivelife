@@ -47,14 +47,5 @@ MonoBehaviour:
   parentReference:
     TypeName: 
   autoRun: 1
-  autoInjectGameObjects:
-  - {fileID: 0}
-  gameSettings: {fileID: 11400000, guid: 4de4a0504f6dc344eae12a9073c99cba, type: 2}
-  inputActionsAsset: {fileID: 11400000, guid: 1bf337824e32ac74b8b2b6fd267cb638, type: 2}
-  playerView: {fileID: 0}
-  bulletViewPrefab: {fileID: 8471160806401765295, guid: 373bb4b15c48c4044adde4f73700d9bf, type: 3}
-  targetSpawnPointViews:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  bulletSpawnPoint: {fileID: 0}
+  autoInjectGameObjects: []
+  _playerView: {fileID: 5745211487102372651, guid: 3e7642388079dd647a7e312fa4b8694c, type: 3}

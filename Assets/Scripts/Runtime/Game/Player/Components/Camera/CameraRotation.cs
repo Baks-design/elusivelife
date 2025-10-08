@@ -1,24 +1,24 @@
-using ElusiveLife.Application.Input;
-using ElusiveLife.Game.Player;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 {
     public class CameraRotation
     {
-        readonly IPlayerInputService inputService;
-        readonly IPlayerView playerView;
-        float yaw;
-        float pitch;
-        float desiredYaw;
-        float desiredPitch;
+        private readonly IPlayerInputService _inputService;
+        private readonly IPlayerView _playerView;
+        private float _yaw;
+        private float _pitch;
+        private float _desiredYaw;
+        private float _desiredPitch;
 
-        public CameraRotation(
-            IPlayerInputService inputService,
-            IPlayerView playerView)
+        public CameraRotation(IPlayerInputService inputService, IPlayerView playerView)
         {
-            this.inputService = inputService;
-            this.playerView = playerView;
+            _inputService = inputService;
+            _playerView = playerView;
+
+            InitializeRotations();
         }
 
         public void RotationHandler()
@@ -28,24 +28,39 @@ namespace GameToolkit.Runtime.Game.Behaviours.Player
             ApplyRotation();
         }
 
-        void CalculateRotation()
+        private void InitializeRotations()
         {
-            desiredYaw += inputService.Look().x * playerView.CameraConfig.Sensitivity.x * Time.deltaTime;
-            desiredPitch -= inputService.Look().y * playerView.CameraConfig.Sensitivity.y * Time.deltaTime;
-            desiredPitch = Mathf.Clamp(
-                desiredPitch, playerView.CameraConfig.LookAngleMinMax.x, playerView.CameraConfig.LookAngleMinMax.y);
+            _yaw = _desiredYaw = _playerView.Yaw.transform.eulerAngles.y;
+            _pitch = _desiredPitch = _playerView.Pitch.transform.localEulerAngles.x;
+            _pitch = NormalizeAngle(_pitch);
         }
 
-        void SmoothRotation()
+        private static float NormalizeAngle(float angle)
         {
-            yaw = Mathf.Lerp(yaw, desiredYaw, playerView.CameraConfig.SmoothAmount.x * Time.deltaTime);
-            pitch = Mathf.Lerp(pitch, desiredPitch, playerView.CameraConfig.SmoothAmount.y * Time.deltaTime);
+            while (angle > 180f) angle -= 360f;
+            while (angle < -180f) angle += 360f;
+            return angle;
         }
 
-        void ApplyRotation()
+        private void CalculateRotation()
         {
-            playerView.Yaw.transform.eulerAngles = new Vector3(0f, yaw, 0f);
-            playerView.Pitch.transform.localEulerAngles = new Vector3(pitch, 0f, 0f);
+            _desiredYaw += _inputService.Look().x * _playerView.CameraConfig.Sensitivity.x * Time.deltaTime;
+            _desiredPitch -= _inputService.Look().y * _playerView.CameraConfig.Sensitivity.y * Time.deltaTime;
+            _desiredPitch = Mathf.Clamp(
+                _desiredPitch, _playerView.CameraConfig.LookAngleMinMax.x, _playerView.CameraConfig.LookAngleMinMax.y
+            );
+        }
+
+        private void SmoothRotation()
+        {
+            _yaw = Mathf.LerpAngle(_yaw, _desiredYaw, _playerView.CameraConfig.SmoothAmount.x * Time.deltaTime);
+            _pitch = Mathf.LerpAngle(_pitch, _desiredPitch, _playerView.CameraConfig.SmoothAmount.y * Time.deltaTime);
+        }
+
+        private void ApplyRotation()
+        {
+            _playerView.Yaw.transform.rotation = Quaternion.Euler(0f, _yaw, 0f);
+            _playerView.Pitch.transform.localRotation = Quaternion.Euler(_pitch, 0f, 0f);
         }
     }
 }

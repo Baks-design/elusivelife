@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs
 {
     public enum TransformTarget
     {
@@ -15,5 +15,7 @@ namespace GameToolkit.Runtime.Game.Behaviours.Player
         public TransformTarget TransformTarget = TransformTarget.Rotation;
         public float Amplitude = 1f;
         public float Frequency = 0.5f;
+        public float PositionScale = 1f;
+        public float RotationScale = 1f;
     }
 }

@@ -1,27 +1,27 @@
-using ElusiveLife.Game.Player;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision
 {
-    public class RoofCheck //TODO: Roof check
+    public class RoofCheck
     {
-        readonly IPlayerView playerView;
+        private readonly IPlayerView _playerView;
 
-        public RoofCheck(IPlayerView playerView) => this.playerView = playerView;
+        public RoofCheck(IPlayerView playerView) => _playerView = playerView;
 
         public bool CheckRoof()
         {
             var hitRoof = Physics.SphereCast(
-                playerView.Controller.transform.position,
-                playerView.CollisionConfig.RoofRadius,
+                _playerView.Controller.transform.position,
+                _playerView.CollisionConfig.RoofRadius,
                 Vector3.up,
                 out _,
-                playerView.CollisionData.InitHeight,
+                _playerView.CollisionData.InitHeight,
                 Physics.AllLayers,
                 QueryTriggerInteraction.Ignore
             );
 
-            playerView.CollisionData.HasRoofed = hitRoof;
+            _playerView.CollisionData.HasRoofed = hitRoof;
             return hitRoof;
         }
     }

@@ -1,94 +1,167 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using ElusiveLife.Application.Input;
-using ElusiveLife.Game.Player;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
 {
     public class CrouchHandler
     {
-        readonly RoofCheck roofCheck;
-        readonly IPlayerInputService movementInput;
-        readonly IPlayerView playerView;
-        readonly Vector3 initCenter;
-        readonly float initHeight;
-        readonly float crouchCamHeight;
-        readonly float crouchHeight;
-        readonly float crouchStandHeightDifference;
-        Vector3 crouchCenter;
-        CancellationTokenSource crouchCancellationTokenSource;
+        private readonly RoofCheck _roofCheck;
+        private readonly IPlayerInputService _movementInput;
+        private readonly IPlayerView _playerView;
+        private CancellationTokenSource _crouchCancellationTokenSource;
+        private Vector3 _initCenter;
+        private Vector3 _crouchCenter;
+        private float _initHeight;
+        private float _crouchHeight;
+        private float _crouchCamHeight;
+        private float _crouchStandHeightDifference;
+        private bool _isDisposed;
 
-        public CrouchHandler(RoofCheck roofCheck, IPlayerInputService movementInput, IPlayerView playerView)
+        public CrouchHandler(
+            RoofCheck roofCheck, IPlayerInputService movementInput, IPlayerView playerView)
         {
-            this.roofCheck = roofCheck;
-            this.movementInput = movementInput;
-            this.playerView = playerView;
+            _roofCheck = roofCheck;
+            _movementInput = movementInput;
+            _playerView = playerView;
 
-            crouchHeight = playerView.CollisionData.InitHeight * playerView.MovementConfig.CrouchPercent;
-            crouchCenter = (crouchHeight / 2f + playerView.Controller.skinWidth) * Vector3.up;
-            crouchStandHeightDifference = playerView.CollisionData.InitHeight - crouchHeight;
-            crouchCamHeight = playerView.MovementData.InitCamHeight - crouchStandHeightDifference;
+            Initalize(playerView);
         }
 
-        public void HandleCrouch()
+        private void Initalize(IPlayerView playerView)
         {
-            var canCrouch =
-                movementInput.Crouch() &&
-                !playerView.MovementData.IsCrouching &&
-                !roofCheck.CheckRoof();
-            if (!canCrouch)
+            _initHeight = playerView.CollisionData.InitHeight;
+            _initCenter = playerView.CollisionData.InitCenter;
+            _crouchHeight = _initHeight * playerView.MovementConfig.CrouchPercent;
+            _crouchCenter = (_crouchHeight / 2f + playerView.Controller.skinWidth) * Vector3.up;
+            _crouchStandHeightDifference = _initHeight - _crouchHeight;
+            _crouchCamHeight = playerView.MovementData.InitCamHeight - _crouchStandHeightDifference;
+        }
+
+        public void HandleCrouch() 
+        {
+            if (_isDisposed || !_movementInput.Crouch())
                 return;
 
-            crouchCancellationTokenSource?.Cancel();
-            crouchCancellationTokenSource = new CancellationTokenSource();
+            _crouchCancellationTokenSource?.Cancel();
+            _crouchCancellationTokenSource = new CancellationTokenSource();
 
-            _ = StartCrouch(crouchCancellationTokenSource.Token);
+            _ = _playerView.MovementData.IsCrouching
+                ? TryStandUpAsync(_crouchCancellationTokenSource.Token)
+                : StartCrouchAsync(_crouchCancellationTokenSource.Token);
         }
 
-        async UniTaskVoid StartCrouch(CancellationToken cancellationToken = default)
+        private async UniTaskVoid StartCrouchAsync(CancellationToken cancellationToken = default) =>
+            await CrouchDownAsync(cancellationToken);
+
+        private async UniTaskVoid TryStandUpAsync(CancellationToken cancellationToken = default)
         {
+            if (_roofCheck.CheckRoof())
+                return;
+
+            await StandUpAsync(cancellationToken);
+        }
+
+        private async UniTask CrouchDownAsync(CancellationToken cancellationToken = default)
+        {
+            if (_playerView.MovementData.IsDuringCrouchAnimation || _playerView.MovementData.IsCrouching)
+                return;
+
+            _playerView.MovementData.IsDuringCrouchAnimation = true;
+
             try
             {
-                await CrouchAsync(cancellationToken);
+                var currentHeight = _playerView.Controller.height;
+                var currentCenter = _playerView.Controller.center;
+                var camPos = _playerView.Yaw.localPosition;
+                var camCurrentHeight = camPos.y;
+
+                var speed = 1f / _playerView.MovementConfig.CrouchTransitionDuration;
+                var percent = 0f;
+
+                while (percent < 1f)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    percent += Time.deltaTime * speed;
+                    var smoothPercent = _playerView.MovementConfig.CrouchTransitionCurve.Evaluate(percent);
+
+                    _playerView.Controller.height = Mathf.Lerp(currentHeight, _crouchHeight, smoothPercent);
+                    _playerView.Controller.center = Vector3.Lerp(currentCenter, _crouchCenter, smoothPercent);
+
+                    camPos.y = Mathf.Lerp(camCurrentHeight, _crouchCamHeight, smoothPercent);
+                    _playerView.Yaw.localPosition = camPos;
+
+                    await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
+                }
+
+                _playerView.MovementData.IsCrouching = true;
+                _playerView.MovementData.CurrentStateHeight = _crouchCamHeight;
             }
-            catch (OperationCanceledException) { }
+            finally
+            {
+                _playerView.MovementData.IsDuringCrouchAnimation = false;
+            }
         }
 
-        async UniTask CrouchAsync(CancellationToken cancellationToken = default)
+        private async UniTask StandUpAsync(CancellationToken cancellationToken = default)
         {
-            playerView.MovementData.IsDuringCrouchAnimation = true;
+            if (_playerView.MovementData.IsDuringCrouchAnimation || !_playerView.MovementData.IsCrouching)
+                return;
 
-            var wasCrouching = playerView.MovementData.IsCrouching;
+            _playerView.MovementData.IsDuringCrouchAnimation = true;
 
-            var targetHeight = wasCrouching ? playerView.CollisionData.InitHeight : crouchHeight;
-            var targetCenter = wasCrouching ? playerView.CollisionData.InitCenter : crouchCenter;
-            var camPos = playerView.Yaw.localPosition;
-            var camCurrentHeight = camPos.y;
-            var targetCamHeight = wasCrouching ? playerView.MovementData.InitCamHeight : crouchCamHeight;
-
-            playerView.MovementData.IsCrouching = !wasCrouching;
-            playerView.MovementData.CurrentStateHeight = wasCrouching ? playerView.MovementData.InitCamHeight : crouchCamHeight;
-
-            var speed = 1f / playerView.MovementConfig.CrouchTransitionDuration;
-            var percent = 0f;
-
-            while (percent < 1f)
+            try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var currentHeight = _playerView.Controller.height;
+                var currentCenter = _playerView.Controller.center;
+                var camPos = _playerView.Yaw.localPosition;
+                var camCurrentHeight = camPos.y;
 
-                percent += Time.deltaTime * speed;
-                var smoothPercent = playerView.MovementConfig.CrouchTransitionCurve.Evaluate(percent);
-                playerView.Controller.height = Mathf.Lerp(initHeight, targetHeight, smoothPercent);
-                playerView.Controller.center = Vector3.Lerp(initCenter, targetCenter, smoothPercent);
-                camPos.y = Mathf.Lerp(camCurrentHeight, targetCamHeight, smoothPercent);
-                playerView.Yaw.localPosition = camPos;
+                var speed = 1f / _playerView.MovementConfig.CrouchTransitionDuration;
+                var percent = 0f;
 
-                await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
+                while (percent < 1f)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    if (_roofCheck.CheckRoof())
+                        break;
+
+                    percent += Time.deltaTime * speed;
+                    var smoothPercent = _playerView.MovementConfig.CrouchTransitionCurve.Evaluate(percent);
+
+                    _playerView.Controller.height = Mathf.Lerp(currentHeight, _initHeight, smoothPercent);
+                    _playerView.Controller.center = Vector3.Lerp(currentCenter, _initCenter, smoothPercent);
+
+                    camPos.y = Mathf.Lerp(camCurrentHeight, _playerView.MovementData.InitCamHeight, smoothPercent);
+                    _playerView.Yaw.localPosition = camPos;
+
+                    await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
+                }
+
+                if (percent >= 1f)
+                {
+                    _playerView.MovementData.IsCrouching = false;
+                    _playerView.MovementData.CurrentStateHeight = _playerView.MovementData.InitCamHeight;
+                }
             }
+            finally
+            {
+                _playerView.MovementData.IsDuringCrouchAnimation = false;
+            }
+        }
 
-            playerView.MovementData.IsDuringCrouchAnimation = false;
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            _crouchCancellationTokenSource?.Cancel();
+            _crouchCancellationTokenSource?.Dispose();
         }
     }
 }

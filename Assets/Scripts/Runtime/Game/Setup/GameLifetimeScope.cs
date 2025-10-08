@@ -1,35 +1,42 @@
-using ElusiveLife.Application.Input;
-using ElusiveLife.Application.Time;
-using ElusiveLife.Game.Player;
+using Alchemy.Inspector;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Services;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Time;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace ElusiveLife.Game.Setup
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Setup
 {
     public class GameLifetimeScope : LifetimeScope
     {
-        [Header("Settings")]
-        [SerializeField] GameInputActions inputActionsAsset;
-
-        [Header("Views")]
-        [SerializeField] PlayerView playerView;
+        [SerializeField, Required] private PlayerView _playerView;
+        private GameInputActions _inputActionsAsset;
 
         protected override void Configure(IContainerBuilder builder)
         {
-            // Input
-            inputActionsAsset.Initialize();
-            builder.RegisterInstance(inputActionsAsset);
-            builder.Register<IPlayerInputService, PlayerInputService>(Lifetime.Singleton)
-                   .WithParameter(typeof(GameInputActions), inputActionsAsset);
+            InputInitalize(builder);
 
             // Views
-            builder.RegisterComponent(playerView).As<IPlayerView>();
+            builder.RegisterComponent(_playerView).As<IPlayerView>();
             builder.UseEntryPoints(config =>
             {
                 config.Add<PlayerController>();
                 config.Add<TimeService>().As<ITimeService>();
             });
+        }
+
+        private void InputInitalize(IContainerBuilder builder)
+        {
+            _inputActionsAsset = new GameInputActions();
+            _inputActionsAsset.Initialize();
+            builder.RegisterInstance(_inputActionsAsset);
+            builder.Register<IPlayerInputService, PlayerInputService>(Lifetime.Singleton)
+                .WithParameter(typeof(GameInputActions), _inputActionsAsset);
         }
     }
 }

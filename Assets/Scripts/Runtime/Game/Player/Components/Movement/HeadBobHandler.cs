@@ -1,82 +1,123 @@
-using ElusiveLife.Game.Player;
+using System;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
 {
     public class HeadBobHandler
     {
-        readonly IPlayerView playerView;
-        float xScroll;
-        float yScroll;
+        private readonly IPlayerView _playerView;
+        private float _xScroll;
+        private float _yScroll;
+        private bool _isResetting;
 
         public HeadBobHandler(IPlayerView playerView)
         {
-            this.playerView = playerView;
+            _playerView = playerView;
+            Initialize();
+        }
 
-            playerView.HeadBobConfig.MoveBackwardsFrequencyMultiplier = playerView.MovementConfig.MoveBackwardsSpeedPercent;
-            playerView.HeadBobConfig.MoveSideFrequencyMultiplier = playerView.MovementConfig.MoveSideSpeedPercent;
-            playerView.MovementData.Resetted = false;
-            playerView.MovementData.FinalOffset = Vector3.zero;
-            xScroll = yScroll = 0f;
+        private void Initialize()
+        {
+            if (_playerView.HeadBobConfig.MoveBackwardsFrequencyMultiplier == 0f)
+                _playerView.HeadBobConfig.MoveBackwardsFrequencyMultiplier =
+                    _playerView.MovementConfig.MoveBackwardsSpeedPercent;
+            if (_playerView.HeadBobConfig.MoveSideFrequencyMultiplier == 0f)
+                _playerView.HeadBobConfig.MoveSideFrequencyMultiplier = _playerView.MovementConfig.MoveSideSpeedPercent;
+
+            ResetHeadBob();
         }
 
         public void ScrollHeadBob(bool running, bool crouching, Vector2 input, float deltaTime)
         {
-            playerView.MovementData.Resetted = false;
+            _playerView.MovementData.Resetted = false;
+            _isResetting = false;
 
-            (var amplitudeMultiplier, var frequencyMultiplier) = CalculateMovementMultipliers(running, crouching);
+            var (amplitudeMultiplier, frequencyMultiplier) = 
+                CalculateMovementMultipliers(running, crouching);
             var additionalMultiplier = CalculateDirectionMultiplier(input);
-            xScroll += deltaTime * playerView.HeadBobConfig.xFrequency * frequencyMultiplier;
-            CalculateHeadBobOffset(amplitudeMultiplier, additionalMultiplier);
+
+            _xScroll += deltaTime * _playerView.HeadBobConfig.XFrequency * frequencyMultiplier * additionalMultiplier;
+            _yScroll += deltaTime * _playerView.HeadBobConfig.YFrequency * frequencyMultiplier * additionalMultiplier;
+
+            if (_xScroll > 1000f)
+                _xScroll = 0f;
+            if (_yScroll > 1000f)
+                _yScroll = 0f;
+
+            CalculateHeadBobOffset(amplitudeMultiplier);
         }
 
         public void ResetHeadBob()
         {
-            playerView.MovementData.Resetted = true;
-            xScroll = yScroll = 0f;
-            playerView.MovementData.FinalOffset = Vector3.zero;
+            if (_isResetting)
+                return;
+
+            _playerView.MovementData.Resetted = true;
+            _isResetting = true;
+
+            _playerView.MovementData.FinalOffset = Vector3.Lerp(
+                _playerView.MovementData.FinalOffset,
+                Vector3.zero,
+                Time.deltaTime * 8f
+            );
+
+            if (!(_playerView.MovementData.FinalOffset.sqrMagnitude < 0.001f)) return;
+            _xScroll = _yScroll = 0f;
+            _playerView.MovementData.FinalOffset = Vector3.zero;
+            _isResetting = false;
         }
 
-        (float amplitude, float frequency) CalculateMovementMultipliers(bool running, bool crouching)
+        private (float amplitude, float frequency) CalculateMovementMultipliers(
+            bool running, bool crouching)
         {
             var amplitude = 1f;
             var frequency = 1f;
-            
-            if (running)
-            {
-                amplitude = playerView.HeadBobConfig.runAmplitudeMultiplier;
-                frequency = playerView.HeadBobConfig.runFrequencyMultiplier;
-            }
 
             if (crouching)
             {
-                amplitude = playerView.HeadBobConfig.crouchAmplitudeMultiplier;
-                frequency = playerView.HeadBobConfig.crouchFrequencyMultiplier;
+                amplitude = _playerView.HeadBobConfig.CrouchAmplitudeMultiplier;
+                frequency = _playerView.HeadBobConfig.CrouchFrequencyMultiplier;
+            }
+            else if (running)
+            {
+                amplitude = _playerView.HeadBobConfig.RunAmplitudeMultiplier;
+                frequency = _playerView.HeadBobConfig.RunFrequencyMultiplier;
             }
 
             return (amplitude, frequency);
         }
 
-        float CalculateDirectionMultiplier(Vector2 input)
+        private float CalculateDirectionMultiplier(Vector2 input)
         {
             if (input.y < -0.1f)
-                return playerView.HeadBobConfig.MoveBackwardsFrequencyMultiplier;
+                return _playerView.HeadBobConfig.MoveBackwardsFrequencyMultiplier;
 
             if (Mathf.Abs(input.x) > 0.1f && Mathf.Abs(input.y) < 0.1f)
-                return playerView.HeadBobConfig.MoveSideFrequencyMultiplier;
+                return _playerView.HeadBobConfig.MoveSideFrequencyMultiplier;
 
             return 1f;
         }
 
-        void CalculateHeadBobOffset(float amplitudeMultiplier, float additionalMultiplier)
+        private void CalculateHeadBobOffset(float amplitudeMultiplier)
         {
-            var xValue = playerView.HeadBobConfig.xCurve.Evaluate(xScroll);
-            var yValue = playerView.HeadBobConfig.yCurve.Evaluate(yScroll);
-            playerView.MovementData.FinalOffset = new Vector3(
-                xValue * playerView.HeadBobConfig.xAmplitude * amplitudeMultiplier * additionalMultiplier,
-                yValue * playerView.HeadBobConfig.yAmplitude * amplitudeMultiplier * additionalMultiplier,
-                0f
-            );
+            if (_isResetting)
+                return;
+
+            try
+            {
+                var xValue = _playerView.HeadBobConfig.XCurve.Evaluate(_xScroll);
+                var yValue = _playerView.HeadBobConfig.YCurve.Evaluate(_yScroll);
+                _playerView.MovementData.FinalOffset = new Vector3(
+                    xValue * _playerView.HeadBobConfig.XAmplitude * amplitudeMultiplier,
+                    yValue * _playerView.HeadBobConfig.YAmplitude * amplitudeMultiplier,
+                    0f
+                );
+            }
+            catch (Exception)
+            {
+                _playerView.MovementData.FinalOffset = Vector3.zero;
+            }
         }
     }
 }

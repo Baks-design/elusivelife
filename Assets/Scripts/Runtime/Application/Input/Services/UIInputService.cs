@@ -1,15 +1,16 @@
-namespace ElusiveLife.Application.Input
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
+
+namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Services
 {
-    public class UIInputService : IUIInputService
+    public class UiInputService : IUiInputService
     {
-        readonly GameInputActions inputActions;
+        private readonly GameInputActions _inputActions;
 
-        public UIInputService(GameInputActions inputActions)
-        => this.inputActions = inputActions;
+        public UiInputService(GameInputActions inputActions) => _inputActions = inputActions;
 
-        public void Enable() => inputActions.UI.Enable();
-        public void Disable() => inputActions.UI.Disable();
+        public void Enable() => _inputActions.Ui.Enable();
+        public void Disable() => _inputActions.Ui.Disable();
 
-        public bool ClosePause() => inputActions.ClosePause.WasPressedThisFrame();
+        public bool ClosePause() => _inputActions.ClosePause.WasPressedThisFrame();
     }
 }

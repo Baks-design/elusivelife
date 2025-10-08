@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ElusiveLife.Application.Input
+namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces
 {
     public interface IPlayerInputService : IInputService
     {
@@ -10,6 +10,7 @@ namespace ElusiveLife.Application.Input
         bool AimPress();
         bool AimRelease();
         bool RunPress();
+        bool RunHold();
         bool RunRelease();
         bool Jump();
         bool Crouch();

@@ -13,14 +13,23 @@ MonoBehaviour:
   m_Name: CustomToolbarSettings
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.Core.Data.ToolbarConfiguration
   groups:
-  - groupName: Controls
-    side: 0
+  - groupName: Utilities
+    side: 1
     elements:
-    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarFpsSlider, CustomToolbar,
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarScreenshot, CustomToolbar,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       isEnabled: 1
-    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarTimeSlider, CustomToolbar,
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarClearPlayerPrefs,
+        CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      isEnabled: 1
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarSaveProject, CustomToolbar,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      isEnabled: 1
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.MissingReferences.ToolbarFindMissingReferences,
+        CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      isEnabled: 1
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.SceneBookmarks.ToolbarSceneBookmarks,
+        CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       isEnabled: 1
     isEnabled: 1
   - groupName: Scenes
@@ -39,6 +48,29 @@ MonoBehaviour:
         CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       isEnabled: 1
     isEnabled: 1
+  - groupName: Controls
+    side: 0
+    elements:
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarFpsSlider, CustomToolbar,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      isEnabled: 1
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarTimeSlider, CustomToolbar,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      isEnabled: 1
+    isEnabled: 1
+  - groupName: Debugging
+    side: 1
+    elements:
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarEnterPlayMode,
+        CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      isEnabled: 1
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarRecompile, CustomToolbar,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      isEnabled: 1
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarReserializeAll,
+        CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      isEnabled: 1
+    isEnabled: 1
   - groupName: Toolbox
     side: 1
     elements:
@@ -49,25 +81,6 @@ MonoBehaviour:
         CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       isEnabled: 1
     - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.ToolbarQuickAccess,
-        CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      isEnabled: 1
-    isEnabled: 1
-  - groupName: Utilities
-    side: 1
-    elements:
-    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarScreenshot, CustomToolbar,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      isEnabled: 1
-    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarClearPlayerPrefs,
-        CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      isEnabled: 1
-    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarSaveProject, CustomToolbar,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      isEnabled: 1
-    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.MissingReferences.ToolbarFindMissingReferences,
-        CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      isEnabled: 1
-    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.SceneBookmarks.ToolbarSceneBookmarks,
         CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       isEnabled: 1
     isEnabled: 1

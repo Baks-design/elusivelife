@@ -1,27 +1,28 @@
-using ElusiveLife.Game.Player;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision
 {
     public class GroundCheck
     {
-        readonly IPlayerView playerView;
+        private readonly IPlayerView _playerView;
 
-        public GroundCheck(IPlayerView playerView) => this.playerView = playerView;
+        public GroundCheck(IPlayerView playerView)=> _playerView = playerView;
 
         public void CheckGround()
         {
             var hitGround = Physics.SphereCast(
-                playerView.Controller.transform.position + playerView.Controller.center,
-                playerView.CollisionConfig.RaySphereRadius,
+                _playerView.Controller.transform.position + _playerView.Controller.center,
+                _playerView.CollisionConfig.RaySphereRadius,
                 Vector3.down,
                 out var hitInfo,
-                playerView.CollisionData.FinalRayLength,
-                playerView.CollisionConfig.GroundLayer,
+                _playerView.CollisionData.FinalRayLength,
+                _playerView.CollisionConfig.GroundLayer,
                 QueryTriggerInteraction.Ignore);
 
-            playerView.CollisionData.OnGrounded = hitGround;
-            playerView.CollisionData.GroundedNormal = hitInfo.normal;
+            _playerView.CollisionData.OnGrounded = hitGround;
+            _playerView.CollisionData.GroundedNormal = hitInfo.normal;
+            _playerView.CollisionData.WasGrounded = hitGround;
         }
     }
 }

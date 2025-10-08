@@ -1,8 +1,9 @@
-using GameToolkit.Runtime.Game.Behaviours.Player;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data;
 using Unity.Cinemachine;
 using UnityEngine;
 
-namespace ElusiveLife.Game.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces
 {
     public interface IPlayerView
     {

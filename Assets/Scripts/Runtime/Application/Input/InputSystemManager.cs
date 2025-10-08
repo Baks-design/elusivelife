@@ -1,37 +1,39 @@
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
 using VContainer.Unity;
 
-namespace ElusiveLife.Application.Input
+namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input
 {
     public class InputSystemManager : IInputSystemManager, IStartable
     {
-        readonly IPlayerInputService playerInputService;
-        readonly IUIInputService uiInputService;
+        private readonly IPlayerInputService _playerInputService;
+        private readonly IUiInputService _uiInputService;
 
         public InputSystemManager(
-            IPlayerInputService playerInputService, IUIInputService uiInputService)
+            IPlayerInputService playerInputService,
+            IUiInputService uiInputService)
         {
-            this.playerInputService = playerInputService;
-            this.uiInputService = uiInputService;
+            _playerInputService = playerInputService;
+            _uiInputService = uiInputService;
         }
 
         public void Start() => SwitchToPlayerInput();
 
         public void SwitchToPlayerInput()
         {
-            uiInputService.Disable();
-            playerInputService.Enable();
+            _uiInputService.Disable();
+            _playerInputService.Enable();
         }
 
-        public void SwitchToUIInput()
+        public void SwitchToUiInput()
         {
-            playerInputService.Disable();
-            uiInputService.Enable();
+            _playerInputService.Disable();
+            _uiInputService.Enable();
         }
 
         public void DisableAllInput()
         {
-            playerInputService.Disable();
-            uiInputService.Disable();
+            _playerInputService.Disable();
+            _uiInputService.Disable();
         }
     }
 }

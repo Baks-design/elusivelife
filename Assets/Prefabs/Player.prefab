@@ -121,7 +121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3126185975898532231}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.53125805, z: 0, w: 0.8472101}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -130,7 +130,7 @@ Transform:
   - {fileID: 2771259043033113774}
   - {fileID: 2118889282549615001}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -64.181, z: 0}
 --- !u!143 &1944076155125730687
 CharacterController:
   m_ObjectHideFlags: 0
@@ -174,8 +174,9 @@ MonoBehaviour:
   <Pitch>k__BackingField: {fileID: 8863318270127146432}
   <Animator>k__BackingField: {fileID: 7239327862366896109}
   <MovementConfig>k__BackingField:
-    GravityMultiplier: 2.5
     StickToGroundForce: 1
+    GravityMultiplier: 2.5
+    MaxFallSpeed: -50
     WalkSpeed: 3
     MoveBackwardsSpeedPercent: 0.5
     MoveSideSpeedPercent: 0.7
@@ -206,8 +207,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     JumpHeight: 6
-    CoyoteTime: 0.1
-    JumpBufferTime: 0.1
     CrouchSpeed: 1
     CrouchPercent: 0.6
     CrouchTransitionDuration: 0.5
@@ -292,7 +291,7 @@ MonoBehaviour:
     PushPower: 2
     MaxPushForce: 10
     UseForceInsteadOfVelocity: 1
-    forceMode: 1
+    ForceMode: 1
     RoofRadius: 0.2
   <CameraConfig>k__BackingField:
     Sensitivity: {x: 40, y: 40}
@@ -329,7 +328,7 @@ MonoBehaviour:
       m_PreInfinity: 0
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ZoomFOV: 40
+    ZoomFov: 40
     ZoomTransitionDuration: 0.25
     ZoomCurve:
       serializedVersion: 2
@@ -355,7 +354,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    RunFOV: 70
+    RunFov: 70
     RunTransitionDuration: 0.75
     RunReturnTransitionDuration: 0.5
     RunCurve:
@@ -385,40 +384,43 @@ MonoBehaviour:
   <HeadBobConfig>k__BackingField: {fileID: 11400000, guid: 894c1592ed99e1842a949d3b141f3489, type: 2}
   <PerlinNoiseConfig>k__BackingField: {fileID: 11400000, guid: e6e8b1de6cbc95e4ea6e807efa7c2567, type: 2}
   <MovementData>k__BackingField:
-    FinalMoveVelocity: {x: 0, y: 0, z: 0}
+    FinalMoveVelocity: {x: -1.3937379e-26, y: -50, z: -2.3651776e-25}
     FinalMoveDirection: {x: 0, y: 0, z: 0}
     FinalOffset: {x: 0, y: 0, z: 0}
     CurrentVelocity: {x: 0, y: 0, z: 0}
-    SmoothFinalMoveDir: {x: 0, y: 0, z: 0}
-    SmoothInputVector: {x: 0, y: 0}
-    IsMoving: 0
-    IsWalking: 0
-    IsRunning: 0
-    IsCrouching: 0
-    IsJumping: 0
-    Resetted: 0
-    IsDuringRunAnimation: 0
-    IsDuringCrouchAnimation: 0
-    InAirTimer: 0
+    SmoothFinalMoveDir: {x: -3.2538145e-21, y: 0, z: -5.5217337e-20}
+    SmoothInputVector: {x: 2.6811635e-20, y: -7.752122e-21}
+    SmoothCurrentSpeed: 0.0000042833967
+    CoyoteTimeTimer: -15.97156
+    JumpBufferTimer: -15.97156
+    InAirTimer: 31.943142
     CurrentStateHeight: 0
     CurrentSpeed: 0
     VerticalVelocity: 0
     InitCamHeight: 0
+    IsDuringLandingAnimation: 0
+    IsMoving: 0
+    IsWalking: 0
+    IsRunning: 0
+    IsCrouching: 0
+    Resetted: 1
+    IsDuringRunAnimation: 0
+    IsDuringCrouchAnimation: 0
   <CollisionData>k__BackingField:
     InitCenter: {x: 0, y: 0, z: 0}
     GroundedNormal: {x: 0, y: 0, z: 0}
-    ObstructedNormal: {x: 0, y: 0, z: 0}
+    InitHeight: 0
+    FinalRayLength: 0
     OnGrounded: 0
     PreviouslyGrounded: 0
     HasObstructed: 0
     HasRoofed: 0
     OnAirborne: 0
-    InitHeight: 0
-    FinalRayLength: 0
+    WasGrounded: 0
     HasObjectColliding: 0
   <CameraData>k__BackingField:
+    Noise: {x: 0.4353311, y: 0.01033926, z: -0.37224644}
     IsZooming: 0
-    Noise: {x: 0, y: 0, z: 0}
 --- !u!1 &3419006765683401652
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,7 +542,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7034180808243733612}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1

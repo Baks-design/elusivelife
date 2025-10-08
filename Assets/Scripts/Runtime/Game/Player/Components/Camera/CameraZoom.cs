@@ -1,134 +1,154 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using ElusiveLife.Application.Input;
-using ElusiveLife.Game.Player;
-using GameToolkit.Runtime.Utils.Helpers;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 {
-    public class CameraZoom //TODO: Zoom inverted
+    public class CameraZoom
     {
-        readonly IPlayerInputService inputService;
-        readonly IPlayerView playerView;
-        readonly CancellationTokenSource fovCancellationTokenSource;
-        readonly CancellationTokenSource runFovCancellationTokenSource;
-        readonly float initFOV;
-        bool running;
+        private readonly IPlayerInputService _inputService;
+        private readonly IPlayerView _playerView;
+        private CancellationTokenSource _aimFovCts;
+        private CancellationTokenSource _runFovCts;
+        private bool _isAimZoomActive;
+        private bool _isRunZoomActive;
+        private bool _isDisposed;
+        private float _initFov;
 
-        public CameraZoom(
-            IPlayerInputService inputService,
-            IPlayerView playerView)
+        public CameraZoom(IPlayerInputService inputService, IPlayerView playerView)
         {
-            this.inputService = inputService;
-            this.playerView = playerView;
-
-            initFOV = playerView.Cam.Lens.FieldOfView;
+            _inputService = inputService;
+            _playerView = playerView;
+            Initalize(playerView);
         }
 
-        public void HandleAimFOV()
+        private void Initalize(IPlayerView playerView)
         {
-            if (inputService.AimPress() || inputService.AimRelease())
-                _ = ChangeFOV();
+            _aimFovCts = new CancellationTokenSource();
+            _runFovCts = new CancellationTokenSource();
+            _initFov = playerView.Cam.Lens.FieldOfView;
         }
 
-        public void HandleRunFOV(bool returning) => _ = ChangeRunFOV(returning);
-
-        async UniTaskVoid ChangeFOV()
+        public void HandleAimFov()
         {
-            if (running)
-            {
-                playerView.CameraData.IsZooming = !playerView.CameraData.IsZooming;
+            if (_isDisposed) return;
+
+            if (_inputService.AimPress())
+                _ = StartAimZoomAsync();
+            else if (_inputService.AimRelease())
+                _ = StopAimZoomAsync();
+        }
+
+        public void HandleRunFov(bool isRunning)
+        {
+            if (_isDisposed) return;
+
+            _ = HandleRunZoomAsync(isRunning);
+        }
+
+        private async UniTaskVoid StartAimZoomAsync()
+        {
+            if (_isAimZoomActive)
                 return;
-            }
 
-            await ExecuteFOVChangeAsync(
-                fovCancellationTokenSource,
-                () => runFovCancellationTokenSource?.Cancel(),
-                ct => ChangeFOVAsync(ct)
-            );
+            await ExecuteFovChangeAsync(_aimFovCts,
+                () => _runFovCts?.Cancel(),
+                ct => ChangeAimFovAsync(true, ct));
         }
 
-        async UniTaskVoid ChangeRunFOV(bool returning) =>
-            await ExecuteFOVChangeAsync(
-                runFovCancellationTokenSource,
-                () => fovCancellationTokenSource?.Cancel(),
-                ct => ChangeRunFOVAsync(returning, ct)
-            );
-
-        async UniTask ExecuteFOVChangeAsync(
-            CancellationTokenSource source, Action cancelOther, Func<CancellationToken,
-            UniTask> fovTask)
+        private async UniTaskVoid StopAimZoomAsync()
         {
-            source?.Cancel();
+            if (!_isAimZoomActive)
+                return;
+
+            await ExecuteFovChangeAsync(_aimFovCts,
+                () => { },
+                ct => ChangeAimFovAsync(false, ct));
+        }
+
+        private async UniTaskVoid HandleRunZoomAsync(bool isRunning)
+        {
+            if (isRunning == _isRunZoomActive)
+                return;
+
+            await ExecuteFovChangeAsync(_runFovCts,
+                () => _aimFovCts?.Cancel(),
+                ct => ChangeRunFovAsync(isRunning, ct));
+        }
+
+        private static async UniTask ExecuteFovChangeAsync(
+            CancellationTokenSource source, Action cancelOtherActions, Func<CancellationToken, UniTask> fovChangeTask)
+        {
+            source.Cancel();
             source = new CancellationTokenSource();
-            cancelOther();
+            cancelOtherActions();
 
-            try
+            await fovChangeTask(source.Token);
+        }
+
+        private async UniTask ChangeAimFovAsync(bool zoomIn, CancellationToken cancellationToken)
+        {
+            _isAimZoomActive = zoomIn;
+            _playerView.CameraData.IsZooming = zoomIn;
+            
+            var currentFov = _playerView.Cam.Lens.FieldOfView;
+            var targetFov = zoomIn ? _playerView.CameraConfig.ZoomFov : _initFov;
+           
+            await AnimateFov(currentFov, targetFov, _playerView.CameraConfig.ZoomTransitionDuration,
+                _playerView.CameraConfig.ZoomCurve, cancellationToken);
+        }
+
+        private async UniTask ChangeRunFovAsync(bool isRunning, CancellationToken cancellationToken)
+        {
+            _isRunZoomActive = isRunning;
+
+            var currentFov = _playerView.Cam.Lens.FieldOfView;
+            var targetFov = isRunning ? _playerView.CameraConfig.RunFov : _initFov;
+            var duration = isRunning
+                ? _playerView.CameraConfig.RunTransitionDuration
+                : _playerView.CameraConfig.RunReturnTransitionDuration;
+           
+            await AnimateFov(currentFov, targetFov, duration, _playerView.CameraConfig.RunCurve, cancellationToken);
+        }
+
+        private async UniTask AnimateFov(
+            float currentFov, float targetFov, float duration, AnimationCurve curve, CancellationToken cancellationToken)
+        {
+            if (duration <= 0f || Mathf.Approximately(currentFov, targetFov))
             {
-                await fovTask(source.Token);
-            }
-            catch (OperationCanceledException) { }
-        }
-
-        async UniTask ChangeFOVAsync(CancellationToken cancellationToken)
-        {
-            playerView.CameraData.IsZooming = !playerView.CameraData.IsZooming;
-
-            var currentFOV = playerView.Cam.Lens.FieldOfView;
-            var targetFOV = playerView.CameraData.IsZooming ? initFOV : playerView.CameraConfig.ZoomFOV;
-            await AnimateFOV(
-                currentFOV,
-                targetFOV,
-                playerView.CameraConfig.ZoomTransitionDuration,
-                playerView.CameraConfig.ZoomCurve,
-                cancellationToken
-            );
-        }
-
-        async UniTask ChangeRunFOVAsync(bool returning, CancellationToken cancellationToken)
-        {
-            running = !returning;
-
-            var currentFOV = playerView.Cam.Lens.FieldOfView;
-            var targetFOV = returning ? initFOV : playerView.CameraConfig.RunFOV;
-            var duration = returning
-                ? playerView.CameraConfig.RunReturnTransitionDuration
-                : playerView.CameraConfig.RunTransitionDuration;
-            await AnimateFOV(
-                currentFOV,
-                targetFOV,
-                duration,
-                playerView.CameraConfig.RunCurve,
-                cancellationToken
-            );
-        }
-
-        async UniTask AnimateFOV(
-            float currentFOV, float targetFOV, float duration, AnimationCurve curve,
-            CancellationToken cancellationToken)
-        {
-            if (duration <= 0f)
-            {
-                playerView.Cam.Lens.FieldOfView = targetFOV;
+                _playerView.Cam.Lens.FieldOfView = targetFov;
                 return;
             }
 
-            var percent = 0f;
-            var speed = 1f / duration;
-            while (percent < 1f)
+            var elapsed = 0f;
+            while (elapsed < duration)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-
-                percent += Time.deltaTime * speed;
+                elapsed += Time.deltaTime;
+                
+                var percent = Mathf.Clamp01(elapsed / duration);
                 var smoothPercent = curve.Evaluate(percent);
-                playerView.Cam.Lens.FieldOfView = Mathfs.Eerp(currentFOV, targetFOV, smoothPercent);
-
+                
+                _playerView.Cam.Lens.FieldOfView = Mathf.Lerp(currentFov, targetFov, smoothPercent);
+                
                 await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
             }
 
-            playerView.Cam.Lens.FieldOfView = targetFOV;
+            _playerView.Cam.Lens.FieldOfView = targetFov;
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed) return;
+
+            _isDisposed = true;
+            _aimFovCts?.Cancel();
+            _aimFovCts?.Dispose();
+            _runFovCts?.Cancel();
+            _runFovCts?.Dispose();
         }
     }
 }

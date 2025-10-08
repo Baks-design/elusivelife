@@ -1,13 +1,13 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace GameToolkit.Runtime.Utils.Helpers
+namespace ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers
 {
     public static class Mathfs
     {
-        const MethodImplOptions INLINE = MethodImplOptions.AggressiveInlining;
+        private const MethodImplOptions Inline = MethodImplOptions.AggressiveInlining;
 
-        [MethodImpl(INLINE)]
+        [MethodImpl(Inline)]
         public static float Eerp(float a, float b, float t) =>
             t switch
             {

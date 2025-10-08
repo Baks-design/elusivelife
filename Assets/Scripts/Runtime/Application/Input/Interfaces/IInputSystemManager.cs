@@ -1,9 +1,9 @@
-namespace ElusiveLife.Application.Input
+namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces
 {
     public interface IInputSystemManager
     {
         void SwitchToPlayerInput();
-        void SwitchToUIInput();
+        void SwitchToUiInput();
         void DisableAllInput();
     }
 }

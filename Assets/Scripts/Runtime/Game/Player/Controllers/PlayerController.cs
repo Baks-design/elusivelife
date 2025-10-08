@@ -1,105 +1,117 @@
-using ElusiveLife.Application.Input;
-using GameToolkit.Runtime.Game.Behaviours.Player;
-using GameToolkit.Runtime.Utils.Helpers;
+using System;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using VContainer.Unity;
 
-namespace ElusiveLife.Game.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
 {
-    public class PlayerController : IPlayerController, ITickable
+    public class PlayerController : IPlayerController, ITickable, IDisposable
     {
-        readonly IPlayerView playerView;
+        //Checks
+        private GroundCheck _groundCheck;
+        private ObstacleCheck _obstacleCheck;
 
-        CameraScroller cameraScroller;
-        CameraRotation cameraRotation;
-        CameraBreathing cameraBreathing;
-        CameraSwaying cameraSwaying;
-        CameraZoom cameraZoom;
+        private RoofCheck _roofCheck;
 
-        VelocityHandler velocity;
-        CrouchHandler crouch;
-        CameraHandler camera;
-        DirectionHandler direction;
-        JumpHandler jump;
-        LandingHandler land;
-        HeadBobHandler headBob;
-        RunnningHandler run;
+        //Movement
+        private VelocityHandler _velocityHandler;
+        private CrouchHandler _crouchHandler;
+        private CameraHandler _cameraHandler;
+        private DirectionHandler _directionHandler;
+        private JumpHandler _jumpHandler;
+        private LandingHandler _landingHandler;
+        private HeadBobHandler _headBob;
 
-        GroundCheck groundCheck;
-        ObstacleCheck obstacleCheck;
-        RoofCheck roofCheck;
+        private RunningHandler _runningHandler;
 
-        public PlayerController(
-            IPlayerInputService inputService,
-            IPlayerView playerView)
+        //Camera
+        private CameraScroller _cameraScroller;
+        private CameraRotation _cameraRotation;
+        private CameraBreathing _cameraBreathing;
+        private CameraSwaying _cameraSwaying;
+        private CameraZoom _cameraZoom;
+
+        public PlayerController(IPlayerInputService inputService, IPlayerView playerView)
         {
-            this.playerView = playerView;
-
-            GameSystem.SetCursor(true);
-
             CameraInitialize(inputService, playerView);
             GroundInitialize(inputService, playerView);
             MovementInitialize(inputService, playerView);
         }
 
-        void CameraInitialize(IPlayerInputService inputService, IPlayerView playerView)
+        private void CameraInitialize(IPlayerInputService inputService, IPlayerView playerView)
         {
-            cameraRotation = new CameraRotation(inputService, playerView);
-            cameraScroller = new CameraScroller(playerView);
-            cameraBreathing = new CameraBreathing(playerView, cameraScroller);
-            cameraSwaying = new CameraSwaying(playerView);
-            cameraZoom = new CameraZoom(inputService, playerView);
+            _cameraRotation = new CameraRotation(inputService, playerView);
+            _cameraScroller = new CameraScroller(playerView);
+            _cameraBreathing = new CameraBreathing(playerView, _cameraScroller);
+            _cameraSwaying = new CameraSwaying(playerView);
+            _cameraZoom = new CameraZoom(inputService, playerView);
         }
 
-        void GroundInitialize(IPlayerInputService inputService, IPlayerView playerView)
+        private void GroundInitialize(IPlayerInputService inputService, IPlayerView playerView)
         {
-            groundCheck = new GroundCheck(playerView);
-            obstacleCheck = new ObstacleCheck(inputService, playerView);
-            roofCheck = new RoofCheck(playerView);
+            _groundCheck = new GroundCheck(playerView);
+            _obstacleCheck = new ObstacleCheck(inputService, playerView);
+            _roofCheck = new RoofCheck(playerView);
         }
 
-        void MovementInitialize(IPlayerInputService inputService, IPlayerView playerView)
+        private void MovementInitialize(IPlayerInputService inputService, IPlayerView playerView)
         {
-            direction = new DirectionHandler(inputService, playerView);
-            jump = new JumpHandler(inputService, playerView);
-            land = new LandingHandler(playerView);
-            headBob = new HeadBobHandler(playerView);
-            crouch = new CrouchHandler(roofCheck, inputService, playerView);
-            run = new RunnningHandler(inputService, playerView);
-            camera = new CameraHandler(headBob, run, cameraSwaying, cameraZoom, inputService, playerView);
-            velocity = new VelocityHandler(run, inputService, playerView);
+            _directionHandler = new DirectionHandler(inputService, playerView);
+            _jumpHandler = new JumpHandler(inputService, playerView);
+            _landingHandler = new LandingHandler(playerView);
+            _headBob = new HeadBobHandler(playerView);
+            _crouchHandler = new CrouchHandler(_roofCheck, inputService, playerView);
+            _runningHandler = new RunningHandler(inputService, playerView);
+            _cameraHandler = new CameraHandler(_headBob, _cameraSwaying, _cameraZoom, inputService, playerView);
+            _velocityHandler = new VelocityHandler(_runningHandler, inputService, playerView);
         }
 
         public void Tick()
         {
-            cameraRotation.RotationHandler();
-            cameraBreathing.UpdateBreathing();
-            cameraZoom.HandleAimFOV();
+            //CHECKS
+            _groundCheck.CheckGround();
+            _obstacleCheck.CheckObstacle();
 
-            camera.RotateTowardsCamera();
-            direction.SmoothInput();
+            //MOVEMENT
+            _jumpHandler.UpdateTimers();
+            _runningHandler.HandleRun();
+            _crouchHandler.HandleCrouch();
 
-            groundCheck.CheckGround();
-            obstacleCheck.CheckObstacle();
+            _directionHandler.SmoothInput();
+            _directionHandler.CalculateMovementDirection();
+            _directionHandler.SmoothDirection();
 
-            direction.CalculateMovementDirection();
-            direction.SmoothDirection();
-            velocity.CalculateSpeed();
-            velocity.SmoothSpeed();
-            velocity.CalculateFinalAcceleration();
+            _velocityHandler.CalculateSpeed();
+            _velocityHandler.SmoothSpeed();
 
-            run.HandleRun();
-            crouch.HandleCrouch();
-            jump.HandleJump();
+            _jumpHandler.HandleJump();
+            _velocityHandler.ApplyGravity();
+            _velocityHandler.CalculateFinalVelocity();
+            _velocityHandler.ApplyMove();
 
-            velocity.ApplyGravity();
-            velocity.ApplyMove();
+            _landingHandler.UpdateAirTimer();
+            _landingHandler.HandleLanding();
 
-            playerView.CollisionData.PreviouslyGrounded = playerView.CollisionData.OnGrounded;
+            _cameraHandler.RotateTowardsCamera(); 
+            _cameraHandler.HandleHeadBob(); 
+            _cameraHandler.HandleCameraSway(); 
+            _cameraHandler.HandleRunFov();  
+            _cameraHandler.UpdateFinalCameraPosition(); 
 
-            camera.HandleHeadBob();
-            camera.HandleRunFOV();
-            camera.HandleCameraSway();
-            land.HandleLanding();
+            //CAMERA
+            _cameraRotation.RotationHandler();
+            _cameraBreathing.UpdateBreathing();
+            _cameraZoom.HandleAimFov();
+        }
+
+        public void Dispose()
+        {
+            _crouchHandler?.Dispose();
+            _landingHandler?.Dispose();
+            _cameraZoom?.Dispose();
         }
     }
 }

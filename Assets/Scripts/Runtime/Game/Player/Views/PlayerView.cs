@@ -1,39 +1,45 @@
 using Alchemy.Inspector;
-using GameToolkit.Runtime.Game.Behaviours.Player;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using Unity.Cinemachine;
 using UnityEngine;
 
-namespace ElusiveLife.Game.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
 {
     public class PlayerView : MonoBehaviour, IPlayerView
     {
-        [field: SerializeField, Required] public CharacterController Controller { get; private set; }
-        [field: SerializeField, Required] public CinemachineCamera Cam { get; private set; }
-        [field: SerializeField, Required] public Transform Yaw { get; private set; }
-        [field: SerializeField, Required] public Transform Pitch { get; private set; }
-        [field: SerializeField, Required] public Animator Animator { get; private set; }
+        [field: SerializeField, Required] public CharacterController Controller { get; set; }
+        [field: SerializeField, Required] public CinemachineCamera Cam { get; set; }
+        [field: SerializeField, Required] public Transform Yaw { get; set; }
+        [field: SerializeField, Required] public Transform Pitch { get; set; }
+        [field: SerializeField, Required] public Animator Animator { get; set; }
 
-        [field: SerializeField] public PlayerMovementConfig MovementConfig { get; private set; }
-        [field: SerializeField] public PlayerCollisionConfig CollisionConfig { get; private set; }
-        [field: SerializeField] public PlayerCameraConfig CameraConfig { get; private set; }
-        [field: SerializeField, InlineEditor] public HeadBobConfig HeadBobConfig { get; private set; }
-        [field: SerializeField, InlineEditor] public PerlinNoiseConfig PerlinNoiseConfig { get; private set; }
+        [field: SerializeField] public PlayerMovementConfig MovementConfig { get; set; }
+        [field: SerializeField] public PlayerCollisionConfig CollisionConfig { get; set; }
+        [field: SerializeField] public PlayerCameraConfig CameraConfig { get; set; }
+        [field: SerializeField, InlineEditor] public HeadBobConfig HeadBobConfig { get; set; }
+        [field: SerializeField, InlineEditor] public PerlinNoiseConfig PerlinNoiseConfig { get; set; }
 
-        [field: SerializeField, ReadOnly] public PlayerMovementData MovementData { get; private set; }
+        [field: SerializeField, ReadOnly] public PlayerMovementData MovementData { get; set; }
         [field: SerializeField, ReadOnly] public PlayerCollisionData CollisionData { get; set; }
-        [field: SerializeField, ReadOnly] public PlayerCameraData CameraData { get; private set; }
+        [field: SerializeField, ReadOnly] public PlayerCameraData CameraData { get; set; }
 
-        CharacterPush characterPush;
+        private CharacterPush _characterPush;
 
-        void Start()
+        private void Start()
         {
             SetupComponents();
             SetupData();
             SetupClasses();
         }
 
-        void SetupComponents()
+        private void SetupComponents()
         {
+            GameSystem.SetCursor(true);
+
             Cam.OutputChannel = OutputChannels.Default;
             Cam.StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.RoundRobin;
             Cam.Lens.FieldOfView = 60f;
@@ -55,18 +61,24 @@ namespace ElusiveLife.Game.Player
             Animator.cullingMode = AnimatorCullingMode.CullUpdateTransforms;
         }
 
-        void SetupData() => CollisionData = new PlayerCollisionData
+        private void SetupData()
         {
-            InitCenter = Controller.center,
-            InitHeight = Controller.height,
-            OnGrounded = true,
-            OnAirborne = false,
-            PreviouslyGrounded = true,
-            FinalRayLength = CollisionConfig.RayLength + Controller.center.y
-        };
+            MovementData.InitCamHeight = Yaw.localPosition.y;
+            MovementData.CurrentStateHeight = MovementData.InitCamHeight;
 
-        void SetupClasses() => characterPush = new CharacterPush(Controller, CollisionData, CollisionConfig);
+            CollisionData = new PlayerCollisionData
+            {
+                InitCenter = Controller.center,
+                InitHeight = Controller.height,
+                OnGrounded = true,
+                OnAirborne = false,
+                PreviouslyGrounded = true,
+                FinalRayLength = CollisionConfig.RayLength + Controller.center.y
+            };
+        }
 
-        void OnControllerColliderHit(ControllerColliderHit hit) => characterPush.PushBody(hit);
+        private void SetupClasses() => _characterPush = new CharacterPush(this);
+
+        private void OnControllerColliderHit(ControllerColliderHit hit) => _characterPush.PushBody(hit);
     }
 }

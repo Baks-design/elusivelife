@@ -1,11 +1,11 @@
 using System;
 using VContainer.Unity;
 
-namespace ElusiveLife.Application.Time
+namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Time
 {
     public class TimeService : ITimeService, ITickable
     {
-        float elapsedTime;
+        private float _elapsedTime;
 
         public int SecondsPassed { get; private set; }
 
@@ -13,11 +13,10 @@ namespace ElusiveLife.Application.Time
 
         public void Tick()
         {
-            elapsedTime += UnityEngine.Time.deltaTime;
-            if (elapsedTime < 1f)
-                return;
+            _elapsedTime += UnityEngine.Time.deltaTime;
+            if (_elapsedTime < 1f) return;
 
-            elapsedTime = 0f;
+            _elapsedTime = 0f;
             SecondsPassed++;
             SecondPassed?.Invoke();
         }

@@ -13,25 +13,27 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
-  - displayName: Player
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: Box_100x100x100_Prefab (16)
+  - displayName: Level - Prototype
     scenePath: Assets/Scenes/Level - Prototype.unity
-  - displayName: Box_100x100x100_Prefab (17)
-    scenePath: Assets/Scenes/Level - Prototype.unity
-  - displayName: Environment
-    scenePath: Assets/Scenes/Level - Prototype.unity
-  - displayName: Player
+  - displayName: Initiator
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: Lifetime Scope
     scenePath: Assets/Scenes/Initiator.unity
   - displayName: Player
     scenePath: Assets/Scenes/Initiator.unity
+  - displayName: CinemachineBrain
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: CinemachineBrain
+    scenePath: Assets/Scenes/Initiator.unity
   - displayName: Player
     scenePath: Assets/Scenes/Initiator.unity
-  - displayName: Cube
-    scenePath: Assets/Scenes/Level - Prototype.unity
-  - displayName: Player
+  - displayName: Virtual Camera
     scenePath: Assets/Scenes/Initiator.unity
-  - displayName: Data
-    scenePath: 
-  - displayName: Player
+  - displayName: Pitch
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: Yaw
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: Camera
+    scenePath: Assets/Scenes/Initiator.unity
+  - displayName: Lifetime Scope
     scenePath: Assets/Scenes/Initiator.unity

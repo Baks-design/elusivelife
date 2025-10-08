@@ -1,25 +1,26 @@
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
 using UnityEngine;
 
-namespace ElusiveLife.Application.Input
+namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Services
 {
     public class PlayerInputService : IPlayerInputService
     {
-        readonly GameInputActions inputActions;
+        readonly GameInputActions _inputActions;
 
-        public PlayerInputService(GameInputActions inputActions)
-        => this.inputActions = inputActions;
+        public PlayerInputService(GameInputActions inputActions) => _inputActions = inputActions;
 
-        public void Enable() => inputActions.Player.Enable();
-        public void Disable() => inputActions.Player.Disable();
+        public void Enable() => _inputActions.Player.Enable();
+        public void Disable() => _inputActions.Player.Disable();
 
-        public bool OpenPause() => inputActions.OpenPause.WasPressedThisFrame();
-        public Vector2 Look() => inputActions.Look.ReadValue<Vector2>();
-        public Vector2 Move() => inputActions.Move.ReadValue<Vector2>();
-        public bool AimPress() => inputActions.Aim.WasPressedThisFrame();
-        public bool AimRelease() => inputActions.Aim.WasReleasedThisFrame();
-        public bool RunPress() => inputActions.Run.WasPressedThisFrame();
-        public bool RunRelease() => inputActions.Run.WasReleasedThisFrame();
-        public bool Jump() => inputActions.Jump.WasPressedThisFrame();
-        public bool Crouch() => inputActions.Crouch.WasPressedThisFrame();
+        public bool OpenPause() => _inputActions.OpenPause.WasPressedThisFrame();
+        public Vector2 Look() => _inputActions.Look.ReadValue<Vector2>();
+        public Vector2 Move() => _inputActions.Move.ReadValue<Vector2>();
+        public bool AimPress() => _inputActions.Aim.WasPressedThisFrame();
+        public bool AimRelease() => _inputActions.Aim.WasReleasedThisFrame();
+        public bool RunPress() => _inputActions.Run.WasPressedThisFrame();
+        public bool RunHold() => _inputActions.Run.IsPressed();
+        public bool RunRelease() => _inputActions.Run.WasReleasedThisFrame();
+        public bool Jump() => _inputActions.Jump.WasPressedThisFrame();
+        public bool Crouch() => _inputActions.Crouch.WasPressedThisFrame();
     }
 }

@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data
 {
     [Serializable]
     public class PlayerCameraData
     {
-        public bool IsZooming;
         public Vector3 Noise;
+        public bool IsZooming;
     }
 }

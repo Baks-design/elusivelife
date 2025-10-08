@@ -1,51 +1,71 @@
-using ElusiveLife.Game.Player;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 {
     public class CameraSwaying
     {
-        readonly IPlayerView playerView;
-        bool differentDirection;
-        float scrollSpeed;
-        float xAmountThisFrame;
-        float xAmountPreviousFrame;
+        private readonly IPlayerView _playerView;
+        private float _currentTiltAmount;
+        private float _previousXInput;
 
-        public CameraSwaying(IPlayerView playerView) => this.playerView = playerView;
-
-        public void SwayPlayer(Vector3 inputVector, float rawXInput, float deltaTime)
+        public CameraSwaying(IPlayerView playerView)
         {
-            xAmountThisFrame = rawXInput;
+            _playerView = playerView;
+            Initialize();
+        }
 
-            if (rawXInput != 0f)
-            {
-                differentDirection = xAmountThisFrame != xAmountPreviousFrame && xAmountPreviousFrame != 0f;
+        private void Initialize()
+        {
+            _currentTiltAmount = 0f;
+            _previousXInput = 0f;
+        }
 
-                var speedMultiplier = differentDirection
-                    ? playerView.CameraConfig.ChangeDirectionMultiplier
-                    : 1f;
-                scrollSpeed += inputVector.x * playerView.CameraConfig.SwaySpeed * deltaTime * speedMultiplier;
-            }
+        public void SwayPlayer(float rawXInput)
+        {
+            if (Mathf.Abs(rawXInput) > 0.01f)
+                ApplySway(rawXInput,
+                    IsChangingDirection(rawXInput,
+                        _previousXInput));
             else
-            {
-                if (xAmountThisFrame == xAmountPreviousFrame)
-                    differentDirection = false;
+                ReturnToCenter();
 
-                scrollSpeed = Mathf.Lerp(scrollSpeed, 0f, deltaTime * playerView.CameraConfig.ReturnSpeed);
-            }
+            ApplyTiltToCamera();
+            _previousXInput = rawXInput;
+        }
 
-            scrollSpeed = Mathf.Clamp(scrollSpeed, -1f, 1f);
+        private static bool IsChangingDirection(float currentInput, float previousInput) =>
+            (currentInput > 0f && previousInput < 0f) || (currentInput < 0f && previousInput > 0f);
 
-            var curveValue = playerView.CameraConfig.SwayCurve.Evaluate(Mathf.Abs(scrollSpeed));
-            var swayFinalAmount = curveValue * -playerView.CameraConfig.SwayAmount;
-            if (scrollSpeed < 0f)
-                swayFinalAmount = -swayFinalAmount;
+        private void ApplySway(float rawXInput, bool isChangingDirection)
+        {
+            var speedMultiplier = isChangingDirection
+                ? _playerView.CameraConfig.ChangeDirectionMultiplier
+                : 1f;
+            var swayAcceleration = _playerView.CameraConfig.SwaySpeed * Time.deltaTime * speedMultiplier;
 
-            var currentEuler = playerView.Cam.transform.localEulerAngles;
-            playerView.Cam.transform.localEulerAngles = new Vector3(
-                currentEuler.x, currentEuler.y, swayFinalAmount);
+            _currentTiltAmount = Mathf.MoveTowards(
+                _currentTiltAmount, Mathf.Sign(rawXInput), swayAcceleration);
+            _currentTiltAmount = Mathf.Clamp(
+                _currentTiltAmount, -1f, 1f);
+        }
 
-            xAmountPreviousFrame = xAmountThisFrame;
+        private void ReturnToCenter()
+        {
+            var returnSpeed = _playerView.CameraConfig.ReturnSpeed * Time.deltaTime;
+            _currentTiltAmount = Mathf.MoveTowards(_currentTiltAmount, 0f, returnSpeed);
+        }
+
+        private void ApplyTiltToCamera()
+        {
+            var curveValue = _playerView.CameraConfig.SwayCurve.Evaluate(Mathf.Abs(_currentTiltAmount));
+            var finalTiltAmount = curveValue * _playerView.CameraConfig.SwayAmount * Mathf.Sign(_currentTiltAmount);
+            
+            var currentRotation = _playerView.Cam.transform.localRotation;
+            var targetRotation = Quaternion.Euler(
+                currentRotation.eulerAngles.x, currentRotation.eulerAngles.y, finalTiltAmount);
+           
+            _playerView.Cam.transform.localRotation = targetRotation;
         }
     }
 }

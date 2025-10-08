@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data
 {
     [Serializable]
     public class PlayerMovementData
@@ -12,18 +12,21 @@ namespace GameToolkit.Runtime.Game.Behaviours.Player
         public Vector3 CurrentVelocity;
         public Vector3 SmoothFinalMoveDir;
         public Vector2 SmoothInputVector;
-        public bool IsMoving;
-        public bool IsWalking;
-        public bool IsRunning;
-        public bool IsCrouching;
-        public bool IsJumping;
-        public bool Resetted;
-        public bool IsDuringRunAnimation;
-        public bool IsDuringCrouchAnimation;
+        public float SmoothCurrentSpeed;
+        public float CoyoteTimeTimer;
+        public float JumpBufferTimer;
         public float InAirTimer;
         public float CurrentStateHeight;
         public float CurrentSpeed;
         public float VerticalVelocity;
         public float InitCamHeight;
+        public bool IsDuringLandingAnimation;
+        public bool IsMoving;
+        public bool IsWalking;
+        public bool IsRunning;
+        public bool IsCrouching;
+        public bool Resetted;
+        public bool IsDuringRunAnimation;
+        public bool IsDuringCrouchAnimation;
     }
 }

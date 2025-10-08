@@ -1,13 +1,12 @@
-using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace ElusiveLife.Application.Input
+namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input
 {
-    [CreateAssetMenu(menuName = "Config/Input/GameInputActions")]
-    public class GameInputActions : ScriptableObject
+    public class GameInputActions
     {
+        //Maps
         public InputActionMap Player { get; private set; }
-        public InputActionMap UI { get; private set; }
+        public InputActionMap Ui { get; private set; }
         //Player Actions
         public InputAction OpenPause { get; private set; }
         public InputAction Look { get; private set; }
@@ -22,8 +21,8 @@ namespace ElusiveLife.Application.Input
         public void Initialize()
         {
             Player = InputSystem.actions.FindActionMap("Player");
-            UI = InputSystem.actions.FindActionMap("UI");
-            
+            Ui = InputSystem.actions.FindActionMap("UI");
+
             OpenPause = Player.FindAction("OpenPause");
             Look = Player.FindAction("Look");
             Aim = Player.FindAction("Aim");
@@ -32,7 +31,7 @@ namespace ElusiveLife.Application.Input
             Jump = Player.FindAction("Jump");
             Crouch = Player.FindAction("Crouch");
 
-            ClosePause = UI.FindAction("ClosePause");
+            ClosePause = Ui.FindAction("ClosePause");
         }
     }
 }

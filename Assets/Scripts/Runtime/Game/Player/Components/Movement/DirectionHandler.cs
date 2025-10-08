@@ -1,48 +1,60 @@
-using ElusiveLife.Application.Input;
-using ElusiveLife.Game.Player;
+using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace GameToolkit.Runtime.Game.Behaviours.Player
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
 {
     public class DirectionHandler
     {
-        readonly IPlayerInputService inputService;
-        readonly IPlayerView playerView;
+        private readonly IPlayerInputService _inputService;
+        private readonly IPlayerView _playerView;
 
-        public DirectionHandler(
-            IPlayerInputService inputService,
-            IPlayerView playerView)
+        public DirectionHandler(IPlayerInputService inputService, IPlayerView playerView)
         {
-            this.inputService = inputService;
-            this.playerView = playerView;
+            _inputService = inputService;
+            _playerView = playerView;
         }
 
-        public void SmoothInput() =>
-            playerView.MovementData.SmoothInputVector = Vector2.Lerp(
-                playerView.MovementData.SmoothInputVector,
-                inputService.Move().normalized,
-                Time.deltaTime * playerView.MovementConfig.SmoothInputSpeed);
+        public void SmoothInput()
+        {
+            var moveInput = _inputService.Move();
+            var targetInput = moveInput.sqrMagnitude > 0.01f ? moveInput.normalized : Vector2.zero;
+
+            _playerView.MovementData.SmoothInputVector = Vector2.Lerp(
+                _playerView.MovementData.SmoothInputVector,
+                targetInput,
+                Time.deltaTime * (_playerView.MovementConfig?.SmoothInputSpeed ?? 8f)
+            );
+        }
 
         public void CalculateMovementDirection()
         {
-            var zDir = playerView.Controller.transform.forward * playerView.MovementData.SmoothInputVector.y;
-            var xDir = playerView.Controller.transform.right * playerView.MovementData.SmoothInputVector.x;
+            var smoothInput = _playerView.MovementData.SmoothInputVector;
+            if (smoothInput.sqrMagnitude < 0.01f)
+            {
+                _playerView.MovementData.FinalMoveDirection = Vector3.zero;
+                return;
+            }
+
+            var zDir = _playerView.Controller.transform.forward * smoothInput.y;
+            var xDir = _playerView.Controller.transform.right * smoothInput.x;
             var desiredDir = xDir + zDir;
+
             var flattenDir = FlattenVectorOnSlopes(desiredDir);
-            playerView.MovementData.FinalMoveDirection = flattenDir;
+            _playerView.MovementData.FinalMoveDirection = flattenDir.normalized * smoothInput.magnitude;
         }
 
-        Vector3 FlattenVectorOnSlopes(Vector3 vectorToFlat)
+        private Vector3 FlattenVectorOnSlopes(Vector3 vectorToFlat)
         {
-            if (playerView.CollisionData.OnGrounded)
-                vectorToFlat = Vector3.ProjectOnPlane(vectorToFlat, playerView.CollisionData.GroundedNormal);
+            if (_playerView.CollisionData.OnGrounded && _playerView.CollisionData.GroundedNormal != Vector3.zero)
+                vectorToFlat = Vector3.ProjectOnPlane(vectorToFlat, _playerView.CollisionData.GroundedNormal);
             return vectorToFlat;
         }
 
-        public void SmoothDirection() =>
-            playerView.MovementData.SmoothFinalMoveDir = Vector3.Lerp(
-                playerView.MovementData.SmoothFinalMoveDir,
-                playerView.MovementData.FinalMoveDirection,
-                Time.deltaTime * playerView.MovementConfig.SmoothFinalDirectionSpeed);
+        public void SmoothDirection() => _playerView.MovementData.SmoothFinalMoveDir = Vector3.Lerp(
+            _playerView.MovementData.SmoothFinalMoveDir,
+            _playerView.MovementData.FinalMoveDirection,
+            Time.deltaTime * (_playerView.MovementConfig?.SmoothFinalDirectionSpeed ?? 8f)
+        );
     }
 }
