@@ -44,7 +44,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
                 return false;
 
             var isGroundedOrCoyoteTime = _playerView.CollisionData.OnGrounded ||
-                                        _playerView.MovementData.CoyoteTimeTimer > 0f;
+                                         _playerView.MovementData.CoyoteTimeTimer > 0f;
 
             var isJumping = _playerView.MovementData.FinalMoveVelocity.y > 0f;
 

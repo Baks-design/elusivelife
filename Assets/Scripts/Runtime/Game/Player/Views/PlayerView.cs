@@ -3,7 +3,6 @@ using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
-using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -38,8 +37,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
 
         private void SetupComponents()
         {
-            GameSystem.SetCursor(true);
-
             Cam.OutputChannel = OutputChannels.Default;
             Cam.StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.RoundRobin;
             Cam.Lens.FieldOfView = 60f;

@@ -59,11 +59,11 @@
   <Project Path="Unity.Profiling.Core.csproj" />
   <Project Path="Unity.Rendering.LightTransport.Editor.csproj" />
   <Project Path="Unity.ScriptableBuildPipeline.csproj" />
+  <Project Path="ElusiveLife.UI.csproj" />
   <Project Path="ElusiveLife.Utils.csproj" />
   <Project Path="UniTask.Addressables.csproj" />
   <Project Path="UniTask.Editor.csproj" />
   <Project Path="Unity.Collections.Editor.csproj" />
-  <Project Path="ElusiveLife.UI.csproj" />
   <Project Path="UniTask.DOTween.csproj" />
   <Project Path="Unity.RenderPipelines.Universal.Config.Runtime.csproj" />
   <Project Path="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.csproj" />

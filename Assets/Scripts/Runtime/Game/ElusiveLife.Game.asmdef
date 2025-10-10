@@ -7,8 +7,11 @@
         "Alchemy",
         "Unity.Cinemachine",
         "Unity.InputSystem",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
         "ElusiveLife.Application",
-        "ElusiveLife.Utils"
+        "ElusiveLife.Utils",
+        "ElusiveLife.UI"
     ],
     "includePlatforms": [
         "Editor",

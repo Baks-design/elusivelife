@@ -3,9 +3,9 @@
     "rootNamespace": "ElusiveLife.UI",
     "references": [
         "VContainer",
-        "Unity.TextMeshPro",
-        "ElusiveLife.Application",
-        "ElusiveLife.Game"
+        "Alchemy",
+        "Unity.Cinemachine",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [
         "Editor",

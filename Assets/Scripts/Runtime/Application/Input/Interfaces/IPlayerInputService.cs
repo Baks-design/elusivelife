@@ -1,9 +1,13 @@
+using System;
 using UnityEngine;
 
 namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces
 {
-    public interface IPlayerInputService : IInputService
+    public interface IPlayerInputService : IDisposable
     {
+        void Initialize();
+        void Enable();
+        void Disable();
         bool OpenPause();
         Vector2 Look();
         Vector2 Move();

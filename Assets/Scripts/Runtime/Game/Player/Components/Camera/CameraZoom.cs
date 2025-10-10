@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
@@ -132,7 +133,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
                 var percent = Mathf.Clamp01(elapsed / duration);
                 var smoothPercent = curve.Evaluate(percent);
                 
-                _playerView.Cam.Lens.FieldOfView = Mathf.Lerp(currentFov, targetFov, smoothPercent);
+                _playerView.Cam.Lens.FieldOfView = Mathfs.Eerp(currentFov, targetFov, smoothPercent);
                 
                 await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
             }
@@ -143,8 +144,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
         public void Dispose()
         {
             if (_isDisposed) return;
-
             _isDisposed = true;
+
             _aimFovCts?.Cancel();
             _aimFovCts?.Dispose();
             _runFovCts?.Cancel();

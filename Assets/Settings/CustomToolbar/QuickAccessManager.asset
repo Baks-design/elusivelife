@@ -13,27 +13,25 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
-  - displayName: Level - Prototype
-    scenePath: Assets/Scenes/Level - Prototype.unity
-  - displayName: Initiator
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: Lifetime Scope
-    scenePath: Assets/Scenes/Initiator.unity
   - displayName: Player
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: CinemachineBrain
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: CinemachineBrain
-    scenePath: Assets/Scenes/Initiator.unity
+    scenePath: Assets/Scenes/Bootstrap.unity
   - displayName: Player
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: Virtual Camera
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: Pitch
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: Yaw
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: Camera
-    scenePath: Assets/Scenes/Initiator.unity
-  - displayName: Lifetime Scope
-    scenePath: Assets/Scenes/Initiator.unity
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: BootstrapLifetimeScope
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Player
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: CinemachineBrain
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: BootstrapLifetimeScope
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Player
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: BootstrapLifetimeScope
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Player
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Cube
+    scenePath: Assets/Scenes/GameScene.unity
+  - displayName: Lighting
+    scenePath: Assets/Scenes/GameScene.unity
