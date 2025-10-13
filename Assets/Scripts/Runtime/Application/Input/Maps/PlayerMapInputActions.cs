@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps
 {
-    public class PlayerMapInputActions : IDisposable
+    public class PlayerMapInputActions
     {
         public InputActionMap Player { get; private set; }
         public InputAction OpenPause { get; private set; }
@@ -15,18 +15,13 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps
         public InputAction Jump { get; private set; }
         public InputAction Crouch { get; private set; }
 
-        private bool _initialized;
-
         public void Initialize()
         {
-            if (_initialized) return;
-
             try
             {
                 GetMaps();
                 GetPlayerActions();
                 ValidateActions();
-                _initialized = true;
             }
             catch (Exception ex)
             {
@@ -65,30 +60,9 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps
                 (Jump, nameof(Jump)),
                 (Crouch, nameof(Crouch))
             };
-
             foreach (var (action, name) in actions)
-            {
                 if (action == null)
                     throw new InvalidOperationException($"Action {name} not found in Player action map");
-            }
-        }
-
-        public void Dispose()
-        {
-            Player?.Disable();
-
-            // Individual actions don't need disposal if they belong to an action map
-            // The action map handles disposal of all its actions
-            Player = null;
-            OpenPause = null;
-            Look = null;
-            Aim = null;
-            Move = null;
-            Run = null;
-            Jump = null;
-            Crouch = null;
-
-            _initialized = false;
         }
     }
 }

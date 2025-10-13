@@ -1,5 +1,6 @@
 using System;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
@@ -33,8 +34,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
             _playerView.MovementData.Resetted = false;
             _isResetting = false;
 
-            var (amplitudeMultiplier, frequencyMultiplier) = 
-                CalculateMovementMultipliers(running, crouching);
+            var (amplitudeMultiplier, frequencyMultiplier) = CalculateMovementMultipliers(running, crouching);
             var additionalMultiplier = CalculateDirectionMultiplier(input);
 
             _xScroll += deltaTime * _playerView.HeadBobConfig.XFrequency * frequencyMultiplier * additionalMultiplier;
@@ -56,20 +56,26 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
             _playerView.MovementData.Resetted = true;
             _isResetting = true;
 
-            _playerView.MovementData.FinalOffset = Vector3.Lerp(
+            _playerView.MovementData.FinalOffset = Mathfs.ExpDecay(
                 _playerView.MovementData.FinalOffset,
                 Vector3.zero,
                 Time.deltaTime * 8f
             );
 
-            if (!(_playerView.MovementData.FinalOffset.sqrMagnitude < 0.001f)) return;
+            ResetValues();
+        }
+
+        private void ResetValues()
+        {
+            if (!(_playerView.MovementData.FinalOffset.sqrMagnitude < 0.001f))
+                return;
+
             _xScroll = _yScroll = 0f;
             _playerView.MovementData.FinalOffset = Vector3.zero;
             _isResetting = false;
         }
 
-        private (float amplitude, float frequency) CalculateMovementMultipliers(
-            bool running, bool crouching)
+        private (float amplitude, float frequency) CalculateMovementMultipliers(bool running, bool crouching)
         {
             var amplitude = 1f;
             var frequency = 1f;

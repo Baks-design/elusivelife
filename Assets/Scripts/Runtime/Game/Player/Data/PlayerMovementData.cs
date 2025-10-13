@@ -13,6 +13,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data
         public Vector3 SmoothFinalMoveDir;
         public Vector2 SmoothInputVector;
         public float SmoothCurrentSpeed;
+        public float FinalSmoothCurrentSpeed;
         public float CoyoteTimeTimer;
         public float JumpBufferTimer;
         public float InAirTimer;
@@ -22,8 +23,11 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data
         public float InitCamHeight;
         public bool IsDuringLandingAnimation;
         public bool IsMoving;
+        public bool IsJumping;
         public bool IsWalking;
         public bool IsRunning;
+        public bool IsSwimming;
+        public bool IsClimbing;
         public bool IsCrouching;
         public bool Resetted;
         public bool IsDuringRunAnimation;

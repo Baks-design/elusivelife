@@ -8,8 +8,9 @@
   <Project Path="Unity.ScriptableBuildPipeline.Editor.csproj" />
   <Project Path="Unity.Splines.Editor.csproj" />
   <Project Path="Unity.Mathematics.csproj" />
-  <Project Path="Unity.RenderPipelines.Core.Editor.csproj" />
+  <Project Path="ElusiveLife.Game.csproj" />
   <Project Path="Unity.Cinemachine.Editor.csproj" />
+  <Project Path="Unity.RenderPipelines.Core.Editor.csproj" />
   <Project Path="Unity.Addressables.Editor.csproj" />
   <Project Path="Unity.Collections.csproj" />
   <Project Path="UnityEngine.UI.csproj" />
@@ -31,6 +32,7 @@
   <Project Path="Unity.TextMeshPro.Editor.csproj" />
   <Project Path="Unity.ResourceManager.csproj" />
   <Project Path="Unity.Cinemachine.csproj" />
+  <Project Path="ElusiveLife.Utils.csproj" />
   <Project Path="Unity.Addressables.DocExampleCode.Editor.Tests.csproj" />
   <Project Path="ZLinq.Unity.UnityCollectoins.csproj" />
   <Project Path="UniStats.csproj" />
@@ -46,7 +48,6 @@
   <Project Path="Unity.Addressables.csproj" />
   <Project Path="Unity.Settings.Editor.csproj" />
   <Project Path="ElusiveLife.Application.csproj" />
-  <Project Path="ElusiveLife.Game.csproj" />
   <Project Path="Unity.InputSystem.DocCodeSamples.csproj" />
   <Project Path="Alchemy.csproj" />
   <Project Path="Unity.InputSystem.ForUI.csproj" />
@@ -60,7 +61,6 @@
   <Project Path="Unity.Rendering.LightTransport.Editor.csproj" />
   <Project Path="Unity.ScriptableBuildPipeline.csproj" />
   <Project Path="ElusiveLife.UI.csproj" />
-  <Project Path="ElusiveLife.Utils.csproj" />
   <Project Path="UniTask.Addressables.csproj" />
   <Project Path="UniTask.Editor.csproj" />
   <Project Path="Unity.Collections.Editor.csproj" />

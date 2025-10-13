@@ -11,15 +11,9 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collisi
 
         public void PushBody(ControllerColliderHit hit)
         {
-            if (!CanPush(hit))
-                return;
-
             var body = hit.collider.attachedRigidbody;
-            if (!IsValidRigidbody(body))
-                return;
-
             var pushStrength = CalculatePushStrength();
-            if (pushStrength < Mathf.Epsilon)
+            if (!CanPush(hit) || !IsValidRigidbody(body) || pushStrength < Mathf.Epsilon)
                 return;
 
             var pushDirection = CalculatePushDirection(hit.moveDirection);

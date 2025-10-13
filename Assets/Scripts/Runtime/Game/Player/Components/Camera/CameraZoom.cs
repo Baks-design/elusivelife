@@ -35,7 +35,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 
         public void HandleAimFov()
         {
-            if (_isDisposed) return;
+            if (_isDisposed)
+                return;
 
             if (_inputService.AimPress())
                 _ = StartAimZoomAsync();
@@ -45,7 +46,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 
         public void HandleRunFov(bool isRunning)
         {
-            if (_isDisposed) return;
+            if (_isDisposed)
+                return;
 
             _ = HandleRunZoomAsync(isRunning);
         }
@@ -94,10 +96,10 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
         {
             _isAimZoomActive = zoomIn;
             _playerView.CameraData.IsZooming = zoomIn;
-            
+
             var currentFov = _playerView.Cam.Lens.FieldOfView;
             var targetFov = zoomIn ? _playerView.CameraConfig.ZoomFov : _initFov;
-           
+
             await AnimateFov(currentFov, targetFov, _playerView.CameraConfig.ZoomTransitionDuration,
                 _playerView.CameraConfig.ZoomCurve, cancellationToken);
         }
@@ -111,12 +113,13 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
             var duration = isRunning
                 ? _playerView.CameraConfig.RunTransitionDuration
                 : _playerView.CameraConfig.RunReturnTransitionDuration;
-           
+
             await AnimateFov(currentFov, targetFov, duration, _playerView.CameraConfig.RunCurve, cancellationToken);
         }
 
         private async UniTask AnimateFov(
-            float currentFov, float targetFov, float duration, AnimationCurve curve, CancellationToken cancellationToken)
+            float currentFov, float targetFov, float duration, AnimationCurve curve,
+            CancellationToken cancellationToken)
         {
             if (duration <= 0f || Mathf.Approximately(currentFov, targetFov))
             {
@@ -129,12 +132,12 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 elapsed += Time.deltaTime;
-                
+
                 var percent = Mathf.Clamp01(elapsed / duration);
                 var smoothPercent = curve.Evaluate(percent);
-                
+
                 _playerView.Cam.Lens.FieldOfView = Mathfs.Eerp(currentFov, targetFov, smoothPercent);
-                
+
                 await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
             }
 
@@ -143,7 +146,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 
         public void Dispose()
         {
-            if (_isDisposed) return;
+            if (_isDisposed)
+                return;
             _isDisposed = true;
 
             _aimFovCts?.Cancel();

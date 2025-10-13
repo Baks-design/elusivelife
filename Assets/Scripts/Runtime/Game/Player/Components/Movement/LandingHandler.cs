@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
 {
-    public class LandingHandler : IDisposable
+    public class LandingHandler
     {
         private readonly IPlayerView _playerView;
         private CancellationTokenSource _landingCancellationTokenSource;

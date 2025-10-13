@@ -4,23 +4,18 @@ using UnityEngine.InputSystem;
 
 namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps
 {
-    public class UiMapInputActions : IDisposable
+    public class UiMapInputActions
     {
-        private bool _initialized;
-
         public InputActionMap Ui { get; private set; }
         public InputAction ClosePause { get; private set; }
 
         public void Initialize()
         {
-            if (_initialized) return;
-
             try
             {
                 GetMap();
                 GetUiActions();
                 ValidateActions();
-                _initialized = true;
             }
             catch (Exception ex)
             {
@@ -42,14 +37,6 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps
         {
             if (ClosePause == null)
                 throw new InvalidOperationException("ClosePause action not found in UI action map");
-        }
-
-        public void Dispose()
-        {
-            Ui?.Disable();
-            Ui = null;
-            ClosePause = null;
-            _initialized = false;
         }
     }
 }

@@ -18,10 +18,10 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collisi
         public void CheckObstacle()
         {
             if (_inputService.Move() == Vector2.zero ||
-                !(_playerView.MovementData.FinalMoveDirection.sqrMagnitude > 0f)) 
+                !(_playerView.MovementData.FinalMoveDirection.sqrMagnitude > 0f))
                 return;
 
-            var hitWall = Physics.SphereCast(
+            var hitWall = UnityEngine.Physics.SphereCast(
                 _playerView.Controller.transform.position + _playerView.Controller.center,
                 _playerView.CollisionConfig.RayObstacleSphereRadius,
                 _playerView.MovementData.FinalMoveDirection,

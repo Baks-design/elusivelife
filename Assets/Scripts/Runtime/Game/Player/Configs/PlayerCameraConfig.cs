@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs
 {
-    [Serializable]
-    public class PlayerCameraConfig
+    [CreateAssetMenu(menuName = "Config/Player/PlayerCameraConfig")]
+    public class PlayerCameraConfig : ScriptableObject
     {
         [Header("Look Settings")] 
         public Vector2 Sensitivity = new(40f, 40f);

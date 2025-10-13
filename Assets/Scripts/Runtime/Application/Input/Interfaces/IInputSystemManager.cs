@@ -1,8 +1,6 @@
-using System;
-
 namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces
 {
-    public interface IInputSystemManager : IDisposable
+    public interface IInputSystemManager
     {
         void SwitchToPlayerInput();
         void SwitchToUiInput();

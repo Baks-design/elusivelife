@@ -32,7 +32,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
         {
             var canJump = CanJump();
             var shouldJump = _playerView.MovementData.JumpBufferTimer > 0f;
-            if (!canJump || !shouldJump) return;
+            if (!canJump || !shouldJump)
+                return;
 
             PerformJump();
             ResetJumpBuffers();
@@ -45,15 +46,13 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
 
             var isGroundedOrCoyoteTime = _playerView.CollisionData.OnGrounded ||
                                          _playerView.MovementData.CoyoteTimeTimer > 0f;
-
             var isJumping = _playerView.MovementData.FinalMoveVelocity.y > 0f;
-
             return isGroundedOrCoyoteTime && !isJumping;
         }
 
         private void PerformJump()
         {
-            var gravity = Mathf.Abs(Physics.gravity.y * _playerView.MovementConfig.GravityMultiplier);
+            var gravity = Mathf.Abs(UnityEngine.Physics.gravity.y * _playerView.MovementConfig.GravityMultiplier);
             var jumpHeight = _playerView.MovementConfig.JumpHeight;
             var jumpVelocity = Mathf.Sqrt(2f * gravity * jumpHeight);
 

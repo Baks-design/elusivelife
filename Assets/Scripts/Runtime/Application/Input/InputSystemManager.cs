@@ -8,7 +8,6 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input
     {
         private readonly IPlayerInputService _playerInputService;
         private readonly IUiInputService _uiInputService;
-        private bool _disposed;
 
         public InputSystemManager(
             IPlayerInputService playerInputService,
@@ -20,8 +19,6 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input
 
         public void SwitchToPlayerInput()
         {
-            CheckDisposed();
-
             try
             {
                 _uiInputService.Disable();
@@ -37,8 +34,6 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input
 
         public void SwitchToUiInput()
         {
-            CheckDisposed();
-
             try
             {
                 _playerInputService.Disable();
@@ -54,8 +49,6 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input
 
         public void DisableAllInput()
         {
-            CheckDisposed();
-
             try
             {
                 _playerInputService.Disable();
@@ -66,28 +59,6 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input
             {
                 Logging.LogError($"Failed to disable all input: {ex.Message}");
                 throw;
-            }
-        }
-
-        private void CheckDisposed()
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(InputSystemManager));
-        }
-
-        public void Dispose()
-        {
-            if (_disposed) return;
-
-            try
-            {
-                DisableAllInput();
-                _playerInputService?.Dispose();
-                _uiInputService?.Dispose();
-            }
-            finally
-            {
-                _disposed = true;
             }
         }
     }

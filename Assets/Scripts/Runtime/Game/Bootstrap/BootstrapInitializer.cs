@@ -7,13 +7,12 @@ using VContainer.Unity;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap
 {
-    public class BootstrapInitializer : IAsyncStartable, IDisposable
+    public class BootstrapInitializer : IAsyncStartable
     {
         private readonly ISceneLoader _sceneLoader;
         private readonly IPlayerInputService _playerInputService;
         private readonly IUiInputService _uiInputService;
         private readonly IInputSystemManager _inputSystemManager;
-        private bool _disposed;
 
         public BootstrapInitializer(
             ISceneLoader sceneLoader,
@@ -29,25 +28,17 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap
 
         public async UniTask StartAsync(CancellationToken cancellation)
         {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(BootstrapInitializer));
-
             try
             {
-                Logging.Log("Bootstrap initialization started");
-
                 _playerInputService.Initialize();
                 _uiInputService.Initialize();
 
                 await _sceneLoader.LoadSceneAsync("GameScene", cancellation);
 
-                // Wait for GameLifetimeScope to initialize
                 await UniTask.NextFrame(cancellation);
 
                 _inputSystemManager.SwitchToPlayerInput();
                 GameSystem.SetCursor(true);
-
-                Logging.Log("Bootstrap initialization completed");
             }
             catch (OperationCanceledException)
             {
@@ -58,22 +49,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap
             {
                 Logging.LogError($"Bootstrap initialization failed: {ex.Message}");
                 throw;
-            }
-        }
-
-        public void Dispose()
-        {
-            if (_disposed) return;
-
-            try
-            {
-                _playerInputService?.Dispose();
-                _uiInputService?.Dispose();
-                _inputSystemManager?.Dispose();
-            }
-            finally
-            {
-                _disposed = true;
             }
         }
     }

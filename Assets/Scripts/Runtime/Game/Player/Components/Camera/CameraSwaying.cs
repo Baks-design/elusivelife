@@ -1,4 +1,5 @@
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
@@ -24,9 +25,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
         public void SwayPlayer(float rawXInput)
         {
             if (Mathf.Abs(rawXInput) > 0.01f)
-                ApplySway(rawXInput,
-                    IsChangingDirection(rawXInput,
-                        _previousXInput));
+                ApplySway(rawXInput, IsChangingDirection(rawXInput, _previousXInput));
             else
                 ReturnToCenter();
 
@@ -44,27 +43,25 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
                 : 1f;
             var swayAcceleration = _playerView.CameraConfig.SwaySpeed * Time.deltaTime * speedMultiplier;
 
-            _currentTiltAmount = Mathf.MoveTowards(
-                _currentTiltAmount, Mathf.Sign(rawXInput), swayAcceleration);
-            _currentTiltAmount = Mathf.Clamp(
-                _currentTiltAmount, -1f, 1f);
+            _currentTiltAmount = Mathfs.ExpDecay(_currentTiltAmount, Mathf.Sign(rawXInput), swayAcceleration);
+            _currentTiltAmount = Mathf.Clamp(_currentTiltAmount, -1f, 1f);
         }
 
         private void ReturnToCenter()
         {
             var returnSpeed = _playerView.CameraConfig.ReturnSpeed * Time.deltaTime;
-            _currentTiltAmount = Mathf.MoveTowards(_currentTiltAmount, 0f, returnSpeed);
+            _currentTiltAmount = Mathfs.ExpDecay(_currentTiltAmount, 0f, returnSpeed);
         }
 
         private void ApplyTiltToCamera()
         {
             var curveValue = _playerView.CameraConfig.SwayCurve.Evaluate(Mathf.Abs(_currentTiltAmount));
             var finalTiltAmount = curveValue * _playerView.CameraConfig.SwayAmount * Mathf.Sign(_currentTiltAmount);
-            
+
             var currentRotation = _playerView.Cam.transform.localRotation;
             var targetRotation = Quaternion.Euler(
                 currentRotation.eulerAngles.x, currentRotation.eulerAngles.y, finalTiltAmount);
-           
+
             _playerView.Cam.transform.localRotation = targetRotation;
         }
     }

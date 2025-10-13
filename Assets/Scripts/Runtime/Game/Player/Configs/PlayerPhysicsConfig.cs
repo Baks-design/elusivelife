@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs
 {
-    [Serializable]
-    public class PlayerCollisionConfig
+    [CreateAssetMenu(menuName = "Config/Player/PlayerCollisionConfig")]
+    public class PlayerCollisionConfig : ScriptableObject
     {
         [Header("Ground Settings")] 
         public LayerMask GroundLayer;

@@ -3,6 +3,7 @@ using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -15,17 +16,16 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
         [field: SerializeField, Required] public Transform Yaw { get; set; }
         [field: SerializeField, Required] public Transform Pitch { get; set; }
         [field: SerializeField, Required] public Animator Animator { get; set; }
-
-        [field: SerializeField] public PlayerMovementConfig MovementConfig { get; set; }
-        [field: SerializeField] public PlayerCollisionConfig CollisionConfig { get; set; }
-        [field: SerializeField] public PlayerCameraConfig CameraConfig { get; set; }
+        [field: SerializeField, InlineEditor] public PlayerMovementConfig MovementConfig { get; set; }
+        [field: SerializeField, InlineEditor] public PlayerCollisionConfig CollisionConfig { get; set; }
+        [field: SerializeField, InlineEditor] public PlayerCameraConfig CameraConfig { get; set; }
         [field: SerializeField, InlineEditor] public HeadBobConfig HeadBobConfig { get; set; }
         [field: SerializeField, InlineEditor] public PerlinNoiseConfig PerlinNoiseConfig { get; set; }
-
+        [field: SerializeField, InlineEditor] public PlayerSoundConfig SoundConfig { get; set; }
+        [field: SerializeField, InlineEditor] public SoundLibraryObject SoundLibrary{ get; set; }
         [field: SerializeField, ReadOnly] public PlayerMovementData MovementData { get; set; }
         [field: SerializeField, ReadOnly] public PlayerCollisionData CollisionData { get; set; }
         [field: SerializeField, ReadOnly] public PlayerCameraData CameraData { get; set; }
-
         private CharacterPush _characterPush;
 
         private void Start()

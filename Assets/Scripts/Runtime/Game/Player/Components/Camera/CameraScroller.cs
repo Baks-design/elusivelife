@@ -17,18 +17,16 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 
         private void InitializeNoise() =>
             _noiseOffset = new Vector3(
-                Random.Range(0f,
-                    1000f),
-                Random.Range(0f,
-                    1000f),
-                Random.Range(0f,
-                    1000f)
+                Random.Range(0f, 1000f),
+                Random.Range(0f, 1000f),
+                Random.Range(0f, 1000f)
             );
 
         public void UpdateNoise()
         {
             var deltaTime = Time.deltaTime;
-            if (Time.timeScale < 0.01f) return;
+            if (Time.timeScale < 0.01f)
+                return;
 
             var scrollOffset = deltaTime * _playerView.PerlinNoiseConfig.Frequency;
             _noiseOffset.x += scrollOffset;

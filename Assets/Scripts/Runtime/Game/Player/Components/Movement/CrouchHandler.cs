@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
@@ -41,7 +42,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
             _crouchCamHeight = playerView.MovementData.InitCamHeight - _crouchStandHeightDifference;
         }
 
-        public void HandleCrouch() 
+        public void HandleCrouch()
         {
             if (_isDisposed || !_movementInput.Crouch())
                 return;
@@ -89,10 +90,10 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
                     percent += Time.deltaTime * speed;
                     var smoothPercent = _playerView.MovementConfig.CrouchTransitionCurve.Evaluate(percent);
 
-                    _playerView.Controller.height = Mathf.Lerp(currentHeight, _crouchHeight, smoothPercent);
-                    _playerView.Controller.center = Vector3.Lerp(currentCenter, _crouchCenter, smoothPercent);
+                    _playerView.Controller.height = Mathfs.ExpDecay(currentHeight, _crouchHeight, smoothPercent);
+                    _playerView.Controller.center = Mathfs.ExpDecay(currentCenter, _crouchCenter, smoothPercent);
 
-                    camPos.y = Mathf.Lerp(camCurrentHeight, _crouchCamHeight, smoothPercent);
+                    camPos.y = Mathfs.ExpDecay(camCurrentHeight, _crouchCamHeight, smoothPercent);
                     _playerView.Yaw.localPosition = camPos;
 
                     await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
@@ -134,10 +135,10 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
                     percent += Time.deltaTime * speed;
                     var smoothPercent = _playerView.MovementConfig.CrouchTransitionCurve.Evaluate(percent);
 
-                    _playerView.Controller.height = Mathf.Lerp(currentHeight, _initHeight, smoothPercent);
-                    _playerView.Controller.center = Vector3.Lerp(currentCenter, _initCenter, smoothPercent);
+                    _playerView.Controller.height = Mathfs.ExpDecay(currentHeight, _initHeight, smoothPercent);
+                    _playerView.Controller.center = Mathfs.ExpDecay(currentCenter, _initCenter, smoothPercent);
 
-                    camPos.y = Mathf.Lerp(camCurrentHeight, _playerView.MovementData.InitCamHeight, smoothPercent);
+                    camPos.y = Mathfs.ExpDecay(camCurrentHeight, _playerView.MovementData.InitCamHeight, smoothPercent);
                     _playerView.Yaw.localPosition = camPos;
 
                     await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
@@ -157,7 +158,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
 
         public void Dispose()
         {
-            if (_isDisposed) return;
+            if (_isDisposed)
+                return;
             _isDisposed = true;
 
             _crouchCancellationTokenSource?.Cancel();

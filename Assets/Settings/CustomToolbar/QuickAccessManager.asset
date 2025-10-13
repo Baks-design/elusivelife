@@ -15,23 +15,41 @@ MonoBehaviour:
   items:
   - displayName: Player
     scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Alpha_Surface
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Alpha_Joints
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Y Bot
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Y Bot
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Animation
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Y Bot
+    scenePath: 
+  - displayName: Alpha_Joints
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Alpha_Surface
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Body Joints
+    scenePath: 
+  - displayName: Body Surface
+    scenePath: 
+  - displayName: Materials
+    scenePath: 
   - displayName: Player
     scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: BootstrapLifetimeScope
+  - displayName: Sound
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Camera
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Animation
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Alpha_Joints
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Y Bot
     scenePath: Assets/Scenes/Bootstrap.unity
   - displayName: Player
     scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: CinemachineBrain
+  - displayName: Y Bot
     scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: BootstrapLifetimeScope
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Player
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: BootstrapLifetimeScope
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Player
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Cube
-    scenePath: Assets/Scenes/GameScene.unity
-  - displayName: Lighting
-    scenePath: Assets/Scenes/GameScene.unity

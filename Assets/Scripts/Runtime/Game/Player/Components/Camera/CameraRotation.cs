@@ -1,5 +1,6 @@
 using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
@@ -17,7 +18,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
         {
             _inputService = inputService;
             _playerView = playerView;
-
             InitializeRotations();
         }
 
@@ -53,8 +53,10 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 
         private void SmoothRotation()
         {
-            _yaw = Mathf.LerpAngle(_yaw, _desiredYaw, _playerView.CameraConfig.SmoothAmount.x * Time.deltaTime);
-            _pitch = Mathf.LerpAngle(_pitch, _desiredPitch, _playerView.CameraConfig.SmoothAmount.y * Time.deltaTime);
+            _yaw = Mathfs.LerpAngle(
+                _yaw, _desiredYaw, _playerView.CameraConfig.SmoothAmount.x * Time.deltaTime);
+            _pitch = Mathfs.LerpAngle(
+                _pitch, _desiredPitch, _playerView.CameraConfig.SmoothAmount.y * Time.deltaTime);
         }
 
         private void ApplyRotation()

@@ -7,11 +7,11 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collisi
     {
         private readonly IPlayerView _playerView;
 
-        public GroundCheck(IPlayerView playerView)=> _playerView = playerView;
+        public GroundCheck(IPlayerView playerView) => _playerView = playerView;
 
         public void CheckGround()
         {
-            var hitGround = Physics.SphereCast(
+            var hitGround = UnityEngine.Physics.SphereCast(
                 _playerView.Controller.transform.position + _playerView.Controller.center,
                 _playerView.CollisionConfig.RaySphereRadius,
                 Vector3.down,

@@ -1,5 +1,6 @@
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -22,5 +23,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces
         PlayerMovementData MovementData { get; }
         PlayerCollisionData CollisionData { get; set; }
         PlayerCameraData CameraData { get; }
+
+        PlayerSoundConfig SoundConfig { get; }
+        SoundLibraryObject SoundLibrary { get; }
     }
 }

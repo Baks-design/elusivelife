@@ -1,4 +1,3 @@
-using System;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
@@ -16,8 +15,13 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
         {
             _playerView = playerView;
             _cameraScroller = cameraScroller;
-
             InitializeOriginalTransform();
+        }
+
+        private void InitializeOriginalTransform()
+        {
+            _originalLocalPosition = _playerView.Cam.transform.localPosition;
+            _originalLocalRotation = _playerView.Cam.transform.localEulerAngles;
         }
 
         public void UpdateBreathing()
@@ -30,12 +34,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 
             _cameraScroller.UpdateNoise();
             ApplyBreathingEffect();
-        }
-
-        private void InitializeOriginalTransform()
-        {
-            _originalLocalPosition = _playerView.Cam.transform.localPosition;
-            _originalLocalRotation = _playerView.Cam.transform.localEulerAngles;
         }
 
         private void ResetToOriginalTransform()
@@ -63,8 +61,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
                     ApplyPositionNoise(scaledNoise * noiseConfig.PositionScale, config);
                     ApplyRotationNoise(scaledNoise * noiseConfig.RotationScale, config);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 

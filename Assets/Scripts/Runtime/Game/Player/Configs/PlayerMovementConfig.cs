@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs
 {
-    [Serializable]
-    public class PlayerMovementConfig
+    [CreateAssetMenu(menuName = "Config/Player/PlayerMovementConfig")]
+    public class PlayerMovementConfig : ScriptableObject
     {
         [Header("Gravity Settings")]
         public float StickToGroundForce = 1f;

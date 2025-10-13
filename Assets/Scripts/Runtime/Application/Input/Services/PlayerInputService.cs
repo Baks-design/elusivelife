@@ -9,21 +9,15 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Servi
     public class PlayerInputService : IPlayerInputService
     {
         private PlayerMapInputActions _inputActions;
-        private bool _isInitialized;
-        private bool _disposed;
 
         public void Initialize()
         {
-            if (_isInitialized)
-                return;
-
             try
             {
                 _inputActions = new PlayerMapInputActions();
                 _inputActions.Initialize();
 
                 ValidateInputActions();
-                _isInitialized = true;
 
                 Logging.Log("PlayerInputService initialized successfully");
             }
@@ -61,35 +55,8 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Servi
                 throw new InvalidOperationException("Crouch action not found");
         }
 
-        public void Dispose()
-        {
-            if (_disposed) return;
-
-            _inputActions?.Player?.Disable();
-            _inputActions = null;
-            _isInitialized = false;
-            _disposed = true;
-
-            Logging.Log("PlayerInputService disposed");
-        }
-
-        private void CheckInitialized()
-        {
-            if (!_isInitialized || _disposed)
-                throw new InvalidOperationException("PlayerInputService is not initialized or has been disposed");
-        }
-
-        public void Enable()
-        {
-            CheckInitialized();
-            _inputActions.Player.Enable();
-        }
-
-        public void Disable()
-        {
-            CheckInitialized();
-            _inputActions.Player.Disable();
-        }
+        public void Enable() => _inputActions.Player.Enable();
+        public void Disable() => _inputActions.Player.Disable();
 
         public bool OpenPause() => _inputActions?.OpenPause?.WasPressedThisFrame() ?? false;
         public Vector2 Look() => _inputActions?.Look?.ReadValue<Vector2>() ?? Vector2.zero;

@@ -1,6 +1,7 @@
 using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
@@ -15,8 +16,11 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
         private float _lastFovChangeTime;
 
         public CameraHandler(
-            HeadBobHandler headBobHandler, CameraSwaying cameraSwaying, CameraZoom cameraZoom,
-            IPlayerInputService inputService, IPlayerView playerView)
+            HeadBobHandler headBobHandler,
+            CameraSwaying cameraSwaying,
+            CameraZoom cameraZoom,
+            IPlayerInputService inputService,
+            IPlayerView playerView)
         {
             _headBobHandler = headBobHandler;
             _cameraSwaying = cameraSwaying;
@@ -28,21 +32,25 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
         public void RotateTowardsCamera() =>
             _playerView.Controller.transform.rotation = Quaternion.Slerp(
                 _playerView.Controller.transform.rotation,
-                _playerView.Yaw.rotation, 
+                _playerView.Yaw.rotation,
                 Time.deltaTime * _playerView.MovementConfig.SmoothRotateSpeed);
 
         public void HandleHeadBob()
         {
-            var shouldBob = _inputService.Move() != Vector2.zero && !_playerView.CollisionData.HasObstructed;
+            var shouldBob = _inputService.Move() != Vector2.zero &&
+                            !_playerView.CollisionData.HasObstructed;
 
-            var canBob = shouldBob && !_playerView.MovementData.IsDuringCrouchAnimation &&
+            var canBob = shouldBob &&
+                         !_playerView.MovementData.IsDuringCrouchAnimation &&
                          !_playerView.MovementData.IsDuringLandingAnimation;
 
             if (canBob)
             {
                 var canRun = _playerView.MovementData.IsRunning && _playerView.MovementData.IsMoving;
                 _headBobHandler.ScrollHeadBob(
-                    canRun, _playerView.MovementData.IsCrouching, _inputService.Move(), Time.deltaTime
+                    canRun, _playerView.MovementData.IsCrouching,
+                    _inputService.Move(),
+                    Time.deltaTime
                 );
             }
             else
@@ -71,7 +79,14 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
             else if (shouldStop && _playerView.MovementData.IsDuringRunAnimation)
                 targetRunState = false;
 
-            if (targetRunState == _playerView.MovementData.IsDuringRunAnimation) return;
+            SetRun(targetRunState);
+        }
+
+        private void SetRun(bool targetRunState)
+        {
+            if (targetRunState == _playerView.MovementData.IsDuringRunAnimation)
+                return;
+
             _playerView.MovementData.IsDuringRunAnimation = targetRunState;
             _cameraZoom.HandleRunFov(!targetRunState);
             _lastFovChangeTime = Time.time;
@@ -90,11 +105,11 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
                 targetPosition += _playerView.MovementData.FinalOffset;
             else
             {
-                targetPosition.x = Mathf.Lerp(_playerView.Yaw.localPosition.x, 0f, Time.deltaTime * 8f);
-                targetPosition.z = Mathf.Lerp(_playerView.Yaw.localPosition.z, 0f, Time.deltaTime * 8f);
+                targetPosition.x = Mathfs.ExpDecay(_playerView.Yaw.localPosition.x, 0f, Time.deltaTime * 8f);
+                targetPosition.z = Mathfs.ExpDecay(_playerView.Yaw.localPosition.z, 0f, Time.deltaTime * 8f);
             }
 
-            _playerView.Yaw.localPosition = Vector3.Lerp(
+            _playerView.Yaw.localPosition = Mathfs.ExpDecay(
                 _playerView.Yaw.localPosition,
                 targetPosition,
                 Time.deltaTime * _playerView.MovementConfig.SmoothHeadBobSpeed);

@@ -11,17 +11,18 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collisi
 
         public bool CheckRoof()
         {
-            var hitRoof = Physics.SphereCast(
+            var hitRoof = UnityEngine.Physics.SphereCast(
                 _playerView.Controller.transform.position,
                 _playerView.CollisionConfig.RoofRadius,
                 Vector3.up,
                 out _,
                 _playerView.CollisionData.InitHeight,
-                Physics.AllLayers,
+                UnityEngine.Physics.AllLayers,
                 QueryTriggerInteraction.Ignore
             );
 
             _playerView.CollisionData.HasRoofed = hitRoof;
+            
             return hitRoof;
         }
     }

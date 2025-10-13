@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d90d6a1b652a8e4487e3a7640cece0d, type: 3}
+  m_Name: Player Sound Config
+  m_EditorClassIdentifier: ElusiveLife.Game::ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs.PlayerSoundConfig
+  FootstepIntervalWalk: 0.5
+  FootstepIntervalRun: 0.3
+  FootstepVolume: 0.7
+  ScaleFactor: 0.2
+  ImpactLandingMin: 0.3
+  InmpactLandingMax: 1
+  LandingVolume: 0.8
+  LandingMinPitch: 0.8
+  LandingMaxPitch: 1.2
+  SwimmingInterval: 0.4
+  SwimmingVolume: 0.6
+  SwimmingMinPitch: 0.8
+  SwimmingMaxPitch: 1.2
+  ClimbingInterval: 0.6
+  ClimbingVolume: 0.5
+  ClimbingMinPitch: 0.9
+  ClimbingMaxPitch: 1.1
