@@ -59,7 +59,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
             _playerView.MovementData.FinalOffset = Mathfs.ExpDecay(
                 _playerView.MovementData.FinalOffset,
                 Vector3.zero,
-                Time.deltaTime * 8f
+                Time.deltaTime * 8f,
+                _playerView.MovementConfig.DecayFactor
             );
 
             ResetValues();

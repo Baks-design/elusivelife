@@ -1,16 +1,15 @@
-using System;
 using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Misc;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement;
 using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
-using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
+using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound;
 using VContainer.Unity;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
 {
-    public class PlayerController : IPlayerController, ITickable, IDisposable
+    public class PlayerController : IPlayerController, ITickable, ILateTickable
     {
         private GroundCheck _groundCheck;
         private ObstacleCheck _obstacleCheck;
@@ -30,37 +29,25 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
         private CameraZoom _cameraZoom;
         private CharacterAnimation _animation;
         private CharacterSound _sound;
-        private bool _isDisposed;
 
-        public PlayerController(IPlayerInputService inputService, IPlayerView playerView)
+        public PlayerController(
+            IPlayerView playerView,
+            IPlayerInputService inputService)
         {
-            if (inputService == null) throw new ArgumentNullException(nameof(inputService));
-            if (playerView == null) throw new ArgumentNullException(nameof(playerView));
-
-            try
-            {
-                CollisionInitialize(inputService, playerView);
-                CameraInitialize(inputService, playerView);
-                MovementInitialize(inputService, playerView);
-                MiscInitialize(playerView);
-
-                Logging.Log("PlayerController initialized successfully");
-            }
-            catch (Exception ex)
-            {
-                Logging.LogError($"Failed to initialize PlayerController: {ex.Message}");
-                throw;
-            }
+            CollisionInitialize(playerView, inputService);
+            CameraInitialize(playerView, inputService);
+            MovementInitialize(playerView, inputService);
+            //MiscInitialize(playerView, soundServices);
         }
 
-        private void CollisionInitialize(IPlayerInputService inputService, IPlayerView playerView)
+        private void CollisionInitialize(IPlayerView playerView, IPlayerInputService inputService)
         {
             _groundCheck = new GroundCheck(playerView);
             _obstacleCheck = new ObstacleCheck(inputService, playerView);
             _roofCheck = new RoofCheck(playerView);
         }
 
-        private void CameraInitialize(IPlayerInputService inputService, IPlayerView playerView)
+        private void CameraInitialize(IPlayerView playerView, IPlayerInputService inputService)
         {
             _cameraRotation = new CameraRotation(inputService, playerView);
             _cameraScroller = new CameraScroller(playerView);
@@ -69,7 +56,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
             _cameraZoom = new CameraZoom(inputService, playerView);
         }
 
-        private void MovementInitialize(IPlayerInputService inputService, IPlayerView playerView)
+        private void MovementInitialize(IPlayerView playerView, IPlayerInputService inputService)
         {
             _headBob = new HeadBobHandler(playerView);
             _directionHandler = new DirectionHandler(inputService, playerView);
@@ -81,22 +68,18 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
             _velocityHandler = new VelocityHandler(_runningHandler, inputService, playerView);
         }
 
-        private void MiscInitialize(IPlayerView playerView)
+        private void MiscInitialize(IPlayerView playerView, ISoundServices soundServices)
         {
             _animation = new CharacterAnimation(playerView);
-            _sound = new CharacterSound(playerView);
+            _sound = new CharacterSound(playerView, soundServices);
         }
 
         public void Tick()
         {
-            if (_isDisposed)
-                return;
-                
             Collision();
             Movement();
-            Camera();
-            Animation();
-            Sound();
+            //Animation();
+            //Sound();
         }
 
         private void Collision()
@@ -133,13 +116,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
             _cameraHandler.UpdateFinalCameraPosition();
         }
 
-        private void Camera()
-        {
-            _cameraRotation.RotationHandler();
-            _cameraBreathing.UpdateBreathing();
-            _cameraZoom.HandleAimFov();
-        }
-
         private void Animation()
         {
             _animation.UpdateMoving();
@@ -159,15 +135,13 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
             _sound.UpdateDamaging();
         }
 
-        public void Dispose()
-        {
-            if (_isDisposed)
-                return;
-            _isDisposed = true;
+        public void LateTick() => Camera();
 
-            _crouchHandler.Dispose();
-            _landingHandler.Dispose();
-            _cameraZoom.Dispose();
+        private void Camera()
+        {
+            _cameraRotation.RotationHandler();
+            _cameraBreathing.UpdateBreathing();
+            _cameraZoom.HandleAimFov();
         }
     }
 }

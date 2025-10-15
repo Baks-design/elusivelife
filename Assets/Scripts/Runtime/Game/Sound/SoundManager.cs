@@ -9,36 +9,35 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound
     public class SoundManager : MonoBehaviour, ISoundServices
     {
         [SerializeField, AssetsOnly, Required] private SoundEmitter _soundEmitterPrefab;
-        [SerializeField] private bool _collectionCheck = true;
-        [SerializeField] private int _defaultCapacity = 10;
-        [SerializeField] private int _maxPoolSize = 100;
-        [SerializeField] private int _maxSoundInstances = 30;
+        private const bool CollectionCheck = true;
+        private const int DefaultCapacity = 10;
+        private const int MaxPoolSize = 100;
+        private const int MaxSoundInstances = 30;
         private IObjectPool<SoundEmitter> _soundEmitterPool;
-        private readonly List<SoundEmitter> _activeSoundEmitters = new();
-        public readonly LinkedList<SoundEmitter> FrequentSoundEmitters = new();
+        private List<SoundEmitter> _activeSoundEmitters;
+        public LinkedList<SoundEmitter> FrequentSoundEmitters;
 
-        public void Initialize()
+        private void Start()
         {
-            DontDestroyOnLoad(gameObject);
-            InitializePool();
-        }
+            _activeSoundEmitters = new List<SoundEmitter>();
+            FrequentSoundEmitters = new LinkedList<SoundEmitter>();
 
-        private void InitializePool() =>
             _soundEmitterPool = new ObjectPool<SoundEmitter>(
                 CreateSoundEmitter,
                 OnTakeFromPool,
                 OnReturnedToPool,
                 OnDestroyPoolObject,
-                _collectionCheck,
-                _defaultCapacity,
-                _maxPoolSize
+                CollectionCheck,
+                DefaultCapacity,
+                MaxPoolSize
             );
+        }
 
         public SoundBuilder CreateSoundBuilder() => new(this);
 
         public bool CanPlaySound(SoundData data)
         {
-            if (!data.FrequentSound || FrequentSoundEmitters.Count < _maxSoundInstances)
+            if (!data.FrequentSound || FrequentSoundEmitters.Count < MaxSoundInstances)
                 return true;
 
             try
@@ -96,7 +95,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound
         {
             if (soundEmitter == null)
                 return;
-                
+
             Destroy(soundEmitter.gameObject);
         }
     }

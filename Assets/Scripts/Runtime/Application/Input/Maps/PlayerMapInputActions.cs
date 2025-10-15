@@ -1,5 +1,3 @@
-using System;
-using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using UnityEngine.InputSystem;
 
 namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps
@@ -17,25 +15,11 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps
 
         public void Initialize()
         {
-            try
-            {
-                GetMaps();
-                GetPlayerActions();
-                ValidateActions();
-            }
-            catch (Exception ex)
-            {
-                Logging.LogError($"Failed to initialize PlayerMapInputActions: {ex.Message}");
-                throw;
-            }
+            GetMaps();
+            GetPlayerActions();
         }
 
-        private void GetMaps()
-        {
-            Player = InputSystem.actions?.FindActionMap("Player");
-            if (Player == null)
-                throw new InvalidOperationException("Player action map not found in InputSystem");
-        }
+        private void GetMaps() => Player = InputSystem.actions.FindActionMap("Player");
 
         private void GetPlayerActions()
         {
@@ -46,23 +30,6 @@ namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps
             Run = Player.FindAction("Run");
             Jump = Player.FindAction("Jump");
             Crouch = Player.FindAction("Crouch");
-        }
-
-        private void ValidateActions()
-        {
-            var actions = new (InputAction action, string name)[]
-            {
-                (OpenPause, nameof(OpenPause)),
-                (Look, nameof(Look)),
-                (Aim, nameof(Aim)),
-                (Move, nameof(Move)),
-                (Run, nameof(Run)),
-                (Jump, nameof(Jump)),
-                (Crouch, nameof(Crouch))
-            };
-            foreach (var (action, name) in actions)
-                if (action == null)
-                    throw new InvalidOperationException($"Action {name} not found in Player action map");
         }
     }
 }

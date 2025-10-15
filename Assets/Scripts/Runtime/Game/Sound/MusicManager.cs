@@ -19,13 +19,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound
 
         public bool IsFadingActive => _fading > 0f;
 
-        public void Initialize()
-        {
-            DontDestroyOnLoad(gameObject);
-            FillSongs();
-        }
-
-        private void FillSongs()
+        private void Start()
         {
             if (_initialPlaylist == null)
                 return;

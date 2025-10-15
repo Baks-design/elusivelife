@@ -17,16 +17,12 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
         }
 
         public void SmoothInput()
-        {
-            var moveInput = _inputService.Move();
-            var targetInput = moveInput.sqrMagnitude > 0.01f ? moveInput.normalized : Vector2.zero;
-
-            _playerView.MovementData.SmoothInputVector = Mathfs.ExpDecay(
+            => _playerView.MovementData.SmoothInputVector = Mathfs.ExpDecay(
                 _playerView.MovementData.SmoothInputVector,
-                targetInput,
-                Time.deltaTime * _playerView.MovementConfig.SmoothInputSpeed
+                _inputService.Move(),
+                Time.deltaTime * _playerView.MovementConfig.SmoothInputSpeed,
+                _playerView.MovementConfig.DecayFactor
             );
-        }
 
         public void CalculateMovementDirection()
         {
@@ -55,7 +51,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
             _playerView.MovementData.SmoothFinalMoveDir = Mathfs.ExpDecay(
                 _playerView.MovementData.SmoothFinalMoveDir,
                 _playerView.MovementData.FinalMoveDirection,
-                Time.deltaTime * _playerView.MovementConfig.SmoothFinalDirectionSpeed
+                Time.deltaTime * _playerView.MovementConfig.SmoothFinalDirectionSpeed,
+                _playerView.MovementConfig.DecayFactor
             );
     }
 }

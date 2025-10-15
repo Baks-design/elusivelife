@@ -44,7 +44,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  JumpHeight: 6
+  JumpHeight: 2
   CrouchSpeed: 1
   CrouchPercent: 0.6
   CrouchTransitionDuration: 0.5
@@ -109,8 +109,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  SmoothCamera: 8
   SmoothInputSpeed: 10
   SmoothRotateSpeed: 10
   SmoothVelocitySpeed: 3
   SmoothFinalDirectionSpeed: 10
   SmoothHeadBobSpeed: 5
+  DecayFactor: 16

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4543888065946806857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 963801614239264826}
+  - component: {fileID: 8391388814341158991}
+  m_Layer: 0
+  m_Name: GameLifeScope
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &963801614239264826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543888065946806857}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8391388814341158991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543888065946806857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 603589cdcf1f0dc42bafb8c94fa13f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ElusiveLife.Game::ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap.GameLifetimeScope
+  parentReference:
+    TypeName: ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap.Scopes.BootstrapLifetimeScope
+  autoRun: 1
+  autoInjectGameObjects: []
+  _playerPrefab: {fileID: 6942031286852234831, guid: 3e7642388079dd647a7e312fa4b8694c, type: 3}
+  _playerSpawnPoint: {fileID: 0}

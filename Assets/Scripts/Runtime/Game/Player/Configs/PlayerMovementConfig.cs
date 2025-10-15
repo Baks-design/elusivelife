@@ -21,7 +21,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs
         public AnimationCurve RunTransitionCurve;
 
         [Header("Jump Settings")]
-        public float JumpHeight = 6f;
+        public float JumpHeight = 2f;
 
         [Header("Crouch Settings")]
         public float CrouchSpeed = 1f;
@@ -36,11 +36,14 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs
         public float LandDuration = 0.5f;
         public AnimationCurve LandCurve;
 
-        [Header("Smooth Settings")]
+        [Header("Smooth Settings")] 
+        public float SmoothCamera = 8f;
         public float SmoothInputSpeed = 10f;
         public float SmoothRotateSpeed = 10f;
         public float SmoothVelocitySpeed = 3f;
         public float SmoothFinalDirectionSpeed = 10f;
         public float SmoothHeadBobSpeed = 5f;
+
+        [Header("Factors")] public float DecayFactor = 16f;
     }
 }

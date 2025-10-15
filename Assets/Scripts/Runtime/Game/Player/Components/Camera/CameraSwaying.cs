@@ -43,14 +43,15 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
                 : 1f;
             var swayAcceleration = _playerView.CameraConfig.SwaySpeed * Time.deltaTime * speedMultiplier;
 
-            _currentTiltAmount = Mathfs.ExpDecay(_currentTiltAmount, Mathf.Sign(rawXInput), swayAcceleration);
+            _currentTiltAmount = Mathfs.ExpDecay(_currentTiltAmount, Mathf.Sign(rawXInput), swayAcceleration,
+                _playerView.CameraConfig.DecayFactor);
             _currentTiltAmount = Mathf.Clamp(_currentTiltAmount, -1f, 1f);
         }
 
         private void ReturnToCenter()
         {
             var returnSpeed = _playerView.CameraConfig.ReturnSpeed * Time.deltaTime;
-            _currentTiltAmount = Mathfs.ExpDecay(_currentTiltAmount, 0f, returnSpeed);
+            _currentTiltAmount = Mathfs.ExpDecay(_currentTiltAmount, 0f, returnSpeed, _playerView.CameraConfig.DecayFactor);
         }
 
         private void ApplyTiltToCamera()

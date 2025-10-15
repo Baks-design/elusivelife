@@ -20,7 +20,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
         private float _crouchHeight;
         private float _crouchCamHeight;
         private float _crouchStandHeightDifference;
-        private bool _isDisposed;
 
         public CrouchHandler(
             RoofCheck roofCheck, IPlayerInputService movementInput, IPlayerView playerView)
@@ -44,7 +43,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
 
         public void HandleCrouch()
         {
-            if (_isDisposed || !_movementInput.Crouch())
+            if (!_movementInput.Crouch())
                 return;
 
             _crouchCancellationTokenSource?.Cancel();
@@ -90,10 +89,13 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
                     percent += Time.deltaTime * speed;
                     var smoothPercent = _playerView.MovementConfig.CrouchTransitionCurve.Evaluate(percent);
 
-                    _playerView.Controller.height = Mathfs.ExpDecay(currentHeight, _crouchHeight, smoothPercent);
-                    _playerView.Controller.center = Mathfs.ExpDecay(currentCenter, _crouchCenter, smoothPercent);
+                    _playerView.Controller.height = Mathfs.ExpDecay(currentHeight, _crouchHeight, smoothPercent,
+                        _playerView.MovementConfig.DecayFactor);
+                    _playerView.Controller.center = Mathfs.ExpDecay(currentCenter, _crouchCenter, smoothPercent,
+                        _playerView.MovementConfig.DecayFactor);
 
-                    camPos.y = Mathfs.ExpDecay(camCurrentHeight, _crouchCamHeight, smoothPercent);
+                    camPos.y = Mathfs.ExpDecay(camCurrentHeight, _crouchCamHeight, smoothPercent,
+                        _playerView.MovementConfig.DecayFactor);
                     _playerView.Yaw.localPosition = camPos;
 
                     await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
@@ -135,10 +137,13 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
                     percent += Time.deltaTime * speed;
                     var smoothPercent = _playerView.MovementConfig.CrouchTransitionCurve.Evaluate(percent);
 
-                    _playerView.Controller.height = Mathfs.ExpDecay(currentHeight, _initHeight, smoothPercent);
-                    _playerView.Controller.center = Mathfs.ExpDecay(currentCenter, _initCenter, smoothPercent);
+                    _playerView.Controller.height = Mathfs.ExpDecay(currentHeight, _initHeight, smoothPercent,
+                        _playerView.MovementConfig.DecayFactor);
+                    _playerView.Controller.center = Mathfs.ExpDecay(currentCenter, _initCenter, smoothPercent,
+                        _playerView.MovementConfig.DecayFactor);
 
-                    camPos.y = Mathfs.ExpDecay(camCurrentHeight, _playerView.MovementData.InitCamHeight, smoothPercent);
+                    camPos.y = Mathfs.ExpDecay(camCurrentHeight, _playerView.MovementData.InitCamHeight, smoothPercent,
+                        _playerView.MovementConfig.DecayFactor);
                     _playerView.Yaw.localPosition = camPos;
 
                     await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken);
@@ -154,16 +159,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
             {
                 _playerView.MovementData.IsDuringCrouchAnimation = false;
             }
-        }
-
-        public void Dispose()
-        {
-            if (_isDisposed)
-                return;
-            _isDisposed = true;
-
-            _crouchCancellationTokenSource?.Cancel();
-            _crouchCancellationTokenSource?.Dispose();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
         [field: SerializeField, InlineEditor] public HeadBobConfig HeadBobConfig { get; set; }
         [field: SerializeField, InlineEditor] public PerlinNoiseConfig PerlinNoiseConfig { get; set; }
         [field: SerializeField, InlineEditor] public PlayerSoundConfig SoundConfig { get; set; }
-        [field: SerializeField, InlineEditor] public SoundLibraryObject SoundLibrary{ get; set; }
+        [field: SerializeField, InlineEditor] public SoundLibraryObject SoundLibrary { get; set; }
         [field: SerializeField, ReadOnly] public PlayerMovementData MovementData { get; set; }
         [field: SerializeField, ReadOnly] public PlayerCollisionData CollisionData { get; set; }
         [field: SerializeField, ReadOnly] public PlayerCameraData CameraData { get; set; }
@@ -40,7 +40,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
             Cam.OutputChannel = OutputChannels.Default;
             Cam.StandbyUpdate = CinemachineVirtualCameraBase.StandbyUpdateMode.RoundRobin;
             Cam.Lens.FieldOfView = 60f;
-            Cam.Lens.NearClipPlane = 0.1f;
+            Cam.Lens.NearClipPlane = 0.15f;
             Cam.Lens.FarClipPlane = 100f;
             Cam.Lens.Dutch = 0f;
 
@@ -55,7 +55,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
             Animator.applyRootMotion = false;
             Animator.animatePhysics = false;
             Animator.updateMode = AnimatorUpdateMode.Normal;
-            Animator.cullingMode = AnimatorCullingMode.CullUpdateTransforms;
+            Animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
         }
 
         private void SetupData()
@@ -65,8 +65,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
 
             CollisionData = new PlayerCollisionData
             {
-                InitCenter = Controller.center,
-                InitHeight = Controller.height,
+                InitCenter = Controller != null ? Controller.center : Vector3.zero,
+                InitHeight = Controller != null ? Controller.height : 0f,
                 OnGrounded = true,
                 OnAirborne = false,
                 PreviouslyGrounded = true,
@@ -76,6 +76,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
 
         private void SetupClasses() => _characterPush = new CharacterPush(this);
 
-        private void OnControllerColliderHit(ControllerColliderHit hit) => _characterPush.PushBody(hit);
+        private void OnControllerColliderHit(ControllerColliderHit hit) => _characterPush?.PushBody(hit);
     }
 }

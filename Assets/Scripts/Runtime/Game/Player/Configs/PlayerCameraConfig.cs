@@ -5,8 +5,11 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs
     [CreateAssetMenu(menuName = "Config/Player/PlayerCameraConfig")]
     public class PlayerCameraConfig : ScriptableObject
     {
+        [Header("Factors Settings")] 
+        public float DecayFactor = 16f;
+
         [Header("Look Settings")] 
-        public Vector2 Sensitivity = new(40f, 40f);
+        public float ScaleSensivity = 0.5f;
         public Vector2 SmoothAmount = new(5f, 5f);
         public Vector2 LookAngleMinMax = new(-45f, 45f);
 

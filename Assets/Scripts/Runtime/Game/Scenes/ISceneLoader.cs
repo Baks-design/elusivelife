@@ -1,7 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap
+namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Scenes
 {
     public interface ISceneLoader
     {

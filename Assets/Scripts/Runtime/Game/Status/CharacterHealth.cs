@@ -2,17 +2,17 @@ using UnityEngine;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Status
 {
-    public class CharacterHealth : MonoBehaviour, IHealthChangeable, IDeathable
+    public class CharacterHealth : MonoBehaviour, IHealthChangeable
     {
-        [SerializeField] private int _initialMaxHealth = 100;
+        private const int InitialMaxHealth = 100;
         private PlayerStatus _status;
 
         private void Awake()
         {
             var initialStatus = new PlayerStatusData
             {
-                MaxHealth = _initialMaxHealth,
-                CurrentHealth = _initialMaxHealth
+                MaxHealth = InitialMaxHealth,
+                CurrentHealth = InitialMaxHealth
             };
             _status = new PlayerStatus(initialStatus);
             _status.UpdateStatus(_ => initialStatus);

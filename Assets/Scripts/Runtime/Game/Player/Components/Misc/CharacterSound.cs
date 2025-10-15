@@ -7,6 +7,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Misc
     public class CharacterSound
     {
         private readonly IPlayerView _playerView;
+        private readonly ISoundServices _soundServices;
         private SoundBuilder _soundBuilder;
         private float _footstepTimer;
         private float _swimmingTimer;
@@ -15,15 +16,16 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Misc
         private bool _wasSwimming;
         private bool _wasClimbing;
 
-        public CharacterSound(IPlayerView playerView)
+        public CharacterSound(IPlayerView playerView, ISoundServices soundServices)
         {
             _playerView = playerView;
+            _soundServices = soundServices;
             Init();
         }
 
         private void Init()
         {
-            //_soundBuilder = _soundServices.CreateSoundBuilder(); //FIXME
+            _soundBuilder = _soundServices.CreateSoundBuilder();
             _fallStartHeight = _playerView.Controller.transform.position.y;
         }
 

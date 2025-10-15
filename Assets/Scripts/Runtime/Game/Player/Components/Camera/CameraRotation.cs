@@ -44,8 +44,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 
         private void CalculateRotation()
         {
-            _desiredYaw += _inputService.Look().x * _playerView.CameraConfig.Sensitivity.x * Time.deltaTime;
-            _desiredPitch -= _inputService.Look().y * _playerView.CameraConfig.Sensitivity.y * Time.deltaTime;
+            _desiredYaw += _inputService.Look().x * _playerView.CameraConfig.ScaleSensivity * Time.deltaTime;
+            _desiredPitch -= _inputService.Look().y * _playerView.CameraConfig.ScaleSensivity * Time.deltaTime;
             _desiredPitch = Mathf.Clamp(
                 _desiredPitch, _playerView.CameraConfig.LookAngleMinMax.x, _playerView.CameraConfig.LookAngleMinMax.y
             );

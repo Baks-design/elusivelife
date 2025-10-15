@@ -40,10 +40,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound
         public void Play(SoundData soundData)
         {
             if (soundData == null || !_soundManager.CanPlaySound(soundData))
-            {
-                Logging.LogError("SoundData is null");
                 return;
-            }
 
             var soundEmitter = _soundManager.Get();
             soundEmitter.Initialize(soundData);

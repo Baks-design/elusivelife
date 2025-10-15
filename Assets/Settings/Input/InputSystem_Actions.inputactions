@@ -34,15 +34,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Fire",
-                    "type": "Button",
-                    "id": "cef562c6-b455-4df0-bb6b-825c4fdac8e0",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Move",
                     "type": "Value",
                     "id": "5d742760-9048-4bdd-8a95-8cea353147ef",
@@ -193,7 +184,7 @@
                 {
                     "name": "2D Vector",
                     "id": "f6d75478-3b50-4f1a-8c6f-5e85cd24fb74",
-                    "path": "2DVector(mode=1)",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -250,7 +241,7 @@
                     "id": "8338cb07-ab06-40f6-a472-c959100685ae",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "StickDeadzone",
+                    "processors": "StickDeadzone,NormalizeVector2",
                     "groups": ";Gamepad",
                     "action": "Move",
                     "isComposite": false,
@@ -261,7 +252,7 @@
                     "id": "0c8b5436-5844-4f48-b22a-718c2d29bc0b",
                     "path": "<Pointer>/delta",
                     "interactions": "",
-                    "processors": "InvertVector2(invertX=false,invertY=false),ScaleVector2(x=0.5,y=0.5)",
+                    "processors": "ScaleVector2(x=5,y=5),InvertVector2(invertX=false,invertY=false)",
                     "groups": ";Keyboard&Mouse",
                     "action": "Look",
                     "isComposite": false,
@@ -272,31 +263,9 @@
                     "id": "0ec6ec6b-6bda-474c-a5b7-fb69f67da9a5",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.5,y=0.5),InvertVector2(invertX=false,invertY=false),StickDeadzone",
+                    "processors": "StickDeadzone,ScaleVector2(x=200,y=200),InvertVector2(invertX=false,invertY=false)",
                     "groups": ";Gamepad",
                     "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8969e52c-2e7b-433c-a41b-b5f2980cdfb9",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ea459b9a-73df-4600-b8a2-c4d4424b2141",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

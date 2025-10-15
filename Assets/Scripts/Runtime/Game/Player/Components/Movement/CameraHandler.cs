@@ -105,8 +105,19 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
                 targetPosition += _playerView.MovementData.FinalOffset;
             else
             {
-                targetPosition.x = Mathfs.ExpDecay(_playerView.Yaw.localPosition.x, 0f, Time.deltaTime * 8f);
-                targetPosition.z = Mathfs.ExpDecay(_playerView.Yaw.localPosition.z, 0f, Time.deltaTime * 8f);
+                targetPosition.x = Mathfs.ExpDecay(
+                    _playerView.Yaw.localPosition.x,
+                    0f,
+                    Time.deltaTime *
+                    _playerView.MovementConfig.SmoothCamera,
+                    _playerView.MovementConfig.DecayFactor
+                );
+                targetPosition.z = Mathfs.ExpDecay(
+                    _playerView.Yaw.localPosition.z,
+                    0f,
+                    Time.deltaTime * _playerView.MovementConfig.SmoothCamera,
+                    _playerView.MovementConfig.DecayFactor
+                );
             }
 
             _playerView.Yaw.localPosition = Mathfs.ExpDecay(

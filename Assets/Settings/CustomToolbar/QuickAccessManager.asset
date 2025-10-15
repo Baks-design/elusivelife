@@ -13,43 +13,49 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
+  - displayName: Components
+    scenePath: 
+  - displayName: GameLifeScope
+    scenePath: Assets/Scenes/GameScene.unity
+  - displayName: GameScene
+    scenePath: Assets/Scenes/GameScene.unity
   - displayName: Player
     scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Alpha_Surface
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Alpha_Joints
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Y Bot
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Y Bot
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Animation
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Y Bot
-    scenePath: 
-  - displayName: Alpha_Joints
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Alpha_Surface
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Body Joints
-    scenePath: 
-  - displayName: Body Surface
-    scenePath: 
-  - displayName: Materials
-    scenePath: 
   - displayName: Player
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Sound
-    scenePath: Assets/Scenes/Bootstrap.unity
+    scenePath: 
   - displayName: Camera
     scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Yaw
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Pitch
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Virtual Camera
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Y Bot
+    scenePath: Assets/Scenes/Bootstrap.unity
   - displayName: Animation
     scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Alpha_Joints
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Y Bot
-    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Sound Emitter
+    scenePath: 
   - displayName: Player
     scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Y Bot
+  - displayName: Player
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
+  - displayName: BootstrapLifetimeScope
     scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Player(Clone)
+    scenePath: DontDestroyOnLoad
+  - displayName: GameLifeScope
+    scenePath: Assets/Scenes/GameScene.unity
+  - displayName: BootstrapLifetimeScope
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: BootstrapLifetimeScope
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: GameLifeScope
+    scenePath: Assets/Scenes/GameScene.unity
+  - displayName: GameScene
+    scenePath: Assets/Scenes/GameScene.unity
+  - displayName: GameLifeScope
+    scenePath: Assets/Scenes/GameScene.unity
+  - displayName: GameLifeScope
+    scenePath: Assets/Scenes/GameScene.unity

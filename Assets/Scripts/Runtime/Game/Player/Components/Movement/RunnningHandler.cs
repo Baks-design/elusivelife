@@ -9,7 +9,9 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
         private readonly IPlayerInputService _inputService;
         private readonly IPlayerView _playerView;
 
-        public RunningHandler(IPlayerInputService inputService, IPlayerView playerView)
+        public RunningHandler(
+            IPlayerInputService inputService, 
+            IPlayerView playerView)
         {
             _inputService = inputService;
             _playerView = playerView;
@@ -33,7 +35,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
 
             var normalizedDir = _playerView.MovementData.SmoothFinalMoveDir.normalized;
             var dot = Vector3.Dot(_playerView.Controller.transform.forward, normalizedDir);
-            return dot >= (_playerView.MovementConfig?.CanRunThreshold ?? 0.7f);
+            return dot >= _playerView.MovementConfig.CanRunThreshold;
         }
     }
 }

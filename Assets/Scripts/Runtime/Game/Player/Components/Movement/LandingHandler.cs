@@ -11,7 +11,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
         private readonly IPlayerView _playerView;
         private CancellationTokenSource _landingCancellationTokenSource;
         private bool _wasGrounded;
-        private bool _isDisposed;
 
         public LandingHandler(IPlayerView playerView)
         {
@@ -24,9 +23,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
 
         public void HandleLanding()
         {
-            if (_isDisposed)
-                return;
-
             var wasInAir = !_wasGrounded;
             var isNowGrounded = _playerView.Controller.isGrounded;
 
@@ -93,18 +89,10 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
 
         public void UpdateAirTimer()
         {
-            if (!_playerView.Controller.isGrounded && !_playerView.CollisionData.OnGrounded)
-                _playerView.MovementData.InAirTimer += Time.deltaTime;
-        }
-
-        public void Dispose()
-        {
-            if (_isDisposed)
+            if (_playerView.Controller.isGrounded || _playerView.CollisionData.OnGrounded)
                 return;
-            _isDisposed = true;
-
-            _landingCancellationTokenSource?.Cancel();
-            _landingCancellationTokenSource?.Dispose();
+                
+            _playerView.MovementData.InAirTimer += Time.deltaTime;
         }
     }
 }

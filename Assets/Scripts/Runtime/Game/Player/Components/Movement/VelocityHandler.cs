@@ -62,7 +62,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
         {
             _playerView.MovementData.SmoothCurrentSpeed = Mathfs.ExpDecay(
                 _playerView.MovementData.SmoothCurrentSpeed, _playerView.MovementData.CurrentSpeed,
-                Time.deltaTime * _playerView.MovementConfig.SmoothVelocitySpeed);
+                Time.deltaTime * _playerView.MovementConfig.SmoothVelocitySpeed,
+                _playerView.MovementConfig.DecayFactor);
 
             if (_playerView.MovementData.IsRunning && _runningHandler.CanRun())
             {

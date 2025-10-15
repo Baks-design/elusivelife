@@ -16,7 +16,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
         private CancellationTokenSource _runFovCts;
         private bool _isAimZoomActive;
         private bool _isRunZoomActive;
-        private bool _isDisposed;
         private float _initFov;
 
         public CameraZoom(IPlayerInputService inputService, IPlayerView playerView)
@@ -35,22 +34,13 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
 
         public void HandleAimFov()
         {
-            if (_isDisposed)
-                return;
-
             if (_inputService.AimPress())
                 _ = StartAimZoomAsync();
             else if (_inputService.AimRelease())
                 _ = StopAimZoomAsync();
         }
 
-        public void HandleRunFov(bool isRunning)
-        {
-            if (_isDisposed)
-                return;
-
-            _ = HandleRunZoomAsync(isRunning);
-        }
+        public void HandleRunFov(bool isRunning) => _ = HandleRunZoomAsync(isRunning);
 
         private async UniTaskVoid StartAimZoomAsync()
         {
@@ -142,18 +132,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
             }
 
             _playerView.Cam.Lens.FieldOfView = targetFov;
-        }
-
-        public void Dispose()
-        {
-            if (_isDisposed)
-                return;
-            _isDisposed = true;
-
-            _aimFovCts?.Cancel();
-            _aimFovCts?.Dispose();
-            _runFovCts?.Cancel();
-            _runFovCts?.Dispose();
         }
     }
 }

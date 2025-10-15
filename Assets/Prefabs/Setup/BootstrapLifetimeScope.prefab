@@ -48,3 +48,8 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  _playerPrefab: {fileID: 5745211487102372651, guid: 3e7642388079dd647a7e312fa4b8694c, type: 3}
+  _cinemachineBrain: {fileID: 7694467323043822516, guid: 1c659123f05e3b9418483c08be5feb15, type: 3}
+  _eventSystem: {fileID: 160321288809645641, guid: d33b73179432c1246bbf593403f1652f, type: 3}
+  _soundManager: {fileID: 303371864093742708, guid: 88f6dd7548b399341840318445e31a21, type: 3}
+  _musicManager: {fileID: 3499035449379104088, guid: 570852a11e499134d8e63eebcfec078a, type: 3}
