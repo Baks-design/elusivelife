@@ -46,7 +46,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound
             soundEmitter.Initialize(soundData);
             if (_transform == null)
             {
-                soundEmitter.transform.parent = _soundManager.transform;
+                //soundEmitter.transform.parent = _soundManager.transform;
                 soundEmitter.transform.position = _position;
             }
             else

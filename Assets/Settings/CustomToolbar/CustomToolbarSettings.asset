@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: CustomToolbarSettings
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.Core.Data.ToolbarConfiguration
   groups:
+  - groupName: Version Control
+    side: 0
+    elements:
+    - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarGitStatus, CustomToolbar,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      isEnabled: 1
+    isEnabled: 1
   - groupName: Utilities
-    side: 1
+    side: 0
     elements:
     - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarScreenshot, CustomToolbar,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -33,7 +40,7 @@ MonoBehaviour:
       isEnabled: 1
     isEnabled: 1
   - groupName: Scenes
-    side: 1
+    side: 0
     elements:
     - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarSceneSelection,
         CustomToolbar, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -49,7 +56,7 @@ MonoBehaviour:
       isEnabled: 1
     isEnabled: 1
   - groupName: Controls
-    side: 0
+    side: 1
     elements:
     - name: OpalStudio.CustomToolbar.Editor.ToolbarElements.ToolbarFpsSlider, CustomToolbar,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null

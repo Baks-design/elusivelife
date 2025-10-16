@@ -9,6 +9,12 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collisi
 
         public CharacterPush(IPlayerView playerView) => _playerView = playerView;
 
+        public void AddImpact(Vector3 direction, float force)
+        {
+            _playerView.MovementData.FinalMoveVelocity.y = 0f;
+            _playerView.MovementData.FinalMoveVelocity += direction * force;
+        }
+
         public void PushBody(ControllerColliderHit hit)
         {
             var body = hit.collider.attachedRigidbody;

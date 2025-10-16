@@ -25,14 +25,5 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Spawner
                 Object.DontDestroyOnLoad(_currentPlayer.gameObject);
             return _currentPlayer;
         }
-
-        // public async UniTask<PlayerView> MovePlayer()
-        // {
-        //     if (_currentPlayer != null)
-        //     {
-        //         //Move Player;
-        //     }
-        //     return _currentPlayer;
-        // }
     }
 }

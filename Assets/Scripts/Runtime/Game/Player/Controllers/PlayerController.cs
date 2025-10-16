@@ -14,6 +14,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
         private GroundCheck _groundCheck;
         private ObstacleCheck _obstacleCheck;
         private RoofCheck _roofCheck;
+        private ResolveCollisions _resolveCollisions;
         private VelocityHandler _velocityHandler;
         private CrouchHandler _crouchHandler;
         private CameraHandler _cameraHandler;
@@ -45,6 +46,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
             _groundCheck = new GroundCheck(playerView);
             _obstacleCheck = new ObstacleCheck(inputService, playerView);
             _roofCheck = new RoofCheck(playerView);
+            _resolveCollisions = new ResolveCollisions(playerView);
         }
 
         private void CameraInitialize(IPlayerView playerView, IPlayerInputService inputService)
@@ -80,6 +82,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
             Movement();
             //Animation();
             //Sound();
+            ResolveCollisions();
         }
 
         private void Collision()
@@ -134,6 +137,8 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
             _sound.UpdateJumping();
             _sound.UpdateDamaging();
         }
+
+        private void ResolveCollisions() => _resolveCollisions.ResolveComplexCollisions();
 
         public void LateTick() => Camera();
 

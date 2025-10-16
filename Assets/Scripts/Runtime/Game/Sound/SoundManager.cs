@@ -1,37 +1,33 @@
 using System.Collections.Generic;
-using Alchemy.Inspector;
 using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound
 {
-    public class SoundManager : MonoBehaviour, ISoundServices
+    public class SoundManager : ISoundServices
     {
-        [SerializeField, AssetsOnly, Required] private SoundEmitter _soundEmitterPrefab;
+        private readonly SoundEmitter _soundEmitterPrefab;
+        private readonly List<SoundEmitter> _activeSoundEmitters = new();
         private const bool CollectionCheck = true;
         private const int DefaultCapacity = 10;
         private const int MaxPoolSize = 100;
         private const int MaxSoundInstances = 30;
         private IObjectPool<SoundEmitter> _soundEmitterPool;
-        private List<SoundEmitter> _activeSoundEmitters;
-        public LinkedList<SoundEmitter> FrequentSoundEmitters;
+        public LinkedList<SoundEmitter> FrequentSoundEmitters = new();
 
-        private void Start()
-        {
-            _activeSoundEmitters = new List<SoundEmitter>();
-            FrequentSoundEmitters = new LinkedList<SoundEmitter>();
+        public SoundManager(SoundEmitter soundEmitterPrefab) 
+            => _soundEmitterPrefab = soundEmitterPrefab; //TODO: Make right
 
-            _soundEmitterPool = new ObjectPool<SoundEmitter>(
-                CreateSoundEmitter,
-                OnTakeFromPool,
-                OnReturnedToPool,
-                OnDestroyPoolObject,
-                CollectionCheck,
-                DefaultCapacity,
-                MaxPoolSize
-            );
-        }
+        public void Initialize() => _soundEmitterPool = new ObjectPool<SoundEmitter>(
+            CreateSoundEmitter,
+            OnTakeFromPool,
+            OnReturnedToPool,
+            OnDestroyPoolObject,
+            CollectionCheck,
+            DefaultCapacity,
+            MaxPoolSize
+        );
 
         public SoundBuilder CreateSoundBuilder() => new(this);
 
@@ -68,7 +64,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound
 
         private SoundEmitter CreateSoundEmitter()
         {
-            var soundEmitter = Instantiate(_soundEmitterPrefab);
+            var soundEmitter = Object.Instantiate(_soundEmitterPrefab);
             soundEmitter.gameObject.SetActive(false);
             return soundEmitter;
         }
@@ -96,7 +92,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound
             if (soundEmitter == null)
                 return;
 
-            Destroy(soundEmitter.gameObject);
+            Object.Destroy(soundEmitter.gameObject);
         }
     }
 }

@@ -13,49 +13,25 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
-  - displayName: Components
+  - displayName: Cube
+    scenePath: Assets/Scenes/GameScene.unity
+  - displayName: Cube
+    scenePath: Assets/Scenes/GameScene.unity
+  - displayName: Physics
     scenePath: 
-  - displayName: GameLifeScope
-    scenePath: Assets/Scenes/GameScene.unity
-  - displayName: GameScene
-    scenePath: Assets/Scenes/GameScene.unity
-  - displayName: Player
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Player
+  - displayName: Application
     scenePath: 
-  - displayName: Camera
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Yaw
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Pitch
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Virtual Camera
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Y Bot
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Animation
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Sound Emitter
+  - displayName: Runtime
     scenePath: 
-  - displayName: Player
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Player
-    scenePath: Assets/Prefabs/Gameplay/Player.prefab
-  - displayName: BootstrapLifetimeScope
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Player(Clone)
-    scenePath: DontDestroyOnLoad
-  - displayName: GameLifeScope
-    scenePath: Assets/Scenes/GameScene.unity
-  - displayName: BootstrapLifetimeScope
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: BootstrapLifetimeScope
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: GameLifeScope
-    scenePath: Assets/Scenes/GameScene.unity
   - displayName: GameScene
     scenePath: Assets/Scenes/GameScene.unity
   - displayName: GameLifeScope
     scenePath: Assets/Scenes/GameScene.unity
-  - displayName: GameLifeScope
+  - displayName: GameScene
     scenePath: Assets/Scenes/GameScene.unity
+  - displayName: BootstrapLifetimeScope
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Bootstrap
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: UnityEditorDarkMode
+    scenePath: 

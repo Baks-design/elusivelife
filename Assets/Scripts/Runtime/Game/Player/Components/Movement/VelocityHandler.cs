@@ -85,12 +85,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
 
         public void ApplyGravity()
         {
-            var isGrounded = _playerView.Controller.isGrounded;
-
-            _playerView.CollisionData.PreviouslyGrounded = isGrounded;
-            _playerView.CollisionData.OnGrounded = isGrounded;
-
-            if (isGrounded)
+            if (_playerView.Controller.isGrounded)
             {
                 _playerView.MovementData.InAirTimer = 0f;
 

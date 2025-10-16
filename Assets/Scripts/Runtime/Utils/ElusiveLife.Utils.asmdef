@@ -1,7 +1,10 @@
 {
     "name": "ElusiveLife.Utils",
     "rootNamespace": "ElusiveLife.Utils",
-    "references": [],
+    "references": [
+        "Alchemy",
+        "Zlinq"
+    ],
     "includePlatforms": [
         "Editor",
         "WindowsStandalone64"

@@ -37,8 +37,9 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap.Initializers
             
             await UniTask.NextFrame(cancellation);
 
-            _inputSystemManager.SwitchToPlayerInput();
-            GameSystem.SetCursor(true);
+            //TODO: Add GameManager
+
+            _inputSystemManager.SwitchToPlayerInput(); //TODO: Move to Gamestate
         }
     }
 }

@@ -28,7 +28,7 @@ namespace ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Extensions
                 var other = OverlapCache[i];
                 if (other == source || !source.ComputePenetration(other, out var dir, out var dist))
                     continue;
-                    
+
                 collided = true;
                 totalCorrection += dir * dist;
             }

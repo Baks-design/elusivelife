@@ -17,21 +17,17 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap.Scopes
     {
         [SerializeField, AssetsOnly, Required] private CinemachineBrain _cinemachineBrain;
         [SerializeField, AssetsOnly, Required] private EventSystem _eventSystem;
-        [SerializeField, AssetsOnly, Required] private SoundManager _soundManager;
-        [SerializeField, AssetsOnly, Required] private MusicManager _musicManager;
 
         private void Start()
         {
             DontDestroyOnLoad(Instantiate(_cinemachineBrain));
             DontDestroyOnLoad(Instantiate(_eventSystem));
-            DontDestroyOnLoad(Instantiate(_soundManager));
-            DontDestroyOnLoad(Instantiate(_musicManager));
         }
 
         protected override void Configure(IContainerBuilder builder)
         {
             // Services
-            //builder.Register<ISoundServices, SoundManager>(Lifetime.Singleton);
+            builder.Register<ISoundServices, SoundManager>(Lifetime.Singleton);
             builder.Register<ISceneLoader, SceneLoader>(Lifetime.Singleton);
             builder.Register<IPlayerInputService, PlayerInputService>(Lifetime.Singleton);
             builder.Register<IUiInputService, UiInputService>(Lifetime.Singleton);
