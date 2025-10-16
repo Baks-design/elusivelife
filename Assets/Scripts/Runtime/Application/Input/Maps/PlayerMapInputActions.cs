@@ -1,6 +1,6 @@
 using UnityEngine.InputSystem;
 
-namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps
+namespace ElusiveLife.Runtime.Application.Input.Maps
 {
     public class PlayerMapInputActions
     {

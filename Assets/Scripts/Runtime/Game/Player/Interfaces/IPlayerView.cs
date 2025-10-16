@@ -1,10 +1,9 @@
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound;
+using ElusiveLife.Runtime.Game.Player.Configs;
+using ElusiveLife.Runtime.Game.Player.Data;
 using Unity.Cinemachine;
 using UnityEngine;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces
+namespace ElusiveLife.Runtime.Game.Player.Interfaces
 {
     public interface IPlayerView
     {
@@ -25,6 +24,6 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces
         PlayerCameraData CameraData { get; }
 
         PlayerSoundConfig SoundConfig { get; }
-        SoundLibraryObject SoundLibrary { get; }
+       // SoundLibraryObject SoundLibrary { get; }
     }
 }

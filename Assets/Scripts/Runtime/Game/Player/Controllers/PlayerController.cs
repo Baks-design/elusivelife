@@ -1,19 +1,16 @@
-using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Misc;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound;
 using VContainer.Unity;
+using ElusiveLife.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Runtime.Game.Player.Components.Collision;
+using ElusiveLife.Runtime.Game.Player.Components.Camera;
+using ElusiveLife.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Runtime.Game.Player.Components.Movement;
+using ElusiveLife.Runtime.Game.Player.Components.Misc;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
+namespace ElusiveLife.Runtime.Game.Player.Controllers
 {
     public class PlayerController : IPlayerController, ITickable, ILateTickable
     {
-        private GroundCheck _groundCheck;
-        private ObstacleCheck _obstacleCheck;
-        private RoofCheck _roofCheck;
+        private CharacterCheck _characterCheck;
         private ResolveCollisions _resolveCollisions;
         private VelocityHandler _velocityHandler;
         private CrouchHandler _crouchHandler;
@@ -43,9 +40,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
 
         private void CollisionInitialize(IPlayerView playerView, IPlayerInputService inputService)
         {
-            _groundCheck = new GroundCheck(playerView);
-            _obstacleCheck = new ObstacleCheck(inputService, playerView);
-            _roofCheck = new RoofCheck(playerView);
+            _characterCheck = new CharacterCheck(inputService, playerView);
             _resolveCollisions = new ResolveCollisions(playerView);
         }
 
@@ -64,31 +59,31 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
             _directionHandler = new DirectionHandler(inputService, playerView);
             _jumpHandler = new JumpHandler(inputService, playerView);
             _landingHandler = new LandingHandler(playerView);
-            _crouchHandler = new CrouchHandler(_roofCheck, inputService, playerView);
+            _crouchHandler = new CrouchHandler(_characterCheck, inputService, playerView);
             _runningHandler = new RunningHandler(inputService, playerView);
             _cameraHandler = new CameraHandler(_headBob, _cameraSwaying, _cameraZoom, inputService, playerView);
             _velocityHandler = new VelocityHandler(_runningHandler, inputService, playerView);
         }
 
-        private void MiscInitialize(IPlayerView playerView, ISoundServices soundServices)
+        private void MiscInitialize(IPlayerView playerView)//, ISoundServices soundServices)
         {
             _animation = new CharacterAnimation(playerView);
-            _sound = new CharacterSound(playerView, soundServices);
+            //_sound = new CharacterSound(playerView, soundServices);
         }
 
         public void Tick()
         {
             Collision();
             Movement();
-            //Animation();
-            //Sound();
             ResolveCollisions();
+            Animation();
+            //Sound();
         }
 
         private void Collision()
         {
-            _groundCheck.CheckGround();
-            _obstacleCheck.CheckObstacle();
+            _characterCheck.CheckGround();
+            _characterCheck.CheckObstacle();
         }
 
         private void Movement()
@@ -122,20 +117,20 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Controllers
         private void Animation()
         {
             _animation.UpdateMoving();
-            _animation.UpdateJump();
-            _animation.UpdateCrouch();
-            _animation.UpdateSwimming();
-            _animation.UpdateClimbing();
+            //_animation.UpdateJump();
+           // _animation.UpdateCrouch();
+            //_animation.UpdateSwimming();
+            //_animation.UpdateClimbing();
         }
 
         private void Sound()
         {
-            _sound.UpdateFootsteps();
-            _sound.UpdateLanding();
-            _sound.UpdateSwimming();
-            _sound.UpdateClimbing();
-            _sound.UpdateJumping();
-            _sound.UpdateDamaging();
+            // _sound.UpdateFootsteps();
+            // _sound.UpdateLanding();
+            // _sound.UpdateSwimming();
+            // _sound.UpdateClimbing();
+            // _sound.UpdateJumping();
+            // _sound.UpdateDamaging();
         }
 
         private void ResolveCollisions() => _resolveCollisions.ResolveComplexCollisions();

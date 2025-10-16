@@ -1,8 +1,8 @@
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
-using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Extensions;
+using ElusiveLife.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Runtime.Utils.Extensions;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision
+namespace ElusiveLife.Runtime.Game.Player.Components.Collision
 {
     public class ResolveCollisions
     {

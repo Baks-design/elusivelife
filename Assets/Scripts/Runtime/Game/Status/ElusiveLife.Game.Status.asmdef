@@ -1,0 +1,26 @@
+{
+    "name": "ElusiveLife.Game.Status",
+    "rootNamespace": "ElusiveLife.Runtime.Game.Status",
+    "references": [
+        "VContainer",
+        "UniTask",
+        "Alchemy",
+        "Unity.Cinemachine",
+        "Unity.InputSystem",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "ElusiveLife.Utils"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

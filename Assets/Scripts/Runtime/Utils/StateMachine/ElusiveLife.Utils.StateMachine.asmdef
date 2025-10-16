@@ -1,0 +1,21 @@
+{
+    "name": "ElusiveLife.Utils.StateMachine",
+    "rootNamespace": "ElusiveLife.Runtime.Utils.StateMachine",
+    "references": [
+        "Alchemy",
+        "Zlinq",
+        "ElusiveLife.Utils.Extensions"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

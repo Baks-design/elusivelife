@@ -13,25 +13,29 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
-  - displayName: Cube
-    scenePath: Assets/Scenes/GameScene.unity
-  - displayName: Cube
-    scenePath: Assets/Scenes/GameScene.unity
-  - displayName: Physics
-    scenePath: 
-  - displayName: Application
-    scenePath: 
-  - displayName: Runtime
-    scenePath: 
-  - displayName: GameScene
-    scenePath: Assets/Scenes/GameScene.unity
   - displayName: GameLifeScope
     scenePath: Assets/Scenes/GameScene.unity
   - displayName: GameScene
     scenePath: Assets/Scenes/GameScene.unity
   - displayName: BootstrapLifetimeScope
     scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Bootstrap
+  - displayName: BootstrapLifetimeScope
     scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: UnityEditorDarkMode
+  - displayName: Player
+    scenePath: Assets/Scenes/Bootstrap.unity
+  - displayName: Blend Tree
     scenePath: 
+  - displayName: Y Bot
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
+  - displayName: Player
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
+  - displayName: Player
+    scenePath: 
+  - displayName: Components
+    scenePath: 
+  - displayName: Gameplay
+    scenePath: 
+  - displayName: Managers
+    scenePath: 
+  - displayName: Y Bot
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab

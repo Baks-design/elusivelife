@@ -1,0 +1,33 @@
+{
+    "name": "ElusiveLife.Application.Bootstrapper",
+    "rootNamespace": "ElusiveLife.Application.Assets.Scripts.Runtime.Application.Bootstrapper",
+    "references": [
+        "Unity.Cinemachine",
+        "Unity.InputSystem",
+        "UniTask",
+        "VContainer",
+        "Alchemy",
+        "ElusiveLife.Utils.StateMachine",
+        "ElusiveLife.Game.Spawner",
+        "ElusiveLife.Application.Scene_Management",
+        "ElusiveLife.Game.Player",
+        "ElusiveLife.Application.Input",
+        "ElusiveLife.Application.Audio",
+        "ElusiveLife.Utils.Helpers",
+        "ElusiveLife.Application.Game_State",
+        "ElusiveLife.Application.Persistence",
+        "ElusiveLife.Application.UI"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

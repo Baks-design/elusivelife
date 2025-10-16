@@ -1,8 +1,8 @@
-using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Runtime.Game.Player.Interfaces;
 using UnityEngine;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
+namespace ElusiveLife.Runtime.Game.Player.Components.Movement
 {
     public class RunningHandler
     {

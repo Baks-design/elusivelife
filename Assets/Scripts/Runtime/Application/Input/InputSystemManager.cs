@@ -1,6 +1,6 @@
-using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Runtime.Application.Input.Interfaces;
 
-namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input
+namespace ElusiveLife.Runtime.Application.Input
 {
     public class InputSystemManager : IInputSystemManager
     {

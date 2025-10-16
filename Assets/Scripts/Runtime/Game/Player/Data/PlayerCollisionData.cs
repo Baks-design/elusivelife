@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data
+namespace ElusiveLife.Runtime.Game.Player.Data
 {
     [Serializable]
     public class PlayerCollisionData

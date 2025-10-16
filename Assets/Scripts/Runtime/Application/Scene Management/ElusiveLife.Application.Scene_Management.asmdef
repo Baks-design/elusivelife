@@ -1,0 +1,22 @@
+{
+    "name": "ElusiveLife.Application.Scene_Management",
+    "rootNamespace": "ElusiveLife.Runtime.Application.Scene_Management",
+    "references": [
+        "Unity.InputSystem",
+        "UniTask",
+        "VContainer",
+        "ElusiveLife.Utils"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

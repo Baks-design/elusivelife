@@ -1,16 +1,16 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
-using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
+using ElusiveLife.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Runtime.Game.Player.Components.Collision;
+using ElusiveLife.Runtime.Utils.Helpers;
 using UnityEngine;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
+namespace ElusiveLife.Runtime.Game.Player.Components.Movement
 {
     public class CrouchHandler
     {
-        private readonly RoofCheck _roofCheck;
+        private readonly CharacterCheck _characterCheck;
         private readonly IPlayerInputService _movementInput;
         private readonly IPlayerView _playerView;
         private CancellationTokenSource _crouchCancellationTokenSource;
@@ -22,9 +22,9 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
         private float _crouchStandHeightDifference;
 
         public CrouchHandler(
-            RoofCheck roofCheck, IPlayerInputService movementInput, IPlayerView playerView)
+            CharacterCheck characterCheck, IPlayerInputService movementInput, IPlayerView playerView)
         {
-            _roofCheck = roofCheck;
+            _characterCheck = characterCheck;
             _movementInput = movementInput;
             _playerView = playerView;
 
@@ -59,7 +59,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
 
         private async UniTaskVoid TryStandUpAsync(CancellationToken cancellationToken = default)
         {
-            if (_roofCheck.CheckRoof())
+            if (_characterCheck.CheckRoof())
                 return;
 
             await StandUpAsync(cancellationToken);
@@ -131,7 +131,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movemen
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    if (_roofCheck.CheckRoof())
+                    if (_characterCheck.CheckRoof())
                         break;
 
                     percent += Time.deltaTime * speed;

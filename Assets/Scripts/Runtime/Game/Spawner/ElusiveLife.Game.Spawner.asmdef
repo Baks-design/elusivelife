@@ -1,0 +1,26 @@
+{
+    "name": "ElusiveLife.Game.Spawner",
+    "rootNamespace": "ElusiveLife.Runtime.Game.Spawner",
+    "references": [
+        "VContainer",
+        "UniTask",
+        "Alchemy",
+        "Unity.Cinemachine",
+        "Unity.InputSystem",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "ElusiveLife.Game.Player"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

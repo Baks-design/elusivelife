@@ -1,0 +1,24 @@
+{
+    "name": "ElusiveLife.Application.Game_State",
+    "rootNamespace": "ElusiveLife.Runtime.Application.Game_State",
+    "references": [
+        "Unity.InputSystem",
+        "UniTask",
+        "VContainer",
+        "ElusiveLife.Utils.StateMachine",
+        "ElusiveLife.Utils.Helpers",
+        "ElusiveLife.Runtime.Application.Scene_Management"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

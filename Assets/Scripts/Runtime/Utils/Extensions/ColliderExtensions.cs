@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Extensions
+namespace ElusiveLife.Runtime.Utils.Extensions
 {
     public static class ColliderExtensions
     {

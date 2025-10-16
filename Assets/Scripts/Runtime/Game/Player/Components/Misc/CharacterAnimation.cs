@@ -1,8 +1,8 @@
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
-using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
+using ElusiveLife.Runtime.Utils.Helpers;
 using UnityEngine;
+using ElusiveLife.Runtime.Game.Player.Interfaces;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Misc
+namespace ElusiveLife.Runtime.Game.Player.Components.Misc
 {
     public class CharacterAnimation
     {
@@ -56,7 +56,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Misc
         {
             var targetSpeed = _playerView.MovementData.IsMoving ? 
                 _playerView.MovementData.CurrentSpeed : 0f;
-            _currentSpeed = Mathfs.ExpDecay(_currentSpeed, targetSpeed, 0.1f);
+            _currentSpeed = Mathfs.ExpDecay(_currentSpeed, targetSpeed, Time.deltaTime * 100f);
             _playerView.Animator.SetFloat(_speedId, _currentSpeed);
         }
 

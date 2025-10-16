@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs
+namespace ElusiveLife.Runtime.Game.Player.Configs
 {
     [CreateAssetMenu(menuName = "Config/Player/PlayerCameraConfig")]
     public class PlayerCameraConfig : ScriptableObject

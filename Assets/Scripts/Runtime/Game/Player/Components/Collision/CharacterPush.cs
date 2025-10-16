@@ -1,7 +1,7 @@
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
 using UnityEngine;
+using ElusiveLife.Runtime.Game.Player.Interfaces;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision
+namespace ElusiveLife.Runtime.Game.Player.Components.Collision
 {
     public class CharacterPush
     {

@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers
+namespace ElusiveLife.Runtime.Utils.Helpers
 {
     public static class Mathfs
     {

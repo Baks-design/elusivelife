@@ -1,0 +1,22 @@
+{
+    "name": "ElusiveLife.Application.Input",
+    "rootNamespace": "ElusiveLife.Runtime.Application.Input",
+    "references": [
+        "Unity.InputSystem",
+        "UniTask",
+        "VContainer",
+        "ElusiveLife.Utils"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

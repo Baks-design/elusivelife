@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ElusiveLife.Game::ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap.GameLifetimeScope
   parentReference:
-    TypeName: ElusiveLife.Game.Assets.Scripts.Runtime.Game.Bootstrap.Scopes.BootstrapLifetimeScope
+    TypeName: ElusiveLife.Runtime.Application.Bootstrapper.Scopes.BootstrapLifetimeScope
   autoRun: 1
   autoInjectGameObjects: []
   _playerPrefab: {fileID: 6942031286852234831, guid: 3e7642388079dd647a7e312fa4b8694c, type: 3}

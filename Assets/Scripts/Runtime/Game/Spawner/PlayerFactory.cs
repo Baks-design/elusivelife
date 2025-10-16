@@ -1,9 +1,9 @@
 using Cysharp.Threading.Tasks;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views;
 using UnityEngine;
 using VContainer;
+using ElusiveLife.Runtime.Game.Player.Views;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Spawner
+namespace ElusiveLife.Runtime.Game.Spawner
 {
     public class PlayerFactory
     {

@@ -1,16 +1,14 @@
 using Cysharp.Threading.Tasks;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views;
 using UnityEngine;
+using ElusiveLife.Runtime.Game.Player.Views;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Spawner
+namespace ElusiveLife.Runtime.Game.Spawner
 {
     public class PlayerSpawner
     {
         private readonly PlayerFactory _playerFactory;
         private readonly Transform _spawnPoint;
         private PlayerView _currentPlayer;
-
-        public PlayerView GetCurrentPlayer => _currentPlayer;
 
         public PlayerSpawner(PlayerFactory playerFactory, Transform spawnPoint)
         {

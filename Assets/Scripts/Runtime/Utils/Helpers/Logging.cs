@@ -3,7 +3,7 @@ using Diagnostics = System.Diagnostics;
 using Exception = System.Exception;
 using Object = UnityEngine.Object;
 
-namespace ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers
+namespace ElusiveLife.Runtime.Utils.Helpers
 {
     public static class Logging
     {

@@ -1,0 +1,29 @@
+{
+    "name": "ElusiveLife.Game.Player",
+    "rootNamespace": "ElusiveLife.Runtime.Game.Player",
+    "references": [
+        "VContainer",
+        "UniTask",
+        "Alchemy",
+        "Unity.Cinemachine",
+        "Unity.InputSystem",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "ElusiveLife.Utils.Helpers",
+        "ElusiveLife.Utils.Extensions",
+        "ElusiveLife.Application.Audio",
+        "ElusiveLife.Application.Input"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

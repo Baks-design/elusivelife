@@ -1,13 +1,12 @@
 using Alchemy.Inspector;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Collision;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Data;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Sound;
 using Unity.Cinemachine;
 using UnityEngine;
+using ElusiveLife.Runtime.Game.Player.Components.Collision;
+using ElusiveLife.Runtime.Game.Player.Configs;
+using ElusiveLife.Runtime.Game.Player.Data;
+using ElusiveLife.Runtime.Game.Player.Interfaces;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
+namespace ElusiveLife.Runtime.Game.Player.Views
 {
     public class PlayerView : MonoBehaviour, IPlayerView
     {
@@ -22,7 +21,7 @@ namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Views
         [field: SerializeField, InlineEditor] public HeadBobConfig HeadBobConfig { get; set; }
         [field: SerializeField, InlineEditor] public PerlinNoiseConfig PerlinNoiseConfig { get; set; }
         [field: SerializeField, InlineEditor] public PlayerSoundConfig SoundConfig { get; set; }
-        [field: SerializeField, InlineEditor] public SoundLibraryObject SoundLibrary { get; set; }
+       // [field: SerializeField, InlineEditor] public SoundLibraryObject SoundLibrary { get; set; }
         [field: SerializeField, ReadOnly] public PlayerMovementData MovementData { get; set; }
         [field: SerializeField, ReadOnly] public PlayerCollisionData CollisionData { get; set; }
         [field: SerializeField, ReadOnly] public PlayerCameraData CameraData { get; set; }

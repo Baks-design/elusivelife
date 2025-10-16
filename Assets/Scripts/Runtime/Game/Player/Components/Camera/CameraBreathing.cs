@@ -1,8 +1,8 @@
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Configs;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Runtime.Game.Player.Interfaces;
+using ElusiveLife.Runtime.Game.Player.Configs;
 using UnityEngine;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Camera
+namespace ElusiveLife.Runtime.Game.Player.Components.Camera
 {
     public class CameraBreathing
     {

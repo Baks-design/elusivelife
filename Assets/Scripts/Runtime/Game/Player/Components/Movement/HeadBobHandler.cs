@@ -1,9 +1,9 @@
 using System;
-using ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces;
-using ElusiveLife.Utils.Assets.Scripts.Runtime.Utils.Helpers;
+using ElusiveLife.Runtime.Game.Player.Interfaces;
 using UnityEngine;
+using ElusiveLife.Runtime.Utils.Helpers;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Components.Movement
+namespace ElusiveLife.Runtime.Game.Player.Components.Movement
 {
     public class HeadBobHandler
     {

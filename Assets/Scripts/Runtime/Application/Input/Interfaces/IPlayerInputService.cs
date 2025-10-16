@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces
+namespace ElusiveLife.Runtime.Application.Input.Interfaces
 {
     public interface IPlayerInputService
     {

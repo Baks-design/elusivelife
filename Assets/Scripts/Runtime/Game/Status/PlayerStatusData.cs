@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Status
+namespace ElusiveLife.Runtime.Game.Status
 {
     public record PlayerStatusData
     {

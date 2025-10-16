@@ -1,8 +1,8 @@
-using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Interfaces;
-using ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Maps;
+using ElusiveLife.Runtime.Application.Input.Interfaces;
+using ElusiveLife.Runtime.Application.Input.Maps;
 using UnityEngine;
 
-namespace ElusiveLife.Application.Assets.Scripts.Runtime.Application.Input.Services
+namespace ElusiveLife.Runtime.Application.Input.Services
 {
     public class PlayerInputService : IPlayerInputService
     {

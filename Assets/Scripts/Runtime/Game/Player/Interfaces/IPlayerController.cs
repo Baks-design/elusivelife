@@ -1,4 +1,4 @@
-namespace ElusiveLife.Game.Assets.Scripts.Runtime.Game.Player.Interfaces
+namespace ElusiveLife.Runtime.Game.Player.Interfaces
 {
     public interface IPlayerController
     {
