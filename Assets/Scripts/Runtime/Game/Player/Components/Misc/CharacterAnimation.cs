@@ -35,21 +35,21 @@ namespace ElusiveLife.Runtime.Game.Player.Components.Misc
 
         private void InitHashes()
         {
-            _speedId = Animator.StringToHash("_Speed");
-            _isGroundedId = Animator.StringToHash("_IsGrounded");
-            _isJumpingId = Animator.StringToHash("_IsJumping");
-            _isFallingId = Animator.StringToHash("_IsFalling");
-            _isCrouchingId = Animator.StringToHash("_IsCrouching");
-            _isSwimmingId = Animator.StringToHash("_IsSwimming");
-            _isClimbingId = Animator.StringToHash("_IsClimbing");
-            _climbSpeedId = Animator.StringToHash("_ClimbSpeed");
-            _swimSpeedId = Animator.StringToHash("_SwimSpeed");
-            _verticalVelocityId = Animator.StringToHash("_VerticalVelocity");
-            _landId = Animator.StringToHash("_Land");
-            _enterWaterId = Animator.StringToHash("_EnterWater");
-            _exitWaterId = Animator.StringToHash("_ExitWater");
-            _startClimbingId = Animator.StringToHash("_StartClimbing");
-            _stopClimbingId = Animator.StringToHash("_StopClimbing");
+            _speedId = Animator.StringToHash("Speed");
+            // _isGroundedId = Animator.StringToHash("_IsGrounded");
+            // _isJumpingId = Animator.StringToHash("_IsJumping");
+            // _isFallingId = Animator.StringToHash("_IsFalling");
+            // _isCrouchingId = Animator.StringToHash("_IsCrouching");
+            // _isSwimmingId = Animator.StringToHash("_IsSwimming");
+            // _isClimbingId = Animator.StringToHash("_IsClimbing");
+            // _climbSpeedId = Animator.StringToHash("_ClimbSpeed");
+            // _swimSpeedId = Animator.StringToHash("_SwimSpeed");
+            // _verticalVelocityId = Animator.StringToHash("_VerticalVelocity");
+            // _landId = Animator.StringToHash("_Land");
+            // _enterWaterId = Animator.StringToHash("_EnterWater");
+            // _exitWaterId = Animator.StringToHash("_ExitWater");
+            // _startClimbingId = Animator.StringToHash("_StartClimbing");
+            // _stopClimbingId = Animator.StringToHash("_StopClimbing");
         }
 
         public void UpdateMoving()

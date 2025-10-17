@@ -7,7 +7,9 @@
         "VContainer",
         "ElusiveLife.Utils.StateMachine",
         "ElusiveLife.Utils.Helpers",
-        "ElusiveLife.Runtime.Application.Scene_Management"
+        "ElusiveLife.Runtime.Application.Scene_Management",
+        "ElusiveLife.Application.Persistence",
+        "ElusiveLife.Application.Input"
     ],
     "includePlatforms": [
         "Editor",

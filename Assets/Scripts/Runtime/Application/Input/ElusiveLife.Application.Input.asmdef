@@ -5,7 +5,7 @@
         "Unity.InputSystem",
         "UniTask",
         "VContainer",
-        "ElusiveLife.Utils"
+        "ElusiveLife.Utils.Helpers"
     ],
     "includePlatforms": [
         "Editor",

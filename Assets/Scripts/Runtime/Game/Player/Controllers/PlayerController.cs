@@ -35,7 +35,7 @@ namespace ElusiveLife.Runtime.Game.Player.Controllers
             CollisionInitialize(playerView, inputService);
             CameraInitialize(playerView, inputService);
             MovementInitialize(playerView, inputService);
-            //MiscInitialize(playerView, soundServices);
+            MiscInitialize(playerView);
         }
 
         private void CollisionInitialize(IPlayerView playerView, IPlayerInputService inputService)

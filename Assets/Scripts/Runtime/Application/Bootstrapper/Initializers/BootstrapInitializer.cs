@@ -14,14 +14,14 @@ namespace ElusiveLife.Runtime.Application.Bootstrapper.Initializers
         private readonly IPlayerInputService _playerInputService;
         private readonly IUiInputService _uiInputService;
         private readonly IGameLifecycle _gameLifecycle;
-        private readonly IGameDataService _gameDataService;
+        private readonly IDataService _gameDataService;
         
         public BootstrapInitializer(
             ISceneLoader sceneLoader,
             IPlayerInputService playerInputService,
             IUiInputService uiInputService,
             IGameLifecycle gameLifecycle,
-            IGameDataService gameDataService) 
+            IDataService gameDataService) 
         {
             _sceneLoader = sceneLoader;
             _playerInputService = playerInputService;
@@ -34,10 +34,9 @@ namespace ElusiveLife.Runtime.Application.Bootstrapper.Initializers
         {
             _playerInputService.Initialize();
             _uiInputService.Initialize();
-
             await _gameDataService.LoadGameAsync();
             await _sceneLoader.LoadSceneAsync("GameScene", cancellation);
-            await _gameLifecycle.Initialize();
+            _gameLifecycle.Initialize();
         }
     }
 }

@@ -6,7 +6,9 @@
         "UniTask",
         "VContainer",
         "ElusiveLife.Utils.Helpers",
-        "ElusiveLife.Application.Game_State"
+        "ElusiveLife.Application.Game_State",
+        "ElusiveLife.Application.Persistence",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [
         "Editor",

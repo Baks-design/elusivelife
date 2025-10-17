@@ -9,7 +9,7 @@ namespace ElusiveLife.Runtime.Application.Game_State
 
         event Action<GameState> OnStateChanged;
 
-        UniTask Initialize();
+        void Initialize();
         UniTask ChangeState(GameState newState);
     }
 }

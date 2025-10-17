@@ -13,29 +13,53 @@ MonoBehaviour:
   m_Name: QuickAccessManager
   m_EditorClassIdentifier: CustomToolbar::OpalStudio.CustomToolbar.Editor.ToolbarElements.QuickAccess.Data.QuickAccessManager
   items:
-  - displayName: GameLifeScope
-    scenePath: Assets/Scenes/GameScene.unity
-  - displayName: GameScene
-    scenePath: Assets/Scenes/GameScene.unity
-  - displayName: BootstrapLifetimeScope
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: BootstrapLifetimeScope
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Player
-    scenePath: Assets/Scenes/Bootstrap.unity
-  - displayName: Blend Tree
+  - displayName: StarterAssetsThirdPerson
     scenePath: 
+  - displayName: Animations
+    scenePath: 
+  - displayName: Character
+    scenePath: 
+  - displayName: ThirdPersonController
+    scenePath: 
+  - displayName: Environment
+    scenePath: 
+  - displayName: StarterAssets
+    scenePath: 
+  - displayName: Player
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
+  - displayName: Yaw
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
+  - displayName: Camera
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
+  - displayName: Animation
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
+  - displayName: Alpha_Joints
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
   - displayName: Y Bot
     scenePath: Assets/Prefabs/Gameplay/Player.prefab
-  - displayName: Player
+  - displayName: Alpha_Surface
     scenePath: Assets/Prefabs/Gameplay/Player.prefab
   - displayName: Player
-    scenePath: 
-  - displayName: Components
     scenePath: 
   - displayName: Gameplay
     scenePath: 
-  - displayName: Managers
+  - displayName: CinemachineBrain
+    scenePath: Assets/Prefabs/Components/CinemachineBrain.prefab
+  - displayName: CinemachineBrain
     scenePath: 
+  - displayName: Virtual Camera
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
+  - displayName: Player
+    scenePath: Assets/Prefabs/Gameplay/Player.prefab
   - displayName: Y Bot
     scenePath: Assets/Prefabs/Gameplay/Player.prefab
+  - displayName: Player
+    scenePath: 
+  - displayName: Gameplay
+    scenePath: 
+  - displayName: BootstrapLifetimeScope
+    scenePath: Assets/Scenes/Bootstrap/Bootstrap.unity
+  - displayName: Environment
+    scenePath: Assets/Scenes/Level - GameScene/GameScene.unity
+  - displayName: Lighting
+    scenePath: Assets/Scenes/Level - GameScene/GameScene.unity

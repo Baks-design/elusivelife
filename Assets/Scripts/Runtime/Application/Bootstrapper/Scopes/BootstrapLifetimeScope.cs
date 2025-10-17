@@ -24,22 +24,40 @@ namespace ElusiveLife.Runtime.Application.Bootstrapper.Scopes
 
         private void Start()
         {
-            DontDestroyOnLoad(Instantiate(_cinemachineBrain));
-            DontDestroyOnLoad(Instantiate(_eventSystem));
+            InstantiateComponents();
+            SetupComponents();
+        }
+
+        void InstantiateComponents()
+        {
+            _cinemachineBrain = Instantiate(_cinemachineBrain);
+            _eventSystem = Instantiate(_eventSystem);
+        }
+
+        void SetupComponents()
+        {
+            DontDestroyOnLoad(_cinemachineBrain);
+            DontDestroyOnLoad(_eventSystem);
         }
 
         protected override void Configure(IContainerBuilder builder)
         {
-            // Services
+            builder.Register<SaveManager>(Lifetime.Singleton).As<ISaveManager>();
+            builder.Register<DataService>(Lifetime.Singleton)
+                .WithParameter("fileName", "save_default.json")
+                .As<IDataService>();
+
             builder.Register<SceneLoader>(Lifetime.Singleton).As<ISceneLoader>();
+
             builder.Register<PlayerInputService>(Lifetime.Singleton).As<IPlayerInputService>();
             builder.Register<UiInputService>(Lifetime.Singleton).As<IUiInputService>();
             builder.Register<InputSystemManager>(Lifetime.Singleton).As<IInputSystemManager>();
-            builder.Register<GameLifecycle>(Lifetime.Singleton).As<IGameLifecycle, ITickable>();
-            builder.Register<GameDataService>(Lifetime.Singleton).As<IGameDataService>();
+
+            builder.Register<GameLifecycle>(Lifetime.Singleton)
+                .As<IGameLifecycle, IInitializable, ITickable>();
+
             builder.Register<UIManager>(Lifetime.Singleton).As<IUIManager>();
     
-            // Init
             builder.RegisterEntryPoint<BootstrapInitializer>();
         }
     }

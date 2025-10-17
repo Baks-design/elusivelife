@@ -34,6 +34,7 @@
   <Project Path="Unity.Cinemachine.csproj" />
   <Project Path="ElusiveLife.Utils.Extensions.csproj" />
   <Project Path="Unity.Addressables.DocExampleCode.Editor.Tests.csproj" />
+  <Project Path="ElusiveLife.Application.UI.csproj" />
   <Project Path="ZLinq.Unity.UnityCollectoins.csproj" />
   <Project Path="UniStats.csproj" />
   <Project Path="Unity.Burst.CodeGen.csproj" />
@@ -52,12 +53,10 @@
   <Project Path="ElusiveLife.Application.Input.csproj" />
   <Project Path="ElusiveLife.Game.Player.csproj" />
   <Project Path="Unity.InputSystem.DocCodeSamples.csproj" />
-  <Project Path="ElusiveLife.Application.UI.csproj" />
-  <Project Path="ElusiveLife.Application.Persistence.csproj" />
   <Project Path="Alchemy.csproj" />
   <Project Path="Unity.InputSystem.ForUI.csproj" />
-  <Project Path="R3.Unity.Editor.csproj" />
   <Project Path="ElusiveLife.Utils.StateMachine.csproj" />
+  <Project Path="R3.Unity.Editor.csproj" />
   <Project Path="Unity.Collections.CodeGen.csproj" />
   <Project Path="Unity.Mathematics.Editor.csproj" />
   <Project Path="ZLinq.Unity.csproj" />
@@ -71,6 +70,7 @@
   <Project Path="Unity.Rendering.LightTransport.Editor.csproj" />
   <Project Path="Unity.ScriptableBuildPipeline.csproj" />
   <Project Path="ElusiveLife.Application.Scene_Management.csproj" />
+  <Project Path="ElusiveLife.Application.Persistence.csproj" />
   <Project Path="ElusiveLife.Utils.Helpers.csproj" />
   <Project Path="UniTask.Addressables.csproj" />
   <Project Path="UniTask.Editor.csproj" />

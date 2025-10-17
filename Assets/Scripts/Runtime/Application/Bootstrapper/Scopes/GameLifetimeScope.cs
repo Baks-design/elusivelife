@@ -13,24 +13,27 @@ namespace ElusiveLife.Runtime.Application.Bootstrapper.Scopes
 {
     public class GameLifetimeScope : LifetimeScope
     {
+        [Header("UI Prefabs")]
+        [SerializeField, AssetsOnly, Required] private SlotSelectionUI slotSelectionUIPrefab;
+        [SerializeField, AssetsOnly, Required] private SlotButton slotButtonPrefab;
+        
+        [Header("Player Prefabs")]
         [SerializeField, AssetsOnly, Required] private PlayerView _playerPrefab;
         [SerializeField, Required] private Transform _playerSpawnPoint;
 
         protected override void Configure(IContainerBuilder builder)
         {
-            // Register instances
+            // Register UI
+            builder.RegisterInstance(slotButtonPrefab.gameObject).As<GameObject>();
+            builder.RegisterComponentInNewPrefab(slotSelectionUIPrefab, Lifetime.Singleton);
+           
+            // Register Player
             builder.RegisterInstance(_playerPrefab);
             builder.RegisterInstance(_playerSpawnPoint);
-
-            // Register factories
             builder.Register<PlayerFactory>(Lifetime.Singleton);
             builder.Register<PlayerControllerFactory>(Lifetime.Singleton);
-
-            // Register managers and spawners
             builder.Register<PlayerSpawner>(Lifetime.Singleton);
-
-            // Use a proxy pattern to avoid null references
-            builder.Register<PlayerControllerProxy>(Lifetime.Singleton)
+            builder.Register<PlayerControllerProxy>(Lifetime.Singleton) 
                 .As<IPlayerController, ITickable, ILateTickable>();
 
             // Register entry point

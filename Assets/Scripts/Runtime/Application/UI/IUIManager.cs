@@ -8,5 +8,10 @@ namespace ElusiveLife.Runtime.Application.UI
         UniTask HideMainMenu();
         UniTask ShowGameHUD();
         UniTask HideGameHUD();
+        UniTask ShowSlotSelection();
+        UniTask HideSlotSelection();
+        void UpdateScore(int score);
+        void OnSlotSelectionShown();
+        void OnSlotSelectionHidden();
     }
 }

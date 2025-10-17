@@ -48,5 +48,7 @@ MonoBehaviour:
     TypeName: ElusiveLife.Runtime.Application.Bootstrapper.Scopes.BootstrapLifetimeScope
   autoRun: 1
   autoInjectGameObjects: []
+  slotSelectionUIPrefab: {fileID: 3885707022484671549, guid: 8ef68c33e1c5946439f0b3108fc07656, type: 3}
+  slotButtonPrefab: {fileID: -3893841574471675916, guid: db7ed94e8dfe09548bb6220a280eeab5, type: 3}
   _playerPrefab: {fileID: 6942031286852234831, guid: 3e7642388079dd647a7e312fa4b8694c, type: 3}
   _playerSpawnPoint: {fileID: 0}
